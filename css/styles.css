@@ -49,7 +49,19 @@
   border-width: 2px;
 }
 
+.container.no-width {
+  width: 100%;
+}
 
+.row.no-pad {
+  margin-right:0;
+  margin-left:0;
+}
+
+.row.no-pad > [class*='col-'] {
+  padding-right:0;
+  padding-left:0;
+}
 
 html {
   background: url(../private_images/ThinkStock-108797705.jpg);
