@@ -70,7 +70,7 @@ var  V1Server = require('./v1/client').V1Server;
 var hostname = "www11.v1host.com"; 
 var instance = "VentyxProd";
 var username = "james.jenner";
-var password = "M1n1Noir5";
+var password = "*********";
 var port = "443";
 var protocol = "https";
 
