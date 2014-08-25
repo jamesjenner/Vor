@@ -67,8 +67,8 @@ Spring is refered to as an Interation and the system name is Timebox
 var  V1Meta = require('./v1/v1meta').V1Meta;
 var  V1Server = require('./v1/client').V1Server;
   
-var hostname = "www11.v1host.com"; 
-var instance = "VentyxProd";
+var hostname = "******"; 
+var instance = "******";
 var username = "james.jenner";
 var password = "*********";
 var port = "443";
