@@ -77,20 +77,32 @@ html {
 }
 
 .panel-heading {
+/*  writing-mode: vertical-tb;*/
+  -webkit-writing-mode: vertical-rl;
+/*
+  -moz-writing-mode: vertical-rl;
+  -ms-writing-mode: vertical-rl;
+  -o-writing-mode: vertical-rl;
+*/
+/*  position: absolute;*/
+/*
+  display: block;
+  
   transform-origin: 0 0;
   -webkit-transform-origin: 0 0;
   -moz-transform-origin: 0 0;
   -ms-transform-origin: 0 0;
   -o-transform-origin: 0 0;
-  position: absolute;
+  
   transform: rotate(90deg);
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
   -ms-transform: rotate(90deg);
   -o-transform: rotate(90deg);
 
-  margin: 10px;
-  padding: 2px;
+  margin: 0px;
+  padding: 10px;
+*/
 }
 
 .panel-widget {
