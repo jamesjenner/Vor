@@ -74,7 +74,42 @@ var password = "*********";
 var port = "443";
 var protocol = "https";
 
-var server = new V1Server(hostname, instance, username, password, port, protocol);
+var fs = require('fs');
+var file = __dirname + '/settings.json';
+
+var settings;
+
+var data = "";
+
+// load the JSON data for the settings
+//
+// an example configuration for the settings.json is as follows:
+//
+// {
+//   "hostname": "www13.v1host.com",
+//   "instance": "/testSystem/",
+//   "username": "admin",
+//   "password": "admin",
+//   "port": "443",
+//   "protocol": "https"
+// }
+
+try {
+  data = fs.readFileSync(file, 'utf8');
+} catch(e) {
+  console.log('Error reading ' + file + ': ' + e);
+  return;
+}
+  
+settings = JSON.parse(data);
+
+console.log("hostname: " + settings.hostname);
+console.log("instance: " + settings.instance);
+console.log("username: " + settings.username);
+console.log("port: " + settings.port);
+console.log("protocol: " + settings.protocol);
+
+var server = new V1Server(settings.hostname, settings.instance, settings.username, settings.password, settings.port, settings.protocol);
 
 var v1 = new V1Meta(server);
 
