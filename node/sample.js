@@ -143,6 +143,7 @@ var v1 = new V1Meta(server);
 //  select: [
 //    'Name',
 //    'Owners.Name',
+//    'Estimate'
 //  ],
 //  where: {
 //    'Owners.Name': 'James Jenner',
@@ -159,19 +160,25 @@ var util = require('util');
 
 
 v1.query({
-  from: "Timebox",
-  select: [
+  "from": "Defect",
+  "select": [
     'Name',
     'Days',
-    'Duration',
-    'State.Code',
-    'State.Code',
-    'Workitems.ToDo.@Sum',
-    'Workitems.Actuals.Value.@Sum',
+    'Status.Name',
+    'Status.Description',
+    'Team.Name',
+    'ToDo',
+    'Estimate',
+    'BlockingIssues.@Sum',
   ],
-  where: {
-    "Name": 'SprintAug1314'
+  "where": {
+    "Timebox.Name": 'SprintAug1314',
+    "Team.Name": 'Ellipse - Materials 1',
   },
+  "filter": [
+//    "'Team.Name'='Ellipse - Materials 1'",
+//    "Status.Name='In Progress'",
+  ],
 
   success: function(result) {
     console.log(util.inspect(result, {showHidden: true, depth: null}));
