@@ -187,7 +187,7 @@
         path = '/rest-1.v1/Data/' + options.asset_type_name;
         query = {};
         wherestrs = [];
-        console.log("--where-----------------");
+        // console.log("--where-----------------");
         if (options.where != null) {
           // wherestrs.push((function() {
           wherestrs = (function() {
@@ -195,36 +195,36 @@
             _ref = options.where;
             _results = [];
             
-            console.log("setting up where values: " + JSON.stringify(_ref, null, "  "));
+            // console.log("setting up where values: " + JSON.stringify(_ref, null, "  "));
             
             for (name in _ref) {
-              console.log("processing: " + name + " -> " + _ref[name]);
+              // console.log("processing: " + name + " -> " + _ref[name]);
               value = _ref[name];
-              console.log("\t" + name + '="' + value + '"');
+              // console.log("\t" + name + '="' + value + '"');
               _results.push(name + '="' + value + '"');
             }
-            console.log("returning: " + JSON.stringify(_results, null, "  "));
+            // console.log("returning: " + JSON.stringify(_results, null, "  "));
             return _results;
           // })());
             })();
-          console.log(wherestrs);
+          // console.log(wherestrs);
         }
-        console.log("--done------------------");
+        // console.log("--done------------------");
         if (options.wherestr != null) {
           wherestrs.push(options.wherestr);
         }
         
-        console.log(wherestrs);
+        // console.log(wherestrs);
         query['where'] = wherestrs.join('&');
-        console.log(query['where']);
-        query['where'] = "Timebox.Name=\"SprintAug1314\"&Team.Name=\"Ellipse - Materials 1\"";
+        // console.log(query['where']);
+        // query['where'] = "Timebox.Name=\"SprintAug1314\"&Team.Name=\"Ellipse - Materials 1\"";
         
         if (options.select != null) {
           query['sel'] = options.select.join(',');
         }
         
-        console.log("path:" + path);
-        console.log("query:" + JSON.stringify(query, null, "  "));
+        // console.log("path:" + path);
+        // console.log("query:" + JSON.stringify(query, null, "  "));
         return this.get_xml({
           path: path,
           query: query

@@ -158,33 +158,77 @@ var v1 = new V1Meta(server);
 var util = require('util');
 
 
+//v1.query({
+//  from: "Timebox",
+//
+//  select: [
+//    'Name',
+//    'State.Code',
+//    'BeginDate',
+//    'EndDate',
+//    'Duration',
+//    'Owner.Username',
+//
+//    'IsClosed',
+//    'IsDead',
+//    'IsInactive',
+//    'Now',
+//  ],
+//
+//  where: {
+//    "State.Code": 'ACTV', 
+////    "BeginDate": 
+//  },
+//  wherestr: "EndDate>='2014-08-27'&BeginDate<='2014-08-27'",
+//
+//  success: function(result) {
+//    // console.log(JSON.stringify(result, null, " "));
+//    console.log(result.Name + "\t " + result.BeginDate + " -> " + result.EndDate + " " + result.Duration + " " + result._v1_current_data['Owner.Username']);
+//  },
+//
+//  error: function(err) { 
+//    console.log("ERROR: " + err);
+//  }
+//});
 
 v1.query({
-  "from": "Defect",
-  "select": [
-    'Name',
-    'Days',
-    'Status.Name',
-    'Status.Description',
+  from: "Story",
+
+  select: [
+    
     'Team.Name',
-    'ToDo',
+    'ID',
+    'Name',
+    'IsClosed',
+    'IsCompleted',
+    'IsDead',
+    'IsDeleted',
+    'IsInactive',
+    
+    'Status.Name',
     'Estimate',
     'BlockingIssues.@Sum',
-  ],
-  "where": {
-    "Timebox.Name": 'SprintAug1314',
-    "Team.Name": 'Ellipse - Materials 1',
-  },
-  "filter": [
-//    "'Team.Name'='Ellipse - Materials 1'",
-//    "Status.Name='In Progress'",
+    
+    'Timebox.Name',
+    'Timebox.State.Code',
+    'Timebox.BeginDate',
+    'Timebox.EndDate',
+    'Timebox.Duration',
+    'Timebox.Owner.Username',
   ],
 
+  where: {
+    // "ID": "Story:1709886",
+    // "Timebox.State.Code": 'ACTV', 
+    // "Timebox.State.Code": 'FUTR', 
+    "Team.Name": 'Ellipse - Finance Development'
+  },
+  wherestr: "Timebox.EndDate>='2014-08-28'&Timebox.BeginDate<='2014-08-28'",
+
   success: function(result) {
-    console.log(util.inspect(result, {showHidden: true, depth: null}));
-    console.log(result._v1_current_data['Name'] + " : " + result.Name + " : " + result._v1_current_data['Workitems.ToDo.@Sum']);
-    // console.log(result.ToDo);
-    // console.log(result.Name + " To do: " + result['Name'] + " : " + result['Workitems.ToDo.@Sum']);
+    // console.log(JSON.stringify(result, null, " "));
+    // console.log("ID: " + result._v1_current_data["ID.Number"] + " Team: " + result._v1_current_data["Team.Name"] + "\tClosed: " + result.IsClosed + "\tCompleted: " + result.IsCompleted + "\tStatus: " + result._v1_current_data["Status.Name"] + "\tBlocking Issues: " + result._v1_current_data["BlockingIssues.@Sum"] + " Name: " + result.Name);
+    console.log("ID: " + result._v1_current_data["ID.Number"] + "\tEst: " + result.Estimate + "\tTeam: " + result._v1_current_data["Team.Name"] + "\tStatus: " + result._v1_current_data["Status.Name"] + "\tBlocking Issues: " + result._v1_current_data["BlockingIssues.@Sum"]);
   },
 
   error: function(err) { 
@@ -192,7 +236,85 @@ v1.query({
   }
 });
 
-function processData(result) {
-  console.log(result.Name);
-  // console.log(result.Name + "\t" + result['Status.Name']);
-}
+v1.query({
+  from: "Defect",
+
+  select: [
+    
+    'Team.Name',
+    'ID',
+    'Name',
+    'IsClosed',
+    'IsCompleted',
+    'IsDead',
+    'IsDeleted',
+    'IsInactive',
+    
+    'Status.Name',
+    'Estimate',
+    'BlockingIssues.@Sum',
+    
+    'Timebox.Name',
+    'Timebox.State.Code',
+    'Timebox.BeginDate',
+    'Timebox.EndDate',
+    'Timebox.Duration',
+    'Timebox.Owner.Username',
+  ],
+
+  where: {
+    // "ID": "Story:1709886",
+    // "Timebox.State.Code": 'ACTV', 
+    // "Timebox.State.Code": 'FUTR', 
+    "Team.Name": 'Ellipse - Finance Development'
+  },
+  wherestr: "Timebox.EndDate>='2014-08-28'&Timebox.BeginDate<='2014-08-28'",
+
+  success: function(result) {
+    // console.log(JSON.stringify(result, null, " "));
+    // console.log("ID: " + result._v1_current_data["ID.Number"] + " Team: " + result._v1_current_data["Team.Name"] + "\tClosed: " + result.IsClosed + "\tCompleted: " + result.IsCompleted + "\tStatus: " + result._v1_current_data["Status.Name"] + "\tBlocking Issues: " + result._v1_current_data["BlockingIssues.@Sum"] + " Name: " + result.Name);
+    console.log("ID: " + result._v1_current_data["ID.Number"] + "\tEst: " + result.Estimate + "\tTeam: " + result._v1_current_data["Team.Name"] + "\tStatus: " + result._v1_current_data["Status.Name"] + "\tBlocking Issues: " + result._v1_current_data["BlockingIssues.@Sum"]);
+  },
+
+  error: function(err) { 
+    console.log("ERROR: " + err);
+  }
+});
+
+
+
+// return;
+    
+//v1.query({
+//  "from": "Defect",
+//  "select": [
+//    'Name',
+//    'Days',
+//    'Status.Name',
+//    'Status.Description',
+//    'Team.Name',
+//    'ToDo',
+//    'Estimate',
+//    'BlockingIssues.@Sum',
+//  ],
+//  "where": {
+//    "Timebox.Name": 'SprintAug1314',
+//    "Team.Name": 'Ellipse - Materials 1',
+//  },
+//
+//  success: function(result) {
+//    // console.log(util.inspect(result, {showHidden: true, depth: null}));
+//    console.log(result._v1_current_data['Name'] + " : " + result.Name + " : " + result._v1_current_data['ToDo'] + " : " + result.ToDo + " : " + result._v1_current_data['BlockingIssues.@Sum'] + " : " + result.Estimate);
+//    // console.log(result.ToDo);
+//    // console.log(result.Name + " To do: " + result['Name'] + " : " + result['Workitems.ToDo.@Sum']);
+//  },
+//
+//  error: function(err) { 
+//    console.log("ERROR: " + err);
+//  }
+//});
+//
+//function processData(result) {
+//  console.log(result.Name);
+//  // console.log(result.Name + "\t" + result['Status.Name']);
+//}
