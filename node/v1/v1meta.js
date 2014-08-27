@@ -316,11 +316,13 @@
 
                   asset = _this.build_asset(Cls, thisAsset);
 
+                  // console.log("asset: " + asset);
                   return options.success(asset);
                 }));
               })(assetxml);
             }
             
+            // console.log("_results:" + JSON.stringify(_results, null, " "));
             return _results;
           };
         })(this));
