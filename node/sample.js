@@ -312,18 +312,24 @@ var VersionOne = function(options) {
 
 VersionOne.prototype.getSprintStats = function(teamName, effectiveDate, callback) {
   var dataCallback = function(err, results) {
-    // process the results
-    console.log("dataCallback()");
-    var blockedItems = 0;
-    var backlogStoryPoints = 0;
+    if(err) {
+      callback(err);
+      return;
+    }
+    
+    var storyPoints = 0;
     var totalStoryPoints = 0;
-    var wipStoryPoints = 0;
-    var doneStoryPoints = 0;
-    var percentageDone = 0;
-    var storyPoints;
-    var sprintStartDate = '';
-    var sprintEndDate = '';
-    var sprintDuration = 0;
+    var data = {
+      blockedItems: 0,
+      backlogStoryPoints: 0,
+      wipStoryPoints: 0,
+      doneStoryPoints: 0,
+      percentageDone: 0,
+      percentageTarget: 0,
+      sprintStartDate: '',
+      sprintEndDate: '',
+      sprintDuration: 0,
+    }
     
     for(var _grpIdx = 0; _grpIdx < results.length; _grpIdx++) {
       for(var _wrkItmIdx = 0; _wrkItmIdx < results[_grpIdx].length; _wrkItmIdx++) {
@@ -350,31 +356,36 @@ VersionOne.prototype.getSprintStats = function(teamName, effectiveDate, callback
         // increment the appropriate story point bucket
         switch(results[_grpIdx][_wrkItmIdx].Status) {
           case "Accepted": 
-            doneStoryPoints += storyPoints;
+            data.doneStoryPoints += storyPoints;
             break;
             
           case "In Progress": 
-            wipStoryPoints += storyPoints;
+            data.wipStoryPoints += storyPoints;
             break;
           
           case "":
-            backlogStoryPoints += storyPoints;
+            data.backlogStoryPoints += storyPoints;
             break;
         }
         
         // set the sprint info
-        sprintStartDate = new Date(results[_grpIdx][_wrkItmIdx].SprintStartDate);
-        sprintEndDate = new Date(results[_grpIdx][_wrkItmIdx].SprintEndDate);
-        sprintDuration = results[_grpIdx][_wrkItmIdx].SprintDuration;
+        data.sprintStartDate = new Date(results[_grpIdx][_wrkItmIdx].SprintStartDate);
+        data.sprintEndDate = new Date(results[_grpIdx][_wrkItmIdx].SprintEndDate);
+        data.sprintDuration = results[_grpIdx][_wrkItmIdx].SprintDuration;
       }
     }
+    
     // calculate the % complete
-    // 10 2 then 2 / 10 * 100
+    data.percentageDone = Math.round(data.doneStoryPoints / totalStoryPoints * 100);
     
-    percentageDone = Math.round(doneStoryPoints / totalStoryPoints * 100);
-    console.log("Backlog: " + backlogStoryPoints + " Wip: " + wipStoryPoints + " Done: " + doneStoryPoints + " -> " + percentageDone + "% " + " Start: " + sprintStartDate + " End: " + sprintEndDate + " Dur: " + sprintDuration);
+    if(isNaN(data.percentageDone)) {
+       data.percentageDone = 0;
+    }
     
-    callback(results);
+    // calculate the percentage that should be done by now
+    
+    
+    callback(null, data);
   };
   
   async.parallel([
@@ -453,10 +464,72 @@ VersionOne.__getForTeamAndCurrentSprint = function(callback, source, teamName, e
 
 var myVersionOne = new VersionOne();
 console.log("get stats");
-myVersionOne.getSprintStats('Ellipse - Finance Development', '2014-08-28', function(err, data) {
-  if(err) {
-    // console.log(err);
-  } else {
-    // console.log(data);
-  }
-});
+
+var effectiveDate = '2014-08-29';
+
+var teams = [
+  {name: 'Ellipse - Automation',            effectiveDate: effectiveDate, },
+  {name: 'Ellipse - Finance Development',   effectiveDate: effectiveDate, },
+  {name: 'Ellipse - Finance Team',          effectiveDate: effectiveDate, },
+  {name: 'Ellipse - HR Payroll & Gen',      effectiveDate: effectiveDate, },
+  {name: 'Ellipse - Integration',           effectiveDate: effectiveDate, },
+  {name: 'Ellipse - Materials 1',           effectiveDate: effectiveDate, },
+  {name: 'Ellipse - Materials 2',           effectiveDate: effectiveDate, },
+  {name: 'Ellipse - Materials Development', effectiveDate: effectiveDate, },
+  {name: 'Ellipse - MITWIP',                effectiveDate: effectiveDate, },
+  {name: 'Ellipse -Maintenance',            effectiveDate: effectiveDate, },
+  {name: 'Ellipse Tests Automation',        effectiveDate: effectiveDate, },
+  {name: 'JI-Core',                         effectiveDate: effectiveDate, },
+];
+var idx;
+  
+//for(idx = 0; idx < teams.length; idx++) {
+//  (function(team) {
+//    myVersionOne.getSprintStats(team.name, team.effectiveDate, function(err, data) {
+//      if(err) {
+//        console.log(err);
+//      } else {
+//        console.log(
+//          team.name + "\n\t" + 
+//          " Backlog: " + data.backlogStoryPoints + 
+//          " Wip: " + data.wipStoryPoints + 
+//          " Done: " + data.doneStoryPoints + " -> " + data.percentageDone + "% " + 
+//          " Start: " + data.sprintStartDate + 
+//          " End: " + data.sprintEndDate + 
+//          " Dur: " + data.sprintDuration);
+//      }
+//    });
+//  })(teams[idx]);
+//}
+
+  var tz = require('timezone/loaded'),
+    utc;
+
+// Get POSIX time in UTC.
+utc = tz(new Date());
+
+// Convert UTC time to local time in a localize language.
+console.log(tz(utc, '%c', 'fr_FR', 'America/Montreal'));
+console.log(tz(utc, '%c', 'en_UK', 'England/London'));
+console.log(tz(utc, '%c', 'en_AU', 'Australia/Brisbane'));
+console.log(tz(utc, '%c', 'en_US', 'America/Denver'));
+console.log(tz(utc, '%c', 'en_US', 'America/Atlanta')); // no go, not supported... :(
+  
+//var tz = require('timezone');
+//var us = tz(require("timezone/America"));
+//var eu = tz(require("timezone/Europe"));
+//var as = tz(require("timezone/Asia"));
+//var au = tz(require("timezone/Australia"));
+
+// var moonwalk = us("1969-07-21 02:56");
+  var moonwalk = tz("1969-07-21 02:56");
+  
+//console.log("Detroit shown as Detroit:   " + us(us("2014-07-27 00:00", "America/Detroit"), "%F %T", "American/Detroit"));
+//console.log("Brisbane shown as Brisbane: " + as(as("2014-07-27 00:00", "Asia/Brisbane"), "%F %T", "Asia/Brisbane"));
+//console.log("Moonwalk @ Brisbane: " + au(moonwalk, "%F %T", "Australia/Brisbane"));
+//console.log("Moonwalk @ Detroit:  " + us(moonwalk, "%F %T", "American/Detroit"));
+
+//console.log("Moonwalk @ Brisbane: " + tz(moonwalk, "%F %T", "Australia/Brisbane"));
+//console.log("Moonwalk @ Detroit:  " + tz(moonwalk, "%F %T", "American/Detroit"));
+
+  
