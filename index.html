@@ -10,6 +10,8 @@
 
     <title>Vor</title>
 
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="./css/font-awesome.min.css">
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap theme -->
@@ -17,6 +19,11 @@
 
     <!-- Custom styles for this template -->
     <link href="http://getbootstrap.com/examples/theme/theme.css" rel="stylesheet">
+
+    <!-- Dropdown Menu Enhancement (http://behigh.github.io/bootstrap_dropdowns_enhancement/index.html) -->
+    <link href="css/dropdowns-enhancement.css" rel="stylesheet">
+
+    <!-- local customisation -->
     <link href="css/styles.css" rel="stylesheet">
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
@@ -45,7 +52,29 @@
             <span>Enterprise Asset Management</span>
           </div>
           <div class="navbar-brand navbar-right">
-            <span>Settings</span>
+            <i class="fa fa-cogs fa-lg"></i>
+
+            <div class="btn-group">
+              <!-- <button type="button" class="headerHamburger btn btn-default dropdown-toggle" data-toggle="dropdown"> -->
+              <button type="button" class="headerHamburger btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-reorder fa-lg"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-form">
+                <li>
+                  <input type="checkbox" id="ex2_1" name="ex2" value="1">
+                  <label for="ex2_1">Option 1</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="ex2_2" name="ex2" value="2">
+                  <label for="ex2_2">Option 2</label>
+                </li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Separated link</a></li>
+              </ul>
+            </div>
+            
           </div>
         </div>
       </div>
@@ -344,6 +373,10 @@ carousel -->
     <script src="./js/jquery-2.1.1.min.js"></script>
     <script src="./js/bootstrap.min.js"></script>
     <!-- jgj from template <script src="./js/docs.min.js"></script> -->
+    
+  <!-- Dropdown Menu Enhancement (http://behigh.github.io/bootstrap_dropdowns_enhancement/index.html) -->
+    <script src="js/dropdowns-enhancement.js"></script>
+  
     
     <!-- animate any container using the carousel class -->
     <script type="text/javascript">

@@ -109,3 +109,21 @@ html {
   display: block;
   padding: 0px
 }
+
+.headerHamburger {
+  background: none;
+  border: none;
+  box-shadow: none;
+  text-shadow: none;
+  color: inherit;
+}
+
+ul.dropdown-menu-form {
+  color: black;
+/*
+  padding: 5px 10px 0;
+  max-height: 300px;
+  overflow-y: scroll;
+*/
+
+}
