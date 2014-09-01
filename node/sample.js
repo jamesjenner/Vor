@@ -329,7 +329,7 @@ VersionOne.prototype.getSprintStats = function(teamName, effectiveDate, callback
       sprintStartDate: '',
       sprintEndDate: '',
       sprintDuration: 0,
-    }
+    };
     
     for(var _grpIdx = 0; _grpIdx < results.length; _grpIdx++) {
       for(var _wrkItmIdx = 0; _wrkItmIdx < results[_grpIdx].length; _wrkItmIdx++) {
@@ -502,6 +502,8 @@ var idx;
 //  })(teams[idx]);
 //}
 
+// ---- timezone
+  
   var tz = require('timezone/loaded'),
     utc;
 
@@ -533,3 +535,52 @@ console.log(tz(utc, '%c', 'en_US', 'America/Atlanta')); // no go, not supported.
 //console.log("Moonwalk @ Detroit:  " + tz(moonwalk, "%F %T", "American/Detroit"));
 
   
+// ----- moment
+  
+var moment = require('moment-timezone');
+  
+var now = moment();
+
+// console.log(moment.tz.names());
+  
+  /*
+  'US/Alaska',
+  'US/Aleutian',
+  'US/Arizona',
+  'US/Central',
+  'US/East-Indiana',
+  'US/Eastern',
+  'US/Hawaii',
+  'US/Indiana-Starke',
+  'US/Michigan',
+  'US/Mountain',
+  'US/Pacific',
+  'US/Pacific-New',
+  'US/Samoa',
+   */
+  
+// can add a time zone, etc. see: http://momentjs.com/timezone/docs/#/data-loading/
+  
+console.log("Denver:      " + now.tz('America/Denver').format('ha z'));  // 5am PDT
+console.log("Atlantas:      " + now.tz('America/Atlantas').format('ha z'));  // 5am PDT
+console.log("Los Angeles: " + now.tz('America/Los_Angeles').format('ha z'));  // 5am PDT
+console.log("New York:    " + now.tz('America/New_York').format('ha z'));     // 8am EDT
+console.log("Tokyo:       " + now.tz('Asia/Tokyo').format('ha z'));           // 9pm JST
+console.log("Brisbane:    " + now.tz('Australia/Brisbane').format('ha z'));     // 10pm EST
+  
+
+var brisbane = moment();
+var paris     = brisbane.clone().tz("Europe/Paris");
+paris.locale('fr');
+var newYork     = brisbane.clone().tz("America/New_York");
+var losAngeles  = brisbane.clone().tz("America/Los_Angeles");
+var london      = brisbane.clone().tz("Europe/London");
+var kualaLumpur = brisbane.clone().tz("Asia/Kuala_Lumpur");
+kualaLumpur.locale('ms_MY');
+
+console.log("Brisbane:     " + brisbane.format('llll') + " : " + brisbane.format('LT') + " " + brisbane.format('ddd'));
+console.log("Paris:        " + paris.format('llll') + " : " + paris.format('LT') + " " + paris.format('ddd'));
+console.log("New York:     " + newYork.format('llll') + " : " + newYork.format('LT') + " " + newYork.format('ddd'));
+console.log("Los Angeles:  " + losAngeles.format('llll') + " : " + losAngeles.format('LT') + " " + losAngeles.format('ddd'));
+console.log("London:       " + london.format('llll') + " : " + london.format('LT') + " " + london.format('ddd'));
+console.log("Kuala Lumpur: " + kualaLumpur.format('llll') + " : " + kualaLumpur.format('LT') + " " + kualaLumpur.format('ddd'));
