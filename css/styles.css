@@ -76,7 +76,7 @@ html {
   background: none;
 }
 
-.panel-heading {
+.panel-heading-me {
 /*  writing-mode: vertical-tb;*/
   -webkit-writing-mode: vertical-rl;
 /*
