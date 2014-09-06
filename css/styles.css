@@ -64,7 +64,8 @@
 }
 
 html {
-  background: url(../private_images/ThinkStock-108797705.jpg);
+/*  background: url(../private_images/ThinkStock-108797705.jpg);*/
+  background: url(../private_images/mySrc/tree3.jpg);
   -webkit-background-size: cover;
   -mox-background-size: cover;
   -o-background-size: cover;
@@ -126,4 +127,52 @@ ul.dropdown-menu-form {
   overflow-y: scroll;
 */
 
+}
+.widget-container {
+  height: 100%;
+  width: 100%;
+  display: inline-block;
+  vertical-align: bottom;
+  box-sizing: border-box;
+  padding: 2px;
+  position: relative;
+}
+
+.widget {
+  height: 100%;
+  position: relative;
+  float: left;
+  vertical-align: bottom;
+  padding: 2px;
+  width: 25%;
+  height: 100%;
+  text-align: center;
+}
+
+.widget-bad {
+  color: #aa0000;
+}
+
+.widget-number {
+  box-sizing: border-box;
+  display: block;
+  font-size: 8em;
+  font-weight: bold;
+  line-height: 1;
+/*
+  float: none;
+  vertical-align: top;
+  position: relative;
+  text-align: center;
+*/
+}
+
+.widget-title {
+  box-sizing: border-box;
+  display: block;
+  font-size: .9em;
+  font-weight: bold;
+  color: #cccccc;
+  text-align: center;
+  padding: 0;
 }
