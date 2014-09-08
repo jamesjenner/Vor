@@ -3,23 +3,21 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Test Containers</title>
+
+    <style>
+      #burndown1 { width:100%; height:200px;}
+      #progress1 { width:100%; height:200px;}
+  	</style>    
   </head>
-  <body>
+  <body style="">
     <h1>Containers</h1>
-    <div style="height: 100%; width: 100%">
+    <div style="height: 50%; width: 100%;">
       <div style="width: 33%; display: inline-block; box-sizing: border-box">
         <div style="width: 100%; text-align: center">
-          Ullamco quo enim ullamco, aliquip est senserit si ubi quae incurreret tempor an 
-          quid ut cernantur a fugiat. Labore mentitum reprehenderit de enim ea expetendis. 
-          A nam veniam legam duis.</br>
+          <div id="burndown1"  style="text-align: center; width: 90%"></div>
         </div>
         <div style="width: 100%; text-align: center; margin-top: 10px">
-          Hic aut imitarentur ex ex duis ita quorum non doctrina 
-          amet ipsum laborum fore ut sint aut iudicem. Et nulla qui veniam, non in elit 
-          pariatur. Ne varias fabulas. Fore o excepteur.
-        </div>
-        <div style="width: 100%; text-align: center; margin-top: 10px">
-          Title A
+          BurnDown
         </div>  
       </div>
       <div style="width: 33%; display: inline-block; box-sizing: border-box">
@@ -31,22 +29,183 @@
         </div>  
       </div>
       <div style="width: 33%; display: inline-block; box-sizing: border-box">
-        <div>
-          Te sint possumus, aut lorem tractavissent. Eiusmod nam ipsum. Fugiat nescius aut 
-          quid malis. Ex esse senserit laboris sed aliqua est voluptate, eram proident 
-          doctrina, nisi deserunt laborum, noster laborum et mandaremus, te dolor 
-          incididunt, varias aliquip ut despicationes, ad cillum mandaremus sempiternum. 
-          Ea est anim elit varias non qui se elit fabulas, et illum doctrina transferrem, 
-          veniam sempiternum occaecat lorem quibusdam, non incurreret te incurreret, ab 
-          enim sed cillum, summis expetendis cernantur non noster e ad quorum iudicem. 
-          Litteris quid ullamco laboris. Qui esse incurreret ullamco ut vidisse nisi 
-          ullamco fabulas ut quae senserit concursionibus, culpa aut offendit hic tamen.
-        </div>
+        <div id="progress1"  style="text-align: center; width: 90%"></div>
         <div style="width: 100%; text-align: center; margin-top: 10px">
-          Title C
+          Progress
         </div>  
       </div>
     </div>
+    <div style="height: 50%; width: 100%;">
+      <div style="width: 33%; display: inline-block; box-sizing: border-box">
+        <div style="width: 100%; text-align: center">
+          <canvas id="burndown2"/>
+        </div>
+        <div style="width: 100%; text-align: center; margin-top: 10px">
+          BurnDown
+        </div>  
+      </div>
+      <div style="width: 33%; display: inline-block; box-sizing: border-box">
+        <div style="width: 100%; text-align: center">
+          <span style="font-size: 12em; color: lightgrey">0</span>
+        </div>
+        <div style="width: 100%; text-align: center; margin-top: 10px">
+          Blockers
+        </div>  
+      </div>
+      <div style="width: 33%; display: inline-block; box-sizing: border-box">
+        <div style="width: 100%; text-align: center">
+          <canvas id="progress2"/>
+        </div>
+        <div style="width: 100%; text-align: center; margin-top: 10px">
+          Progress
+        </div>  
+      </div>
+    </div>
+    <script type="text/javascript" src="js/Chart.min.js"></script>
+    <script type="text/javascript" src="js/flotr2.min.js"></script>
+    <script type="text/javascript" src="js/charts/burndown1.js"></script>
+    <script type="text/javascript" src="js/charts/progress1.js"></script>
+    <script type="application/javascript">
+      var burndownCtx = document.getElementById("burndown2").getContext("2d");
+      // var burndownChart = new Chart(ctx).PolarArea(data);
+      var burndownData = {
+        labels: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+        datasets: [
+          {
+            label: "target",
+            fillColor: "rgba(151,151,151,0.0)",
+            strokeColor: "rgba(221,221,221,1)",
+            pointColor: "rgba(151,187,205,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(151,187,205,1)",
+            data: [20, 18, 16, 14, 12, 10, 8, 6, 4, 2, 0]
+          },
+          {
+            label: "trend",
+            fillColor: "rgba(100,100,100,0)",
+            strokeColor: "rgba(250,150,150,1)",
+            pointColor: "rgba(151,187,205,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(151,187,205,1)",
+            data: [20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10]
+          },
+          {
+              label: "actual",
+              fillColor: "rgba(20,130,230,0.2)",
+              strokeColor: "rgba(20,130,230,1)",
+              pointColor: "rgba(220,220,220,1)",
+              pointStrokeColor: "#fff",
+              pointHighlightFill: "#fff",
+              pointHighlightStroke: "rgba(20,220,20,1)",
+              data: [20, 18, 17, 15, 17, 16, 15, 15]
+          },
+        ]
+      };
+      var burnDownOptions = {
+
+        ///Boolean - Whether grid lines are shown across the chart
+        scaleShowGridLines : true,
+
+        //String - Colour of the grid lines
+        scaleGridLineColor : "rgba(0,0,0,.05)",
+
+        //Number - Width of the grid lines
+        scaleGridLineWidth : 1,
+
+        //Boolean - Whether the line is curved between points
+        bezierCurve : false,
+
+        //Number - Tension of the bezier curve between points
+        bezierCurveTension : 0.4,
+
+        //Boolean - Whether to show a dot for each point
+        pointDot : false,
+
+        //Number - Radius of each point dot in pixels
+        pointDotRadius : 4,
+
+        //Number - Pixel width of point dot stroke
+        pointDotStrokeWidth : 1,
+
+        //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+        pointHitDetectionRadius : 20,
+
+        //Boolean - Whether to show a stroke for datasets
+        datasetStroke : true,
+
+        //Number - Pixel width of dataset stroke
+        datasetStrokeWidth : 2,
+
+        //Boolean - Whether to fill the dataset with a colour
+        datasetFill : true,
+
+        //String - A legend template
+        // legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
+
+      };
+          
+      var burndownChart = new Chart(burndownCtx).Line(burndownData, burnDownOptions);
+          
+          
+      var progressCtx = document.getElementById("progress2").getContext("2d");
+          
+      var progressData = [
+        {
+          value: 4,
+          color:"#AA0000",
+          highlight: "#FF5A5E",
+          label: "Pending"
+        },
+        {
+          value: 3,
+          color: "#CCAA00",
+          highlight: "#5AD3D1",
+          label: "WIP"
+        },
+        {
+          value: 1.03,
+          color: "#00AA00",
+          highlight: "#FFC870",
+          label: "Done"
+        }
+      ];
+
+      var progressOptions = {
+        //Boolean - Whether we should show a stroke on each segment
+        segmentShowStroke : true,
+
+        //String - The colour of each segment stroke
+        segmentStrokeColor : "#fff",
+
+        //Number - The width of each segment stroke
+        segmentStrokeWidth : 2,
+
+        //Number - The percentage of the chart that we cut out of the middle
+        percentageInnerCutout : 70, // This is 0 for Pie charts
+
+        //Number - Amount of animation steps
+        animationSteps : 100,
+
+        //String - Animation easing effect
+        animationEasing : "easeOutBounce",
+
+        //Boolean - Whether we animate the rotation of the Doughnut
+        animateRotate : true,
+
+        //Boolean - Whether we animate scaling the Doughnut from the centre
+        animateScale : false,
+
+        //String - A legend template
+        legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>"
+      }        
+      
+      new Chart(progressCtx).Doughnut(progressData, {
+        animateScale: true
+      });
+      
+    </script>
   </body>
 </html>
 
