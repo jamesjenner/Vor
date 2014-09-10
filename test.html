@@ -8,6 +8,8 @@
       #burndown1 { width:100%; height:200px;}
       #progress1 { width:100%; height:200px;}
   	</style>    
+    <link rel="stylesheet" type="text/css" href="css/epoch.min.css">
+    <link rel="stylesheet" type="text/css" href="css/nv.d3.css">
   </head>
   <body style="">
     flotr2.js
@@ -62,10 +64,10 @@
         </div>  
       </div>
     </div>
-    vis.js
+    Epoch (d3)
     <div style="height: 50%; width: 100%;">
-      <div style="width: 33%; display: inline-block; box-sizing: border-box">
-        <div id="burndown3" style="width: 100%; text-align: center">
+      <div style="width: 33%; height: 100%; display: inline-block; box-sizing: border-box">
+        <div id="burndown3" class="epoch category10" style="width: 100%; height: 250px; text-align: center">
         </div>
         <div style="width: 100%; text-align: center; margin-top: 10px">
           BurnDown
@@ -80,13 +82,42 @@
         </div>  
       </div>
       <div style="width: 33%; display: inline-block; box-sizing: border-box">
-        <div id="progress3" style="width: 100%; text-align: center">
+        <div id="progress3" class="epoch category10" style="width: 100%; height: 250px; text-align: center">
         </div>
         <div style="width: 100%; text-align: center; margin-top: 10px">
           Progress
         </div>  
       </div>
     </div>
+    NVD3 (d3)
+    <div style="height: 50%; width: 100%;">
+      <div style="width: 33%; height: 100%; display: inline-block; box-sizing: border-box">
+        <svg id="burndown4" style="width: 100%; height: 250px; text-align: center">
+        </svg>
+        <div style="width: 100%; text-align: center; margin-top: 10px">
+          BurnDown
+        </div>  
+      </div>
+      <div style="width: 33%; display: inline-block; box-sizing: border-box">
+        <div style="width: 100%; text-align: center">
+          <span style="font-size: 12em; color: lightgrey">0</span>
+        </div>
+        <div style="width: 100%; text-align: center; margin-top: 10px">
+          Blockers
+        </div>  
+      </div>
+      <div style="width: 33%; display: inline-block; box-sizing: border-box">
+        <svg id="progress4" style="width: 100%; height: 250px; text-align: center">
+        </svg>
+        <div style="width: 100%; text-align: center; margin-top: 10px">
+          Progress
+        </div>  
+      </div>
+    </div>
+    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="js/d3.min.js"></script>
+    <script type="text/javascript" src="js/nv.d3.min.js"></script>
+    <script type="text/javascript" src="js/epoch.min.js"></script>
     <script type="text/javascript" src="js/raphael-min.js"></script>
     <script type="text/javascript" src="js/g.raphael-min.js"></script>
     <script type="text/javascript" src="js/g.line-min.js"></script>
@@ -96,22 +127,212 @@
     <script type="text/javascript" src="js/charts/burndown1.js"></script>
     <script type="text/javascript" src="js/charts/progress1.js"></script>
 
-    <!-- rapheal.js logic -->
+    <!-- NVD3 logic -->
+    <script type="text/javascript">
+      nv.addGraph(function() {
+        var chart = nv.models.lineChart()
+          .useInteractiveGuideline(true)
+          .showLegend(false)
+          .showXAxis(true)
+          .showYAxis(true)
+          ;
+
+        // var x = d3.scale.linear().range([10, 0]);
+          
+        chart.xAxis
+          .axisLabel('Sprint Days')
+          .tickFormat(d3.format(',r'))
+          // .scale(x)
+          .orient("bottom")
+          ;
+
+        chart.yAxis
+          .axisLabel('Hours')
+          .tickFormat(d3.format(',r'))
+          ;
+
+//            strokeColor: "rgba(221,221,221,1)",
+//            label: "trend",
+//            fillColor: "rgba(100,100,100,0)",
+//            strokeColor: "rgba(250,150,150,1)",
+//            label: "actual",
+//            fillColor: "rgba(20,130,230,0.2)",
+//            strokeColor: "rgba(20,130,230,1)",
+
+        d3.select('#burndown4')
+          .datum([ { 
+            values: [
+              {x: 0, y: 20}, 
+              {x: 1, y: 18}, 
+              {x: 2, y: 16},
+              {x: 3, y: 14},
+              {x: 4, y: 12},
+              {x: 5, y: 10},
+              {x: 6, y:  8},
+              {x: 7, y:  6},
+              {x: 8, y:  4},
+              {x: 9, y:  2},
+              {x: 10, y: 0},
+            ],
+            key: "Expected",
+            color: 'rgba(221,221,221,.5)',
+          },
+          { values: [
+              {x: 0, y: 20}, 
+              {x: 1, y: 19}, 
+              {x: 2, y: 18},
+              {x: 3, y: 17},
+              {x: 4, y: 16},
+              {x: 5, y: 15},
+              {x: 6, y: 14},
+              {x: 7, y: 13},
+              {x: 8, y: 12},
+              {x: 9, y: 11},
+              {x: 10, y: 10},
+           ],
+            key: "Trend",
+            color: 'rgba(250,150,150,0.9)',
+          },
+          { values: [ 
+              {x: 0, y: 20}, 
+              {x: 1, y: 18}, 
+              {x: 2, y: 17},
+              {x: 3, y: 15},
+              {x: 4, y: 17},
+              {x: 5, y: 16},
+              {x: 6, y: 15},
+              {x: 7, y: 15},
+            ],
+            key: "Actual",
+            color: 'rgba(20,130,230,0.8)',
+            area: true
+          },
+              
+          ])
+          .transition().duration(500)
+          .call(chart)
+          ;
+
+        nv.utils.windowResize(chart.update);
+
+        return chart;
+      });
+                  
+      //Donut chart example
+      nv.addGraph(function() {
+        var chart = nv.models.pieChart()
+            .x(function(d) { return d.label })
+            .y(function(d) { return d.value })
+            .showLabels(true)     //Display pie labels
+            .labelThreshold(.05)  //Configure the minimum slice size for labels to show up
+            .labelType("key") //Configure what type of data to show in the label. Can be "key", "value" or "percent"
+            .donut(true)          //Turn on Donut mode. Makes pie chart look tasty!
+            .showLegend(true)
+            .donutRatio(0.35)     //Configure how big you want the donut hole size to be.
+            
+            ;
+
+        
+        d3.select("#progress4")
+            .datum(exampleData())
+            .transition().duration(350)
+            .call(chart);
+
+        return chart;
+      });
+                  
+      //Pie chart example data. Note how there is only a single array of key-value pairs.
+      function exampleData() {
+        return  [
+            { 
+              "label": "Not Started",
+              "value" : 10,
+              "color": '#000',
+            }, 
+            { 
+              "label": "WIP",
+              "value" : 20
+            }, 
+            { 
+              "label": "Done",
+              "value" : 40
+            }, 
+          ];
+      }                  
+      
+    </script>
+    <!-- epoch logic -->
     <script type="text/javascript">
 
-      var burndown3 = document.getElementById("progress3");
-      var r = Raphael('progress3');
-      r.piechart(
-        (burndown3.offsetWidth / 2), 
-        (burndown3.offsetHeight / 2), 
-        (burndown3.offsetHeight / 4), 
-        [1.03, 3, 4], 
-        {
-          stroke: "#FFFFFF",
-          strokeWidth: 20,
-          colors: ["#AA0000", "#CCAA00", "#00AA00", ],
-        });
+//      var burndown3 = document.getElementById("progress3");
+//      var r = Raphael('progress3');
+//      r.piechart(
+//        (burndown3.offsetWidth / 2), 
+//        (burndown3.offsetHeight / 2), 
+//        (burndown3.offsetHeight / 4), 
+//        [1.03, 3, 4], 
+//        {
+//          stroke: "#FFFFFF",
+//          strokeWidth: 20,
+//          colors: ["#AA0000", "#CCAA00", "#00AA00", ],
+//        });
+      var burndown3 = document.getElementById("burndown3");
 
+      var data = [
+        { label: 'Target', values: [ {x: 0, y: 20}, 
+                                     {x: 1, y: 18}, 
+                                     {x: 2, y: 16},
+                                     {x: 3, y: 14},
+                                     {x: 4, y: 12},
+                                     {x: 5, y: 10},
+                                     {x: 6, y:  8},
+                                     {x: 7, y:  6},
+                                     {x: 8, y:  4},
+                                     {x: 9, y:  2},
+                                     {x: 10, y: 0},
+                                   ] },
+        { label: 'Trend',  values: [ {x: 0, y: 20}, 
+                                     {x: 1, y: 19}, 
+                                     {x: 2, y: 18},
+                                     {x: 3, y: 17},
+                                     {x: 4, y: 16},
+                                     {x: 5, y: 15},
+                                     {x: 6, y: 14},
+                                     {x: 7, y: 13},
+                                     {x: 8, y: 12},
+                                     {x: 9, y: 11},
+                                     {x: 10, y: 10},
+                                   ]},
+        { label: 'Actual', values: [ {x: 0, y: 20}, 
+                                     {x: 1, y: 18}, 
+                                     {x: 2, y: 17},
+                                     {x: 3, y: 15},
+                                     {x: 4, y: 17},
+                                     {x: 5, y: 16},
+                                     {x: 6, y: 15},
+                                     {x: 7, y: 15},
+                                   ]},
+      ];
+      var areaChartInstance = $('#burndown3').epoch({
+        type: 'line',
+        data: data,
+        axes: ['left', 'bottom']
+      });
+
+      var pieData = [
+        { label: 'Not Started', value: 10 },
+        { label: 'WIP', value: 20 },
+        { label: 'Done', value: 40 },
+      ];
+      
+      $('#progress3').epoch({
+        type: 'pie',
+        data: pieData,
+        width: 250,
+        height: 250,
+        inner: 50
+      });
+        
     </script>    
     <!-- Chart.js logic -->
     <script type="application/javascript">
