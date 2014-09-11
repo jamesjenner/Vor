@@ -10,6 +10,7 @@
   	</style>    
     <link rel="stylesheet" type="text/css" href="css/epoch.min.css">
     <link rel="stylesheet" type="text/css" href="css/nv.d3.css">
+    <link rel="stylesheet" type="text/css" href="css/c3.css">
   </head>
   <body style="">
     flotr2.js
@@ -114,8 +115,34 @@
         </div>  
       </div>
     </div>
+    C3 (d3v3)
+    <div style="height: 50%; width: 100%;">
+      <div style="width: 33%; height: 100%; display: inline-block; box-sizing: border-box">
+        <div id="burndown5" style="width: 100%; height: 250px; text-align: center">
+        </div>
+        <div style="width: 100%; text-align: center; margin-top: 10px">
+          BurnDown
+        </div>  
+      </div>
+      <div style="width: 33%; display: inline-block; box-sizing: border-box">
+        <div style="width: 100%; text-align: center">
+          <span style="font-size: 12em; color: lightgrey">0</span>
+        </div>
+        <div style="width: 100%; text-align: center; margin-top: 10px">
+          Blockers
+        </div>  
+      </div>
+      <div style="width: 33%; display: inline-block; box-sizing: border-box">
+        <div id="progress5" style="width: 100%; height: 250px; text-align: center">
+        </div>
+        <div style="width: 100%; text-align: center; margin-top: 10px">
+          Progress
+        </div>  
+      </div>
+    </div>
     <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="js/d3.min.js"></script>
+    <script type="text/javascript" src="js/c3.min.js"></script>
     <script type="text/javascript" src="js/nv.d3.min.js"></script>
     <script type="text/javascript" src="js/epoch.min.js"></script>
     <script type="text/javascript" src="js/raphael-min.js"></script>
@@ -127,6 +154,64 @@
     <script type="text/javascript" src="js/charts/burndown1.js"></script>
     <script type="text/javascript" src="js/charts/progress1.js"></script>
 
+    <!-- C3 logic -->
+    <script type="text/javascript">
+    var burndownChart5 = c3.generate({
+      bindto: '#burndown5',
+      data: {
+        columns: [
+          ['goal',   20, 18, 16, 14, 12, 10, 8, 6, 4, 2, 0],
+          ['trend',  20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10],
+          ['actual', 20, 18, 17, 15, 17, 16, 15, 15],
+        ]
+      },
+      axis: {
+        y: {
+          padding: { top: 0, bottom: 0},
+          max: 20,
+          min: 0,
+          },
+        x: {
+          padding: { left: 0, right: 0},
+          max: 10,
+          min: 0,
+          tick: {
+            count: 11,
+            culling: 0,
+          }
+        }
+      },
+    });
+    var progressChart5 = c3.generate({
+      bindto: '#progress5',
+      data: {
+        type: 'donut',
+        columns: [
+          ['data1', 1],
+          ['data2', 2],
+          ['data3', 4],
+        ],
+        names: {
+          data1: 'Not Started', 
+          data2: 'WIP', 
+          data3: 'Done'
+        },
+        labels: ['a', 'b', 'c'],
+        colors: {
+          data1: '#aa0000', 
+          data2: '#ddaa00', 
+          data3: '#00aa00'
+        }
+      },
+      legend: {
+        show: false
+      },
+      donut: {
+        
+      }
+    });
+    </script>
+    
     <!-- NVD3 logic -->
     <script type="text/javascript">
       nv.addGraph(function() {
