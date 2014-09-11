@@ -125,11 +125,10 @@
         </div>  
       </div>
       <div style="width: 33%; display: inline-block; box-sizing: border-box">
-        <div style="width: 100%; text-align: center">
-          <span style="font-size: 12em; color: lightgrey">0</span>
+        <div id="progress5b" style="width: 100%; text-align: center">
         </div>
         <div style="width: 100%; text-align: center; margin-top: 10px">
-          Blockers
+          Progress
         </div>  
       </div>
       <div style="width: 33%; display: inline-block; box-sizing: border-box">
@@ -140,7 +139,57 @@
         </div>  
       </div>
     </div>
+
+    jQuery-Knob
+    <div style="height: 50%; width: 100%;">
+      <div style="width: 33%; height: 100%; display: inline-block; box-sizing: border-box">
+        <input type="text" value="75" class="dial" id="build1a" style="width: 100%; height: 250px; text-align: center">
+        <div style="width: 100%; text-align: center; margin-top: 10px">
+          Build A
+        </div>  
+      </div>
+      <div style="width: 33%; display: inline-block; box-sizing: border-box">
+        <input type="text" value="40" class="dial" id="build1b" style="width: 100%; text-align: center">
+        <div style="width: 100%; text-align: center; margin-top: 10px">
+          Build B
+        </div>  
+      </div>
+      <div style="width: 33%; display: inline-block; box-sizing: border-box">
+        <input type="text" value="10" class="dial" id="build1c" style="width: 100%; height: 250px; text-align: center">
+        <div style="width: 100%; text-align: center; margin-top: 10px">
+          Build C
+        </div>  
+      </div>
+    </div>
+    
+    No Idea
+    <div style="height: 50%; width: 100%;">
+      <div style="width: 33%; height: 100%; display: inline-block; box-sizing: border-box">
+        <div id="build1a" style="width: 100%; height: 250px; text-align: center">
+        </div>
+        <div style="width: 100%; text-align: center; margin-top: 10px">
+          Build A
+        </div>  
+      </div>
+      <div style="width: 33%; display: inline-block; box-sizing: border-box">
+        <div id="build1b" style="width: 100%; text-align: center">
+        </div>
+        <div style="width: 100%; text-align: center; margin-top: 10px">
+          Build B
+        </div>  
+      </div>
+      <div style="width: 33%; display: inline-block; box-sizing: border-box">
+        <div id="build1c" style="width: 100%; height: 250px; text-align: center">
+        </div>
+        <div style="width: 100%; text-align: center; margin-top: 10px">
+          Build C
+        </div>  
+      </div>
+    </div>
+    
+    
     <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery.knob.min.js"></script>
     <script type="text/javascript" src="js/d3.min.js"></script>
     <script type="text/javascript" src="js/c3.min.js"></script>
     <script type="text/javascript" src="js/nv.d3.min.js"></script>
@@ -154,6 +203,98 @@
     <script type="text/javascript" src="js/charts/burndown1.js"></script>
     <script type="text/javascript" src="js/charts/progress1.js"></script>
 
+    <!-- jQuery Knob logic -->
+    <script type="text/javascript">
+//$(function($) {
+//
+//                $(".dial").knob({
+//                    format : function (value) {
+//                        return value + '%';
+//                    },
+//                    draw : function () {
+//
+//                      // "tron" case
+//                      if(this.$.data('skin') == 'tron') {
+//
+//                        this.cursorExt = 0.3;
+//
+//                        var a = this.arc(this.cv)  // Arc
+//                            , pa                   // Previous arc
+//                            , r = 1;
+//
+//                        this.g.lineWidth = this.lineWidth;
+//
+//                        if (this.o.displayPrevious) {
+//                          pa = this.arc(this.v);
+//                          this.g.beginPath();
+//                          this.g.strokeStyle = this.pColor;
+//                          this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, pa.s, pa.e, pa.d);
+//                          this.g.stroke();
+//                        }
+//
+//                        this.g.beginPath();
+//                        this.g.strokeStyle = r ? this.o.fgColor : this.fgColor ;
+//                        this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, a.s, a.e, a.d);
+//                        this.g.stroke();
+//
+//                        this.g.lineWidth = 2;
+//                        this.g.beginPath();
+//                        this.g.strokeStyle = this.o.fgColor;
+//                        this.g.arc( this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
+//                        this.g.stroke();
+//
+//                        return false;
+//                      }
+//                    }
+//                });      
+//  });
+      $(function() {
+        $("#build1a").knob({
+          min: 0,
+          max: 100,
+          angleOffset: -125,
+          angleArc: 250,
+          readOnly: true,
+          skin: "tron",
+          // lineCap: "round",
+          fgColor: '#66CC66',
+                    format : function (value) {
+                        return value + '%';
+                    },
+        });
+        $("#build1b").knob({
+          min: 0,
+          max: 100,
+          angleOffset: -125,
+          angleArc: 250,
+          readOnly: true,
+          skin: "tron",
+          // lineCap: "round",
+          fgColor: '#CCCC66',
+        });
+        $("#build1c").knob({
+          min: 0,
+          max: 100,
+          angleOffset: -125,
+          angleArc: 250,
+          readOnly: true,
+          skin: "tron",
+          // lineCap: "round",
+          fgColor: '#CC6666',
+        });
+        
+        $("#build1a").val(91.5).trigger(
+          'change'
+        );
+//        $("#build1a").trigger(
+//          'configure', {
+//            "fgColor":"#FF0000",
+//          }
+//        );
+      });
+      
+    </script>
+
     <!-- C3 logic -->
     <script type="text/javascript">
     var burndownChart5 = c3.generate({
@@ -163,7 +304,21 @@
           ['goal',   20, 18, 16, 14, 12, 10, 8, 6, 4, 2, 0],
           ['trend',  20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10],
           ['actual', 20, 18, 17, 15, 17, 16, 15, 15],
-        ]
+        ],
+        types: {
+          actual: 'area',
+        },
+        regions: {
+          trend: [{
+            start: 0, 
+            style: 'dashed'
+          }],
+        },
+        colors: {
+          goal:   '#aaaaaa', 
+          trend:  '#aa0000', 
+          actual: '#0000aa'
+        }
       },
       axis: {
         y: {
@@ -181,6 +336,12 @@
           }
         }
       },
+      legend: {
+        show: false
+      },
+      point: {
+        show: false,
+      }
     });
     var progressChart5 = c3.generate({
       bindto: '#progress5',
@@ -210,6 +371,35 @@
         
       }
     });
+    var progressChart5b = c3.generate({
+      bindto: '#progress5b',
+        data: {
+          columns: [
+            ['Progress', 76]
+          ],
+          type: 'gauge',
+        },
+        gauge: {
+          label: {
+            format: function(value, ratio) {
+              return value;
+            },
+            show: true // to turn off the min/max labels.
+          },
+          min: 0, // 0 is default, //can handle negative min e.g. vacuum / voltage / current flow / rate of change
+          max: 100, // 100 is default
+          units: ' %',
+          width: 50 // for adjusting arc thickness
+        },
+        color: {
+          pattern: ['#FF0000', '#F97600', '#F6C600', '#60B044'], // the three color levels for the percentage values.
+          threshold: {
+            unit: 'value', // percentage is default
+            max: 120, // 100 is default
+            values: [30, 60, 90, 100]
+          }
+        }
+    });      
     </script>
     
     <!-- NVD3 logic -->
