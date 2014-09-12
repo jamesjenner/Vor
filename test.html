@@ -4,13 +4,28 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Test Containers</title>
 
-    <style>
-      #burndown1 { width:100%; height:200px;}
-      #progress1 { width:100%; height:200px;}
-  	</style>    
     <link rel="stylesheet" type="text/css" href="css/epoch.min.css">
     <link rel="stylesheet" type="text/css" href="css/nv.d3.css">
     <link rel="stylesheet" type="text/css" href="css/c3.css">
+    <style>
+      #burndown1 { width:100%; height:200px;}
+      #progress1 { width:100%; height:200px;}
+      
+      
+      .c3-line-goal {
+        stroke-width: 5px;
+      }
+      .c3-line-trend {
+        stroke-width: 5px;
+      }
+      .c3-line-actual {
+        stroke-width: 10px;
+      }
+      .tick > line {
+        opacity: 0;
+      }
+
+  	</style>    
   </head>
   <body style="">
     flotr2.js
@@ -90,6 +105,7 @@
         </div>  
       </div>
     </div>
+    
     NVD3 (d3)
     <div style="height: 50%; width: 100%;">
       <div style="width: 33%; height: 100%; display: inline-block; box-sizing: border-box">
@@ -115,24 +131,25 @@
         </div>  
       </div>
     </div>
+    
     C3 (d3v3)
     <div style="height: 50%; width: 100%;">
       <div style="width: 33%; height: 100%; display: inline-block; box-sizing: border-box">
-        <div id="burndown5" style="width: 100%; height: 250px; text-align: center">
+        <div id="burndown5" style="width: 100%; height: 200px; text-align: center">
         </div>
         <div style="width: 100%; text-align: center; margin-top: 10px">
           BurnDown
         </div>  
       </div>
       <div style="width: 33%; display: inline-block; box-sizing: border-box">
-        <div id="progress5b" style="width: 100%; text-align: center">
+        <div id="progress5b" style="width: 100%; height: 200px; text-align: center">
         </div>
         <div style="width: 100%; text-align: center; margin-top: 10px">
           Progress
         </div>  
       </div>
       <div style="width: 33%; display: inline-block; box-sizing: border-box">
-        <div id="progress5" style="width: 100%; height: 250px; text-align: center">
+        <div id="progress5" style="width: 100%; height: 200px; text-align: center">
         </div>
         <div style="width: 100%; text-align: center; margin-top: 10px">
           Progress
@@ -292,13 +309,18 @@
 //          }
 //        );
       });
-      
     </script>
 
     <!-- C3 logic -->
     <script type="text/javascript">
     var burndownChart5 = c3.generate({
       bindto: '#burndown5',
+//      padding: {
+//        top: 10,
+//        right: 20,
+//        bottom: 10,
+//        left: 30,
+//      },
       data: {
         columns: [
           ['goal',   20, 18, 16, 14, 12, 10, 8, 6, 4, 2, 0],
@@ -306,7 +328,7 @@
           ['actual', 20, 18, 17, 15, 17, 16, 15, 15],
         ],
         types: {
-          actual: 'area',
+          // actual: 'area',
         },
         regions: {
           trend: [{
@@ -322,18 +344,27 @@
       },
       axis: {
         y: {
+          show: true,
           padding: { top: 0, bottom: 0},
           max: 20,
           min: 0,
-          },
+          tick: {
+            fit: false,
+            count: 4,
+          }
+        },
         x: {
-          padding: { left: 0, right: 0},
+          show: true,
+          // padding: { left: 0, right: 1},
           max: 10,
           min: 0,
           tick: {
-            count: 11,
-            culling: 0,
-          }
+            fit: false,
+            count: 3
+//            culling: {
+//              max: 3
+//            },
+          },
         }
       },
       legend: {
@@ -341,7 +372,26 @@
       },
       point: {
         show: false,
-      }
+      },
+//      grid: {
+//        x: {
+//          lines: [
+//            {value: 0, text: ''},
+//            {value: 5, text: ''},
+//            {value: 10, text: ''},
+//          ],
+//          // show: true,
+//        },
+//        y: {
+//          lines: [
+//            {value: 5, text: ''},
+//            {value: 10, text: ''},
+//            {value: 15, text: ''},
+//            {value: 20, text: ''},
+//          ],
+//          // show: true,
+//        }
+//      }
     });
     var progressChart5 = c3.generate({
       bindto: '#progress5',
@@ -357,7 +407,8 @@
           data2: 'WIP', 
           data3: 'Done'
         },
-        labels: ['a', 'b', 'c'],
+        // labels: ['a', 'b', 'c'],
+        // labels: true,
         colors: {
           data1: '#aa0000', 
           data2: '#ddaa00', 
