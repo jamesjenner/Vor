@@ -13,18 +13,22 @@
       
       
       .c3-line-goal {
-        stroke-width: 5px;
+        stroke-width: 8px;
       }
       .c3-line-trend {
-        stroke-width: 5px;
+        stroke-width: 8px;
       }
       .c3-line-actual {
         stroke-width: 10px;
       }
+      .nvd3 .nv-groups path.nv-line {
+        stroke-width: 10px;
+      }
+/*
       .tick > line {
         opacity: 0;
       }
-
+*/
   	</style>    
   </head>
   <body style="">
@@ -328,7 +332,8 @@
           ['actual', 20, 18, 17, 15, 17, 16, 15, 15],
         ],
         types: {
-          // actual: 'area',
+          actual: 'area',
+          goal: 'area',  // some alpha is being applied automatically to area, need to turn off....
         },
         regions: {
           trend: [{
@@ -337,9 +342,9 @@
           }],
         },
         colors: {
-          goal:   '#aaaaaa', 
-          trend:  '#aa0000', 
-          actual: '#0000aa'
+          goal:   'rgba(100,100,100,.8)', 
+          trend:  'rgba(250,150,150,0.9)', 
+          actual: 'rgba(20,130,230,0.8)'
         }
       },
       axis: {
@@ -355,15 +360,12 @@
         },
         x: {
           show: true,
-          // padding: { left: 0, right: 1},
+          padding: { left: 0, right: 0},
           max: 10,
           min: 0,
           tick: {
             fit: false,
-            count: 3
-//            culling: {
-//              max: 3
-//            },
+            count: 3,
           },
         }
       },
