@@ -41,10 +41,8 @@
       #burndown1 { width:100%; height:200px;}
       #progress1 { width:100%; height:200px;}
 */
-      
-      
       .c3-line-goal {
-        stroke-width: 8px;
+        stroke-width: 6px;
       }
       .c3-line-trend {
         stroke-width: 8px;
@@ -477,9 +475,9 @@ carousel -->
     var burndownChart5 = c3.generate({
       bindto: '#burndown5',
 //      padding: {
-//        top: 10,
+//        top: 30,
 //        right: 20,
-//        bottom: 10,
+//        bottom: 0,
 //        left: 30,
 //      },
       data: {
@@ -489,19 +487,19 @@ carousel -->
           ['actual', 20, 18, 17, 15, 17, 16, 15, 15],
         ],
         types: {
-          actual: 'area',
-          goal: 'area',  // some alpha is being applied automatically to area, need to turn off....
+          // actual: 'area',
+          // goal: 'area',  // some alpha is being applied automatically to area, need to turn off....
         },
-        regions: {
-          trend: [{
-            start: 0, 
-            style: 'dashed'
-          }],
-        },
+//        regions: {
+//          trend: [{
+//            start: 0, 
+//            style: 'dashed'
+//          }],
+//        },
         colors: {
-          goal:   'rgba(100,100,100,.8)', 
-          trend:  'rgba(250,150,150,0.9)', 
-          actual: 'rgba(20,130,230,0.8)'
+          goal:   'rgba(100,100,100,1)', 
+          trend:  'rgba(250,150,150,1)', 
+          actual: 'rgba(20,130,230,1)'
         }
       },
       axis: {
@@ -510,10 +508,7 @@ carousel -->
           padding: { top: 0, bottom: 0},
           max: 20,
           min: 0,
-          tick: {
-            fit: false,
-            count: 4,
-          }
+          ticks: 5
         },
         x: {
           show: true,
@@ -521,8 +516,17 @@ carousel -->
           max: 10,
           min: 0,
           tick: {
-            fit: false,
+            fit: true,
             count: 3,
+          
+            // centered: false,
+            // format: undefined,
+            // culling: {},
+            // culling_max: 2,
+            // values: null,
+            // rotate: undefined,
+            // outer: true,
+          
           },
         }
       },
@@ -532,34 +536,36 @@ carousel -->
       point: {
         show: false,
       },
-//      grid: {
-//        x: {
-//          lines: [
-//            {value: 0, text: ''},
-//            {value: 5, text: ''},
-//            {value: 10, text: ''},
-//          ],
-//          // show: true,
-//        },
-//        y: {
-//          lines: [
-//            {value: 5, text: ''},
-//            {value: 10, text: ''},
-//            {value: 15, text: ''},
-//            {value: 20, text: ''},
-//          ],
-//          // show: true,
-//        }
-//      }
+      grid: {
+        x: {
+          type: 'tick',
+          lines: [
+            {value: 0, text: ''},
+            {value: 5, text: ''},
+            {value: 10, text: ''},
+          ],
+          // show: true,
+        },
+        y: {
+          type: 'tick',
+          lines: [
+            {value: 5, text: ''},
+            {value: 10, text: ''},
+            {value: 15, text: ''},
+            {value: 20, text: ''},
+          ],
+          // show: true,
+        }
+      }
     });
     var progressChart5 = c3.generate({
       bindto: '#progress5',
       data: {
         type: 'donut',
         columns: [
-          ['data1', 1],
-          ['data2', 2],
-          ['data3', 4],
+          ['data1', 10],
+          ['data2', 20],
+          ['data3', 40],
         ],
         names: {
           data1: 'Not Started', 
@@ -572,20 +578,29 @@ carousel -->
           data1: '#aa0000', 
           data2: '#ddaa00', 
           data3: '#00aa00'
-        }
+        },
+      },
+                  
+      donut: {
+        title: "Story Points", 
+        sort: false,
+        expand: true, // ???
+        width: 40,
+        label: { 
+          threshold: .12,
+          format: function (d, a) { return d; },
+          show: true 
+        },
       },
       legend: {
         show: false
       },
-      donut: {
-        
-      }
     });
     var progressChart5b = c3.generate({
       bindto: '#progress5b',
         data: {
           columns: [
-            ['Progress', 90]
+            ['Progress', 86]
           ],
           type: 'gauge',
         },
@@ -599,14 +614,14 @@ carousel -->
           min: 0, // 0 is default, //can handle negative min e.g. vacuum / voltage / current flow / rate of change
           max: 100, // 100 is default
           units: ' %',
-          width: 40 // for adjusting arc thickness
+          width: 20 // for adjusting arc thickness
         },
         color: {
           pattern: ['#FF0000', '#F97600', '#F6C600', '#60B044'], // the three color levels for the percentage values.
           threshold: {
             unit: 'value', // percentage is default
             max: 100, // 100 is default
-            values: [30, 60, 90, 100]
+            values: [30, 60, 85, 100]
           }
         }
     });      

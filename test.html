@@ -13,7 +13,7 @@
       
       
       .c3-line-goal {
-        stroke-width: 8px;
+        stroke-width: 6px;
       }
       .c3-line-trend {
         stroke-width: 8px;
@@ -165,7 +165,7 @@
     <div style="height: 50%; width: 100%;">
       <div style="width: 33%; height: 100%; display: inline-block; box-sizing: border-box">
         <input type="text" value="75" class="dial" id="build1a" style="width: 100%; height: 250px; text-align: center">
-        <div style="width: 100%; text-align: center; margin-top: 10px">
+        <div style="width: 100%; text-align: centre; margin-top: 10px">
           Build A
         </div>  
       </div>
@@ -183,24 +183,46 @@
       </div>
     </div>
     
-    No Idea
+    gauge.js
     <div style="height: 50%; width: 100%;">
       <div style="width: 33%; height: 100%; display: inline-block; box-sizing: border-box">
-        <div id="build1a" style="width: 100%; height: 250px; text-align: center">
+        <canvas id="build2a" style="width: 100%; ">
+        <div style="width: 100%; text-align: center; margin-top: 10px">
+          Build A
+        </div>  
+      </div>
+      <div style="width: 33%; display: inline-block; box-sizing: border-box">
+        <canvas id="build2b" style="width: 100%; text-align: center">
+        <div style="width: 100%; text-align: center; margin-top: 10px">
+          Build B
+        </div>  
+      </div>
+      <div style="width: 33%; display: inline-block; box-sizing: border-box">
+        <canvas id="build2c" style="width: 100%; height: 250px; text-align: center">
+        <div style="width: 100%; text-align: center; margin-top: 10px">
+          Build C
+        </div>  
+      </div>
+    </div>
+    
+    unknown
+    <div style="height: 50%; width: 100%;">
+      <div style="width: 33%; height: 100%; display: inline-block; box-sizing: border-box">
+        <div id="build3a" style="width: 100%; height: 250px; text-align: center">
         </div>
         <div style="width: 100%; text-align: center; margin-top: 10px">
           Build A
         </div>  
       </div>
       <div style="width: 33%; display: inline-block; box-sizing: border-box">
-        <div id="build1b" style="width: 100%; text-align: center">
+        <div id="build3b" style="width: 100%; text-align: center">
         </div>
         <div style="width: 100%; text-align: center; margin-top: 10px">
           Build B
         </div>  
       </div>
       <div style="width: 33%; display: inline-block; box-sizing: border-box">
-        <div id="build1c" style="width: 100%; height: 250px; text-align: center">
+        <div id="build3c" style="width: 100%; height: 250px; text-align: center">
         </div>
         <div style="width: 100%; text-align: center; margin-top: 10px">
           Build C
@@ -223,7 +245,33 @@
     <script type="text/javascript" src="js/flotr2.min.js"></script>
     <script type="text/javascript" src="js/charts/burndown1.js"></script>
     <script type="text/javascript" src="js/charts/progress1.js"></script>
+    <script type="text/javascript" src="js/gauge.min.js"></script>
 
+    <!-- gauge.js -->
+    <script type="text/javascript">
+      var opts = {
+        // lines: 0, // The number of lines to draw
+        angle: 0.15, // The length of each line
+        lineWidth: 0.2, // The line thickness
+        pointer: {
+          length: 0.9, // The radius of the inner circle
+          strokeWidth: 0.035, // The rotation offset
+          color: '#00ff00' // Fill color
+        },
+        limitMax: 'true',   // If true, the pointer will not go past the end of the gauge
+        colorStart: '#66CC66',   // Colors
+        // colorStop: '#C0C0DB',    // just experiment with them
+        colorStop: '#66CC66',    // just experiment with them
+        strokeColor: '#EEEEEE',   // to see which ones work best for you
+        shadowColor: "#EEEEEE",
+        generateGradient: false
+      };
+      var target = document.getElementById('build2a'); // your canvas element
+      var gauge = new Donut(target).setOptions(opts); // create sexy gauge!
+      gauge.maxValue = 3000; // set max gauge value    
+      gauge.set(1250); // set actual value
+    </script>
+    
     <!-- jQuery Knob logic -->
     <script type="text/javascript">
 //$(function($) {
@@ -332,19 +380,19 @@
           ['actual', 20, 18, 17, 15, 17, 16, 15, 15],
         ],
         types: {
-          actual: 'area',
-          goal: 'area',  // some alpha is being applied automatically to area, need to turn off....
+          // actual: 'area',
+          // goal: 'area',  // some alpha is being applied automatically to area, need to turn off....
         },
-        regions: {
-          trend: [{
-            start: 0, 
-            style: 'dashed'
-          }],
-        },
+//        regions: {
+//          trend: [{
+//            start: 0, 
+//            style: 'dashed'
+//          }],
+//        },
         colors: {
-          goal:   'rgba(100,100,100,.8)', 
-          trend:  'rgba(250,150,150,0.9)', 
-          actual: 'rgba(20,130,230,0.8)'
+          goal:   'rgba(100,100,100,1)', 
+          trend:  'rgba(250,150,150,1)', 
+          actual: 'rgba(20,130,230,1)'
         }
       },
       axis: {
@@ -353,10 +401,7 @@
           padding: { top: 0, bottom: 0},
           max: 20,
           min: 0,
-          tick: {
-            fit: false,
-            count: 4,
-          }
+          ticks: 5
         },
         x: {
           show: true,
@@ -364,8 +409,17 @@
           max: 10,
           min: 0,
           tick: {
-            fit: false,
+            fit: true,
             count: 3,
+          
+            // centered: false,
+            // format: undefined,
+            // culling: {},
+            // culling_max: 2,
+            // values: null,
+            // rotate: undefined,
+            // outer: true,
+          
           },
         }
       },
@@ -375,34 +429,36 @@
       point: {
         show: false,
       },
-//      grid: {
-//        x: {
-//          lines: [
-//            {value: 0, text: ''},
-//            {value: 5, text: ''},
-//            {value: 10, text: ''},
-//          ],
-//          // show: true,
-//        },
-//        y: {
-//          lines: [
-//            {value: 5, text: ''},
-//            {value: 10, text: ''},
-//            {value: 15, text: ''},
-//            {value: 20, text: ''},
-//          ],
-//          // show: true,
-//        }
-//      }
+      grid: {
+        x: {
+          type: 'tick',
+          lines: [
+            {value: 0, text: ''},
+            {value: 5, text: ''},
+            {value: 10, text: ''},
+          ],
+          // show: true,
+        },
+        y: {
+          type: 'tick',
+          lines: [
+            {value: 5, text: ''},
+            {value: 10, text: ''},
+            {value: 15, text: ''},
+            {value: 20, text: ''},
+          ],
+          // show: true,
+        }
+      }
     });
     var progressChart5 = c3.generate({
       bindto: '#progress5',
       data: {
         type: 'donut',
         columns: [
-          ['data1', 1],
-          ['data2', 2],
-          ['data3', 4],
+          ['data1', 10],
+          ['data2', 20],
+          ['data3', 40],
         ],
         names: {
           data1: 'Not Started', 
@@ -415,14 +471,23 @@
           data1: '#aa0000', 
           data2: '#ddaa00', 
           data3: '#00aa00'
-        }
+        },
+      },
+                  
+      donut: {
+        title: "Story Points", 
+        sort: false,
+        expand: true, // ???
+        // width: 70,
+        label: { 
+          threshold: .12,
+          format: function (d, a) { return d; },
+          show: true 
+        },
       },
       legend: {
         show: false
       },
-      donut: {
-        
-      }
     });
     var progressChart5b = c3.generate({
       bindto: '#progress5b',
@@ -491,15 +556,6 @@
           .datum([ { 
             values: [
               {x: 0, y: 20}, 
-              {x: 1, y: 18}, 
-              {x: 2, y: 16},
-              {x: 3, y: 14},
-              {x: 4, y: 12},
-              {x: 5, y: 10},
-              {x: 6, y:  8},
-              {x: 7, y:  6},
-              {x: 8, y:  4},
-              {x: 9, y:  2},
               {x: 10, y: 0},
             ],
             key: "Expected",
@@ -507,16 +563,7 @@
           },
           { values: [
               {x: 0, y: 20}, 
-              {x: 1, y: 19}, 
-              {x: 2, y: 18},
-              {x: 3, y: 17},
-              {x: 4, y: 16},
-              {x: 5, y: 15},
-              {x: 6, y: 14},
-              {x: 7, y: 13},
-              {x: 8, y: 12},
-              {x: 9, y: 11},
-              {x: 10, y: 10},
+              {x: 10, y: 7},
            ],
             key: "Trend",
             color: 'rgba(250,150,150,0.9)',
