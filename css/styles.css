@@ -134,18 +134,22 @@ ul.dropdown-menu-form {
   display: inline-block;
   vertical-align: bottom;
   box-sizing: border-box;
-  padding: 2px;
+  padding: 5px;
   position: relative;
 }
 
 .widget {
+  display: inline-block; 
+  box-sizing: border-box
   height: 100%;
+/*
   position: relative;
   float: left;
+*/
   vertical-align: bottom;
-  padding: 2px;
-  width: 25%;
-  height: 100%;
+  /* padding: 2px; */
+  width: 24%;
+/*  height: 100%;*/
   text-align: center;
 }
 
@@ -157,6 +161,7 @@ ul.dropdown-menu-form {
   box-sizing: border-box;
   display: block;
   font-size: 8em;
+  height: auto;
   font-weight: bold;
   line-height: 1;
 /*
