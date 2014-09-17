@@ -1,18 +1,9 @@
-if(typeof module == "undefined"){
-    var module = function(){};
-    var exports = this['arcGauge'] = {};
-    module.exports = exports;
-}
-if (typeof require != "undefined") {
-//    var Class = require('./file');
-}
-
-module.exports = ArcGauge;
+this['arcGauge'] = {};
     
 ArcGauge.COLOR_MODE_RANGE = "colorModeRange";
 ArcGauge.COLOR_MODE_VALUE = "colorModeValue";
 
-// http://tauday.com/tau-manifesto
+// http://tauday.com/tau-manifesto -> TAU == 2PI
 ArcGauge.τ = 2 * Math.PI; 
 ArcGauge.TAU = 2 * Math.PI; 
 
@@ -69,33 +60,8 @@ function ArcGauge(options) {
       .style("fill", "#ddd")
       .attr("d", arc);
 
-  // Add the foreground arc in orange, currently showing 12.7%.
-
-  var foregroundColor = "black";
-
-  if(this.colorMode === ArcGauge.COLOR_MODE_VALUE) {
-    var diff = Math.abs(this.value - this.target);
-
-    if(diff < this.goodMargin) {
-      foregroundColor = "green";
-    } else if(diff < this.badMargin) {
-      foregroundColor = "orange";
-    } else {
-      foregroundColor = "red";
-    }
-  }
-
-
-  if(this.colorMode === ArcGauge.COLOR_MODE_RANGE) {
-    if(this.value < .3) {
-      foregroundColor = "red";
-    } else if(this.value < .7) {
-      foregroundColor = "orange";
-    } else {
-      foregroundColor = "green";
-    }
-  }
-
+  var foregroundColor = this._determineForegroundColor();
+  
   this.targetMark = svg.append("path")
       .datum({endAngle: this.startAngle + (this.arcAngle * this.target)})
       .style("fill", "rgba(150, 150, 150, .8)")
@@ -130,21 +96,55 @@ ArcGauge.prototype.setTarget = function(newTarget) {
 //      .call(arcTween, this.startAngle + (this.arcAngle * newValue), this.innerArc);
 }
     
+ArcGauge.prototype._determineForegroundColor = function() {
+  // Add the foreground arc in orange, currently showing 12.7%.
+  var foregroundColor = "black";
+
+  if(this.colorMode === ArcGauge.COLOR_MODE_VALUE) {
+    var diff = this.value - this.target;
+
+    // TODO: fix this logic
+    if(diff >= this.goodMargin ) {
+      foregroundColor = "green";
+    } else if(diff > this.badMargin) {
+      foregroundColor = "orange";
+    } else {
+      foregroundColor = "red";
+    }
+  }
+
+  if(this.colorMode === ArcGauge.COLOR_MODE_RANGE) {
+    if(this.value < .3) {
+      foregroundColor = "red";
+    } else if(this.value < .7) {
+      foregroundColor = "orange";
+    } else {
+      foregroundColor = "green";
+    }
+  }
+  
+  return foregroundColor;
+}
+
 ArcGauge.prototype.setValue = function(newValue) {    
-  // ToDo: write logic to update the color of the innnerArc
+  this.value = newValue;
+  
   this.foreground.transition()
       .duration(750)
-      .call(arcTween, this.startAngle + (this.arcAngle * newValue), this.innerArc);
-
+      .style("fill", this._determineForegroundColor())
+      .call(arcTween, this.startAngle + (this.arcAngle * this.value), this.innerArc);
+  
   this.text.transition()
     .duration(750)
     .ease('linear')
     .tween('text', function() {
-      var i = d3.interpolate(this.textContent, newValue * 100);
+      var ip = d3.interpolate(this.textContent, newValue * 100);
       return function(t) {
-        this.textContent = Math.round(i(t));
+        this.textContent = Math.round(ip(t));
       };
   });
+  
+  // note: cannot bind this to the tween function, as this points to the selection of the tween
 }
 
 ArcGauge.prototype.demo = function() {
@@ -153,8 +153,7 @@ ArcGauge.prototype.demo = function() {
   // tweening the arc in a separate function below.
   
   setInterval(function() {
-    var newValue =  Math.random();
-    this.setValue(newValue);
+    this.setValue(Math.random());
   }.bind(this), 1500);
 }
 
