@@ -64,8 +64,13 @@
 }
 
 html {
-/*  background: url(../private_images/ThinkStock-108797705.jpg);*/
+  background: url(../private_images/mySrc/abstract1.jpg);
+  background: url(../private_images/mySrc/abstract2.jpg);
+  background: url(../private_images/mySrc/abstract3.jpg);
+  background: url(../private_images/mySrc/spiderweb1.jpg);
+  background: url(../private_images/mySrc/tree1.jpg);
   background: url(../private_images/mySrc/tree3.jpg);
+  background: url(../private_images/ThinkStock-108797705.jpg);
   -webkit-background-size: cover;
   -mox-background-size: cover;
   -o-background-size: cover;

@@ -483,24 +483,24 @@ var teams = [
 ];
 var idx;
   
-//for(idx = 0; idx < teams.length; idx++) {
-//  (function(team) {
-//    myVersionOne.getSprintStats(team.name, team.effectiveDate, function(err, data) {
-//      if(err) {
-//        console.log(err);
-//      } else {
-//        console.log(
-//          team.name + "\n\t" + 
-//          " Backlog: " + data.backlogStoryPoints + 
-//          " Wip: " + data.wipStoryPoints + 
-//          " Done: " + data.doneStoryPoints + " -> " + data.percentageDone + "% " + 
-//          " Start: " + data.sprintStartDate + 
-//          " End: " + data.sprintEndDate + 
-//          " Dur: " + data.sprintDuration);
-//      }
-//    });
-//  })(teams[idx]);
-//}
+for(idx = 0; idx < teams.length; idx++) {
+  (function(team) {
+    myVersionOne.getSprintStats(team.name, team.effectiveDate, function(err, data) {
+      if(err) {
+        console.log(err);
+      } else {
+        console.log(
+          team.name + "\n\t" + 
+          " Backlog: " + data.backlogStoryPoints + 
+          " Wip: " + data.wipStoryPoints + 
+          " Done: " + data.doneStoryPoints + " -> " + data.percentageDone + "% " + 
+          " Start: " + data.sprintStartDate + 
+          " End: " + data.sprintEndDate + 
+          " Dur: " + data.sprintDuration);
+      }
+    });
+  })(teams[idx]);
+}
 
 // ---- timezone
   
