@@ -11,7 +11,23 @@
   <script type="text/javascript" src="js/arcGauge.js"></script>
   <script>
 
-  var v = new ArcGauge({value: .5, appendTo: "myGauge"}).demo();
+  var v = new ArcGauge({
+    value: 40, 
+    minValue: 0,
+    maxValue: 100,
+    goodMargin: 5,
+    dangerMargin: 20,
+    valueType: ArcGauge.VALUES_ACTUAL,
+    target: 50,
+    width: 250,
+    height: 250,
+    goodColor: "rgb(50,200,50)",
+    warningColor: "rgb(200,200,50)",
+    dangerColor: "rgb(200,50,50)",
+    markColor: "rgba(150, 150, 150, .8)",
+    backgroundColor: "#eee",
+    appendTo: "myGauge"
+  }).demo();
     
   </script>  
 </body>
