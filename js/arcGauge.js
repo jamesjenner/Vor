@@ -40,10 +40,11 @@ function ArcGauge(options) {
   
   this.target = ((options.target != null && options.target !== undefined) ? options.target : .5);
   this.setTarget(this.target, false);
-  
-  // update good/bad margin based on percentage so it can be calculated in future
-  
+
   this.textDisplayMode = ((options.textDisplayMode != null && options.textDisplayMode !== undefined) ? options.textDisplayMode : ArcGauge.DISPLAY_PERCENTAGE);
+  this.textSize = ((options.textSize != null && options.textSize !== undefined) ? options.textSize : 40);
+  this.textFontName = ((options.textFontName != null && options.textFontName !== undefined) ? options.textFontName : "sans-serif");
+  this.textFontWeight = ((options.textFontWeight != null && options.textFontWeight !== undefined) ? options.textFontWeight : "bold");
   
   this.appendTo = ((options.appendTo != null && options.appendTo !== undefined) ? options.appendTo : "body")
     
@@ -65,8 +66,6 @@ function ArcGauge(options) {
       .startAngle(this.startAngle);
 
   this.innerArc = d3.svg.arc()
-//      .innerRadius(82)  // add 2 for border
-//      .outerRadius(118) // remove 2 for border
       .innerRadius(this.innerRadius)
       .outerRadius(this.outerRadius)
       .startAngle(this.startAngle);
@@ -79,37 +78,21 @@ function ArcGauge(options) {
 
   // Create the SVG container, and apply a transform such that the origin is the
   // center of the canvas. This way, we don't need to position arcs individually.
-//  var svg = d3.select("#" + this.appendTo).append("svg")
-//      .attr("width", this.width)
-//      .attr("height", this.height)
-//      .append("g")
-//      .attr("transform", "translate(" + this.width / 2 + "," + this.height / 2 + ")");
+  // setup the viewbox so that the size changes automatically
 
-//  var svg = d3.select("#" + this.appendTo).append("svg")
-//      .attr("width", this.width)
-//      .attr("height", this.height);
-//  svg = svg.append("g")
-//      .attr("transform", "translate(" + this.width / 2 + "," + this.height / 2 + ")");
-  
   var svg = d3.select("#" + this.appendTo).append("svg")
     .attr("width", this.width)
     .attr("height", this.height)
-    .attr("perserveAspectRatio", "xMidYMid meet");
-  
-  var elem1 = document.getElementById(this.appendTo);
-  var style = window.getComputedStyle(elem1, null);
+    .attr("viewBox", "0 0 200 200")  // set viewBox to 200/200 so we can use 0 to 100 for sizing
+    // .attr("perserveAspectRatio", "xMidYMid meet");
+    // .attr("perserveAspectRatio", "none")
+    .append("g").attr("transform", "translate(100, 100)");
 
-  console.log("style info, w: " + parseFloat(style.width) + " h: " + parseFloat(style.height));
-  var svgBBox = svg.node().getBBox();
-  
-  console.log("svg attr: " + svg.attr("width"));
-
-  // setup the viewbox so that the size changes automatically
-  svg.attr("viewBox", "0 0 " + parseFloat(style.width) + " " + parseFloat(style.height));
-
-   svg = svg.append("g").attr("transform", "translate(" + parseFloat(style.width) / 2 + "," + parseFloat(style.height) / 2 + ")");
-  // svg.append("g").attr("transform", "translate(" + this.width / 2 + "," + this.height / 2 + ")");
-  // svg.append("g").attr("transform", "translate(" + this.width + "," + this.height + ")");
+  // determin the true size of the svg element
+  //  var elem1 = document.getElementById(this.appendTo);
+  //  var style = window.getComputedStyle(elem1, null);
+  //  var svgBBox = svg.node().getBBox();
+  // svg = svg.append("g").attr("transform", "translate(" + parseFloat(style.width) / 2 + "," + parseFloat(style.height) / 2 + ")");
 
   // Add the background arc, from 0 to 100% (τ).
   var background = svg.append("path")
@@ -135,10 +118,10 @@ function ArcGauge(options) {
       .attr("dy", ".35em")
       .text(this._getTextValue())
       .attr("text-anchor", "middle")
-      .attr("font-family", "sans-serif")
-      .style("font-weight", "bold")
+      .attr("font-family", this.textFontName)
+      .style("font-weight", this.textFontWeight)
       // .style("font-size","40px")
-      .attr("font-size", "40px")
+      .attr("font-size", this.textSize)
       .attr("fill", this.textColor);
 
   // newText.setAttributeNS(null,"fill-opacity",Math.random());		
@@ -230,12 +213,16 @@ ArcGauge.prototype.setTarget = function(newValue, redrawGauge) {
 
 ArcGauge.prototype.setValue = function(newValue, redrawGauge) {
   redrawGauge = ((redrawGauge != null && redrawGauge !== undefined) ? redrawGauge : true);
-  
+  var formatPercent = d3.format(".0%");
   this.value = newValue;
-  
+  var oldValue = 0;
+      
+  // TODO: sort out actual value, currently not working in tween function for text
   if(this.valueType == ArcGauge.VALUES_ACTUAL) {
+    oldValue = this.valuePercentage;
     this.valuePercentage = (this.value - this.minValue) / (this.maxValue - this.minValue);
   } else {
+    oldValue = this.valuePercentage;
     this.valuePercentage = newValue;
   }
   
@@ -252,9 +239,11 @@ ArcGauge.prototype.setValue = function(newValue, redrawGauge) {
         .duration(750)
         .ease('linear')
         .tween('text', function() {
-          var ip = d3.interpolate(this.textContent, percentageValue * 100);
+          var ip = d3.interpolate(oldValue, percentageValue);
           return function(t) {
-            this.textContent = Math.round(ip(t));
+            var v = ip(t);
+            // this.textContent = Math.round(v * 100);
+            this.textContent = formatPercent(v);
           };
       });
     })(this.valuePercentage, this);
