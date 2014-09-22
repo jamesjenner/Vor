@@ -54,23 +54,26 @@ function ArcGauge(options) {
   // SVG path string for a given angle, we pass an object with an endAngle
   // property to the `arc` function, and it will return the corresponding string.
 
+  this.innerRadius = ((options.innerRadius != null && options.innerRadius !== undefined) ? options.innerRadius : 80);
+  this.outerRadius = ((options.outerRadius != null && options.outerRadius !== undefined) ? options.outerRadius : 120);
+  this.markerInnerRadius = ((options.markerInnerRadius != null && options.markerInnerRadius !== undefined) ? options.markerInnerRadius : options.outerRadius + 2);
+  this.markerOuterRadius = ((options.markerOuterRadius != null && options.markerOuterRadius !== undefined) ? options.markerOuterRadius : this.markerInnerRadius + 4);
+  
   var arc = d3.svg.arc()
-      .innerRadius(80)
-      .outerRadius(120)
+      .innerRadius(this.innerRadius)
+      .outerRadius(this.outerRadius)
       .startAngle(this.startAngle);
 
   this.innerArc = d3.svg.arc()
-//      .innerRadius(82)
-//      .outerRadius(118)
-      .innerRadius(80)
-      .outerRadius(120)
+//      .innerRadius(82)  // add 2 for border
+//      .outerRadius(118) // remove 2 for border
+      .innerRadius(this.innerRadius)
+      .outerRadius(this.outerRadius)
       .startAngle(this.startAngle);
 
   this.markArc = d3.svg.arc()
-//      .innerRadius(115)
-//      .outerRadius(125)
-      .innerRadius(122)
-      .outerRadius(126)
+      .innerRadius(this.markerInnerRadius)
+      .outerRadius(this.markerOuterRadius)
       // .startAngle(this.startAngle + (this.arcAngle * (this.targetPercentage - 0.005)));
       .startAngle(this.startAngle);
 
@@ -89,8 +92,9 @@ function ArcGauge(options) {
 //      .attr("transform", "translate(" + this.width / 2 + "," + this.height / 2 + ")");
   
   var svg = d3.select("#" + this.appendTo).append("svg")
-      .attr("width", "100%")
-      .attr("height", "100%");
+    .attr("width", this.width)
+    .attr("height", this.height)
+    .attr("perserveAspectRatio", "xMidYMid meet");
   
   var elem1 = document.getElementById(this.appendTo);
   var style = window.getComputedStyle(elem1, null);
@@ -99,7 +103,10 @@ function ArcGauge(options) {
   var svgBBox = svg.node().getBBox();
   
   console.log("svg attr: " + svg.attr("width"));
-  
+
+  // setup the viewbox so that the size changes automatically
+  svg.attr("viewBox", "0 0 " + parseFloat(style.width) + " " + parseFloat(style.height));
+
    svg = svg.append("g").attr("transform", "translate(" + parseFloat(style.width) / 2 + "," + parseFloat(style.height) / 2 + ")");
   // svg.append("g").attr("transform", "translate(" + this.width / 2 + "," + this.height / 2 + ")");
   // svg.append("g").attr("transform", "translate(" + this.width + "," + this.height + ")");
