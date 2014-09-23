@@ -120,9 +120,10 @@ function ArcGauge(options) {
       .attr("text-anchor", "middle")
       .attr("font-family", this.textFontName)
       .style("font-weight", this.textFontWeight)
-      // .style("font-size","40px")
-      .attr("font-size", this.textSize)
+      .style("font-size", this.textSize)
       .attr("fill", this.textColor);
+  
+  console.log("##font-size: " + this.textSize);
 
   // newText.setAttributeNS(null,"fill-opacity",Math.random());		
   // newText.setAttributeNS(null,"fill","rgb("+ red +","+ green+","+blue+")");
@@ -141,8 +142,6 @@ ArcGauge.prototype._getTextValue = function() {
     default:
       displayText = this.value;
   }
-  
-  console.log("displayText: " + displayText);
   
   return displayText;
 }
