@@ -67,10 +67,12 @@ html {
   background: url(../private_images/mySrc/abstract1.jpg);
   background: url(../private_images/mySrc/abstract2.jpg);
   background: url(../private_images/mySrc/abstract3.jpg);
-  background: url(../private_images/mySrc/spiderweb1.jpg);
-  background: url(../private_images/mySrc/tree1.jpg);
-  background: url(../private_images/mySrc/tree3.jpg);
   background: url(../private_images/ThinkStock-108797705.jpg);
+  background: url(../private_images/mySrc/tree3.jpg);
+  background: url(../private_images/mySrc/tree1.jpg);
+  background: url(../private_images/mySrc/tree2.jpg);
+  background: url(../private_images/mySrc/tree4.jpeg);
+  background: url(../private_images/mySrc/spiderweb1.jpg);
   -webkit-background-size: cover;
   -mox-background-size: cover;
   -o-background-size: cover;
@@ -185,4 +187,24 @@ ul.dropdown-menu-form {
   color: #cccccc;
   text-align: center;
   padding: 0;
+}
+
+.configButtons {
+  display: none;
+}
+
+.selected-label {
+  color: #555;
+}
+.dropdown-toggle {
+  border-color: #ccc;
+}
+.dropdown-toggle:focus {
+  border-color: #ccc;
+}
+.dropdown-toggle:hover {
+  border-color: #ccc;
+}
+.caret {
+  color: #333;
 }

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+<!--    <link rel="icon" href="http://getbootstrap.com/favicon.ico">-->
 
     <title>Vor</title>
 
@@ -23,8 +23,8 @@
     <!-- Dropdown Menu Enhancement (http://behigh.github.io/bootstrap_dropdowns_enhancement/index.html) -->
     <link href="css/dropdowns-enhancement.css" rel="stylesheet">
 
-    <!-- local customisation -->
-    <link href="css/styles.css" rel="stylesheet">
+    <!-- fuel ux minified customisation -->
+    <link href="css/fuelux.min.css" rel="stylesheet">
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <!-- jgj from template <script src="./js/ie10-viewport-bug-workaround.js"></script> -->
@@ -35,6 +35,10 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <link rel="stylesheet" type="text/css" href="css/c3.css">
+  
+    <!-- local customisation -->
+    <link href="css/styles.css" rel="stylesheet">
+
   <style id="holderjs-style" type="text/css"></style></head>
     <style>
 /*
@@ -76,25 +80,22 @@
             <span>Enterprise Asset Management</span>
           </div>
           <div class="navbar-brand navbar-right">
-            
             <div>
-              <!-- <button type="button" class="headerHamburger btn btn-default dropdown-toggle" data-toggle="dropdown"> -->
-              <!-- <button type="button" class="headerHamburger btn btn-default dropdown-toggle" data-toggle="buttons"> -->
-              <button type="button" class="btn btn-default">
+              <button id="" type="button" class="configButtons btn btn-default">
                 <i class="fa fa-square-o fa-lg"></i>
               </button>
-              <button type="button" class="btn btn-default">
+              <button id="addPanel" type="button" class="configButtons btn btn-default">
                 <i class="fa fa-plus fa-lg"></i>
               </button>
-              <button type="button" class="btn btn-default">
+              <button id="reloadScreen" type="button" class="configButtons btn btn-default">
                 <i class="fa fa-undo fa-lg"></i>
               </button>
-              <button type="button" class="btn btn-default">
+              <button id="editSettings" type="button" class="configButtons btn btn-default">
                 <i class="fa fa-sliders fa-lg"></i>
               </button>
               <div class="btn-group" data-toggle="buttons">
                   <label class="btn btn-default">
-                    <input type="checkbox"><i class="fa fa-cogs fa-lg"></i>
+                    <input id="toggleConfigMode" type="checkbox"><i class="fa fa-cogs fa-lg"></i>
                   </label>
 
                 <!-- </button> -->
@@ -166,25 +167,25 @@
             <div class="panel panel-default">
               <div class="panel-heading">
                   <div class="btn-group pull-right">
-                    <button type="button" class="btn btn-default btn-sml">
+                    <button type="button" class="configButtons btn btn-default btn-sml">
                       <i class="fa fa-plus "></i>
                     </button>
-                    <button type="button" class="btn btn-default btn-sml">
+                    <button type="button" class="configButtons btn btn-default btn-sml">
                       <i class="fa fa-minus"></i>
                     </button>
-                    <button type="button" class="btn btn-default btn-sml">
+                    <button type="button" class="configButtons btn btn-default btn-sml">
                       <i class="fa fa-trash"></i>
                     </button>
-                    <button type="button" class="btn btn-default btn-sml">
+                    <button type="button" class="configButtons btn btn-default btn-sml">
                       <i class="fa fa-arrow-down"></i>
                     </button>
-                    <button type="button" class="btn btn-default btn-sml">
+                    <button type="button" class="configButtons btn btn-default btn-sml">
                       <i class="fa fa-caret-up"></i>
                     </button>
-                    <button type="button" class="btn btn-default btn-sml">
+                    <button type="button" class="configButtons btn btn-default btn-sml">
                       <i class="fa fa-arrow-left"></i>
                     </button>
-                    <button type="button" class="btn btn-default btn-sml">
+                    <button type="button" class="configButtons btn btn-default btn-sml">
                       <i class="fa fa-chevron-right"></i>
                     </button>
                   </div>
@@ -458,7 +459,14 @@ carousel -->
 
   <!-- Dropdown Menu Enhancement (http://behigh.github.io/bootstrap_dropdowns_enhancement/index.html) -->
     <script src="js/dropdowns-enhancement.js"></script>
-  
+    <script src="./js/bootbox.min.js"></script>
+    <script src="./js/fuelux.min.js"></script>
+    <script src="./main.js"></script>
+  <script> 
+    $(document).ready(function() {
+      configureApplication();
+    });
+  </script>
     
     <!-- animate any container using the carousel class -->
     <script type="text/javascript">
