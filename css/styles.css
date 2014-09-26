@@ -84,7 +84,35 @@ html {
   background: none;
 }
 
-.panel-heading-me {
+.panel-heading {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 2;
+
+  box-sizing: border-box;
+  display: block;
+
+  border-bottom: 1px solid transparent;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  border-color: #ddd;
+
+  padding: 2px 2px 2px 2px;
+  
+  border-bottom-color: rgba(0, 0, 0, 0.6);
+  color: #999999;
+  background-color: rgba(0, 0, 0, 0.3);
+  
+/*
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  box-sizing: border-box;
+  height: 25px;
+*/
+  
+}
+
+.panel-heading-me { 
 /*  writing-mode: vertical-tb;*/
   -webkit-writing-mode: vertical-rl;
 /*
@@ -189,10 +217,6 @@ ul.dropdown-menu-form {
   padding: 0;
 }
 
-.configButtons {
-  display: none;
-}
-
 .selected-label {
   color: #555;
 }
@@ -207,4 +231,102 @@ ul.dropdown-menu-form {
 }
 .caret {
   color: #333;
+}
+
+.iconpicker {
+  background-color: transparent;
+  border-color: #ccc;
+  color: #333;
+}
+
+.iconpicker:hover {
+  color: #333;
+}
+
+.iconpicker:focus {
+  color: #333;
+}
+
+.iconpicker:active {
+  color: #333;
+}
+
+.btn {
+/*
+  background-color: transparent;
+  border-color: #ccc;
+  color: #222;
+*/
+}
+
+.btn:hover {
+/*  background-color: transparent;*/
+/*
+  border-color: #777;
+  color: #111;
+*/
+}
+
+.configButtons {
+  display: none;
+  background-color: transparent;
+  border-color: transparent;
+  color: white;
+}
+
+.configButtons.btn-sml {
+  line-height: 1;
+}
+
+.configButtons.btn-sml:active {
+  line-height: 1;
+  background-color: gray;
+  border-color: #555;
+}
+
+.configButtons:hover {
+  display: none;
+  background-color: transparent;
+  border-color: white;
+  color: white;
+}
+
+.configButtons:focus {
+  display: none;
+  background-color: transparent;
+  border-color: transparent;
+  color: white;
+}
+
+.configButtons:active {
+  display: none;
+  background-color: black;
+  border-color: blue;
+  color: white;
+}
+
+.configToggleButton {
+  background-color: transparent;
+  border-color: transparent;
+  color: white;
+}
+
+.configToggleButton:hover {
+  background-color: transparent;
+  border-color: white;
+  color: white;
+}
+
+.configToggleButton.active {
+  background-color: black;
+  border-color: black;
+  color: white;
+}
+
+.configToggleButton.focus {
+  border-color: black;
+}
+
+.configToggleButton.active:hover {
+  border-color: white;
 }
