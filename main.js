@@ -77,7 +77,7 @@ $('#selectPanelIcon').iconpicker({
 });
 
 $('#selectPanelIcon').on('change', function(e) { 
-    console.log(e.icon);
+//    console.log(e.icon);
 });
 
 $('#selectPanelIcon').iconpicker('setIcon', 'fa-group');
@@ -95,9 +95,9 @@ function toggleConfigMode() {
 }
 
 function insertPanel(title, icon, column) {
-  title = ((title != null && title !== undefined) ? title : "");
-  icon = ((icon != null && icon !== undefined) ? icon : "fa-group");
-  column = ((column != null && column !== undefined) ? column : 1);
+  title = ((title !== null && title !== undefined) ? title : "");
+  icon = ((icon !== null && icon !== undefined) ? icon : "fa-group");
+  column = ((column !== null && column !== undefined) ? column : 1);
 
   $("#columnContainer" + column).append(
     '<div id="panel' + title + '" class="panel">' +
@@ -132,27 +132,98 @@ function insertPanel(title, icon, column) {
     '</div>'
   );
   
+  $('#panel' + title).hide().fadeIn('slow');
+  
   $('#panelBtnAddWidget' + title).on('click', function() {
   });
     
   $('#panelBtnRemoveWidget' + title).on('click', function() {
   });
     
-  $('#panelBtnDelete' + title).on('click', deletePanel(title));
+  $('#panelBtnDelete' + title).on('click', function() {
+    deletePanel(title);
+  });
     
   $('#panelBtnMoveDown' + title).on('click', function() {
+    movePanelDown(title);
   });
     
   $('#panelBtnMoveUp' + title).on('click', function() {
+    movePanelUp(title);
   });
     
   $('#panelBtnMoveLeft' + title).on('click', function() {
+    movePanelLeft(title);
   });
     
   $('#panelBtnMoveRight' + title).on('click', function() {
+    movePanelRight(title);
   });
 }
 
 function deletePanel(title) {
-  $('#panel' + title).remove();
+  $('#panel' + title)
+    .animate({height: 0, padding: 0, margin: 0}, {easing: "linear", duration: "slow", queue: false})
+    .fadeOut('slow', function() {
+    this.remove();
+  });
 }
+
+function movePanelDown(title) {
+  var panelList = getPanelList(title);
+  
+  if(panelList['panel' + title].position < (Object.keys(panelList).length - 1)) {
+    // move down
+    swapPanel(panelList['panel' + title].id, panelList['panel' + title].nextId);
+  }
+}
+
+function movePanelUp(title) {
+  // $('#panel' + title).remove();
+  var panelList = getPanelList(title);
+  
+  if(panelList['panel' + title].position > 0) {
+    // move up
+    swapPanel(panelList['panel' + title].id, panelList['panel' + title].prevId);
+  }
+}
+
+function movePanelRight(title) {
+  
+}
+
+function movePanelLeft(title) {
+  
+}
+
+function getPanelList(title) {
+  var prevPanel = null;
+  var nextPanel = null;
+  var counter = 0;
+  var panelList = {};
+  
+  $('#panel' + title).parent().children().each(function() { 
+    panelList[$(this).attr('id')] = {id: $(this).attr('id'), position: counter++, value: this, prevId: null, nextId: null};
+    
+    if(prevPanel !== null) {
+      panelList[$(this).attr('id')].prevId = prevPanel.id;
+      prevPanel.nextId = $(this).attr('id');
+    }
+    
+    prevPanel = panelList[$(this).attr('id')];
+  });
+
+  return panelList;
+}
+
+function swapPanel(a, b){ 
+    a = $('#' + a)[0]; 
+    b = $('#' + b)[0]; 
+  
+    var t = a.parentNode.insertBefore(document.createTextNode(''), a); 
+  
+    b.parentNode.insertBefore(a, b); 
+    t.parentNode.insertBefore(b, t); 
+    t.parentNode.removeChild(t); 
+}
+
