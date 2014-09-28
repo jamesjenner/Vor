@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Test Dropdown</title>
+
+<!--
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/fuelux.min.css" rel="stylesheet">
+    <link href="./css/font-awesome.min.css" rel="stylesheet">
+-->
+     <link href="http://exacttarget.github.io/fuelux/assets/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+     <link href="http://exacttarget.github.io/fuelux/assets/vendor/fuelux/dist/css/fuelux.css" rel="stylesheet">
+     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body class="fuelux">
+  <div class="row">
+      <div class="col-md-12">
+          <form class="form-horizontal">
+              <div class="form-group">
+                  <label class="col-md-4 control-label" for="title">Title</label>
+                  <div class="col-md-6">
+                      <input 
+                        id="title" 
+                        name="title" 
+                        type="text" 
+                        placeholder="Enter the title" 
+                        class="form-control input-md"/>
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label class="col-md-4 control-label" for="icon">Icon</label>
+                  <div class="col-md-6 fuelux">
+                      <div 
+                        class="btn-group selectlist" 
+                        data-initialize="selectlist" 
+                        id="iconSelectlist">
+                          <button 
+                            class="btn btn-default dropdown-toggle" 
+                            data-toggle="dropdown" 
+                            type="button">
+                            <span class="selected-label">
+                                <a href="#"><i class="fa fa-users fa-lg"></i></a>
+                            </span>
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                          </button>
+                          <ul class="dropdown-menu" role="menu">
+                              <li data-value="a">
+                                  <a href="#"><i class="fa fa-users fa-lg"></i>Users</a>
+                              </li>
+                              <li data-value="b">
+                                  <a href="#"><i class="fa fa-camera fa-lg"></i>Camera</a>
+                              </li>
+                          </ul>
+                          <input 
+                            class="hidden hidden-field" 
+                            name="mySelectlist" 
+                            readonly="readonly" 
+                            aria-hidden="true" 
+                            type="text"/>
+                      </div>
+                  </div>
+              </div>
+          </form>
+      </div>
+  </div>
+
+<!--
+    <script src="./js/jquery-2.1.1.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/fuelux.min.js"></script>
+-->
+  
+    <script src="./js/jquery-2.1.1.min.js"></script>
+    <script src="http://exacttarget.github.io/fuelux/assets/vendor/bootstrap/dist/js/bootstrap.js"></script>
+<!--    <script src="http://exacttarget.github.io/fuelux/assets/vendor/fuelux/dist/js/fuelux.min.js"></script>-->
+    <script src="//www.fuelcdn.com/fuelux/3.0.2/js/fuelux.min.js"></script>
+<!--    <script src="./js/fuelux.min.js"></script>-->
+  
+</body>
+</html>
