@@ -68,20 +68,63 @@ function addPanel() {
     }
   });
   
-$('#selectPanelIcon').iconpicker({ 
-    iconset: 'fontawesome',
-    icon: 'fa-key', 
-    rows: 10,
-    cols: 10,
-    placement: 'bottom',
-});
+  $('#selectPanelIcon').iconpicker({ 
+      iconset: 'fontawesome',
+      icon: 'fa-key', 
+      rows: 10,
+      cols: 10,
+      placement: 'bottom',
+  });
 
-$('#selectPanelIcon').on('change', function(e) { 
-//    console.log(e.icon);
-});
+  $('#selectPanelIcon').on('change', function(e) { 
+  //    console.log(e.icon);
+  });
 
-$('#selectPanelIcon').iconpicker('setIcon', 'fa-group');
-  
+  $('#selectPanelIcon').iconpicker('setIcon', 'fa-group');
+}
+
+function addWidget(panelIdSelecter) {
+  bootbox.dialog({
+    title: "Add a Widget",
+    message: '<div class="row">  ' +
+             '  <div class="col-md-12"> ' +
+             '    <form class="form-horizontal"> ' +
+             '      <div class="form-group"> ' +
+             '        <label class="col-md-4 control-label" for="title">Title</label> ' +
+             '        <div class="col-md-6"> ' +
+             '          <input id="title" name="title" type="text" placeholder="The title of the new widget" class="form-control input-md"> ' +
+             '        </div> ' +
+             '      </div> ' +
+             '      <div class="form-group"> ' +
+             '        <label class="col-md-4 control-label" for="icon">Widget Type</label> ' +
+             '        <div class="col-md-4">' + 
+//             '          <select class="form-control">' + 
+             '          <select class="selectpicker">' +     
+             '            <option>1</option>' + 
+             '            <option>2</option>' + 
+             '            <option>3</option>' + 
+             '            <option>4</option>' + 
+             '            <option>5</option>' + 
+             '          </select>' + 
+             '        </div>' +
+             '      </div>' +
+             '    </form>' +
+             '  </div>' +
+             '</div>',
+    buttons: {
+      success: {
+        label: "Create",
+        className: "",
+        callback: function() {
+          var title = $('#title').val();
+          // var icon = $('#selectPanelIcon input').val();
+
+          // insertPanel(title, icon);
+        }
+      }
+    }
+  });
+  $('.selectpicker').selectpicker();
 }
 
 function reloadScreen() {
@@ -135,6 +178,7 @@ function insertPanel(title, icon, column) {
   $('#panel' + title).hide().fadeIn('slow');
   
   $('#panelBtnAddWidget' + title).on('click', function() {
+    addWidget('#panel' + title);
   });
     
   $('#panelBtnRemoveWidget' + title).on('click', function() {
