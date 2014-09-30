@@ -333,53 +333,68 @@ ul.dropdown-menu-form {
 }
 
 /* Bootbox dialog styling */
+/*
 .modal-content {
   background-color: rgba(0, 0, 0, .5);
+  border-color: rgba(100, 100, 100, .75); 
   border-color: rgba(0, 0, 0, 0.9);
-  /* border-color: rgba(100, 100, 100, .75); */
   border-width: 2px;
 
   color: #999999;
-  background-color: rgba(0, 0, 0, 0.7);
-
+  background-color: rgba(200, 200, 200, 0.7);
 }
+*/
 
+/*
 .modal-header {
   border-bottom-color: rgba(100, 100, 100, 1);
   border-bottom-width: 2px;
   background-color: rgba(15, 15, 15, .75);
+  background-color: rgba(150, 150, 150, .75);
   border-bottom-color: rgba(5, 5, 5, 0.9);
 }
+*/
 
+/*
 .bootbox-close-button {
   color: white;
 }
+*/
 
+/*
 .modal-title {
   color: white;
 }
+*/
 
+/*
 .modal-body {
   background-color: rgba(25, 25, 25, .75);
 }
+*/
 
+/*
 .bootbox-body {
   color: #aaaaaa;
 }
+*/
 
+/*
 .modal-footer {
   border-top-color: #999999;
   border-top-color: rgba(100, 100, 100, 1);
   border-top-color: rgba(5, 5, 5, 0.9);
   border-top-width: 2px;
 }
+*/
 
 /* for a div that uses class modal-footer */
 .btn.btn-primary {
 }
 
+/*
 .form-control {
-  background-color: red;
+  background-color: white;
 }
 
 .caret {
@@ -404,3 +419,22 @@ ul.dropdown-menu-form {
   color: #333;
 }
 
+*/
+
+.modal-content {
+  background-color: rgba(255, 255, 255, .75);
+  border-color: rgba(255, 255, 255, .90);
+  border-width: 2px;
+}
+
+.modal-footer {
+  border-top-color: rgba(255, 255, 255, 0.90);
+}
+
+.form-control {
+  border-color: rgba(100, 100, 100, .90);
+}
+
+.iconpicker {
+  border-color: rgba(100, 100, 100, .90);
+}
