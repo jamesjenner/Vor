@@ -421,14 +421,24 @@ ul.dropdown-menu-form {
 
 */
 
+.modal-header {
+  background-color: rgba(255, 255, 255, .90);
+  border-bottom-color: rgba(255, 255, 255, 0.90);
+}
+
 .modal-content {
-  background-color: rgba(255, 255, 255, .75);
-  border-color: rgba(255, 255, 255, .90);
+  background-color: transparent;
+  border-color: rgba(255, 255, 255, .95);
   border-width: 2px;
 }
 
 .modal-footer {
+  background-color: rgba(255, 255, 255, .90);
   border-top-color: rgba(255, 255, 255, 0.90);
+}
+
+.modal-body {
+  background-color: rgba(255, 255, 255, .80);
 }
 
 .form-control {
