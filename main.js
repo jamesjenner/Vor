@@ -80,7 +80,7 @@ function addPanel() {
   //    console.log(e.icon);
   });
 
-  $('#selectPanelIcon').iconpicker('setIcon', 'fa-group');
+  // $('#selectPanelIcon').iconpicker('setIcon', 'fa-group');
 }
 
 function addWidget(panelIdSelecter) {
@@ -98,13 +98,11 @@ function addWidget(panelIdSelecter) {
              '      <div class="form-group"> ' +
              '        <label class="col-md-4 control-label" for="icon">Widget Type</label> ' +
              '        <div class="col-md-4">' + 
-//             '          <select class="form-control">' + 
              '          <select class="selectpicker">' +     
-             '            <option>1</option>' + 
-             '            <option>2</option>' + 
-             '            <option>3</option>' + 
-             '            <option>4</option>' + 
-             '            <option>5</option>' + 
+             '            <option>Gauge</option>' + 
+             '            <option>Value</option>' + 
+             '            <option>Donut Chart</option>' + 
+             '            <option>Burndown Chart</option>' + 
              '          </select>' + 
              '        </div>' +
              '      </div>' +
