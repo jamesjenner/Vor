@@ -189,7 +189,9 @@ $(document).ready(function () {
   $('div.setup-panel div a.btn-primary').trigger('click');
   
   
-   $('#launchWizard').on('click', launchWizardDialog);
+  $('#launchWizard').on('click', launchWizardDialog);
+  
+  var currentStep = 1;
   
   function launchWizardDialog() {
     var dialog = bootbox.dialog({
@@ -238,20 +240,14 @@ $(document).ready(function () {
         previous: {
           label: "Previous",
           className: "pull-left btn-default",
-          callback: function () {
-            $('#title').focus();
-            return false;
-          }
+          callback: previousStep
         },
         next: {
           label: "Next",
           className: "btn-primary",
-          callback: function () {
-            $('#title').focus();
-            return false;
-          }
+          callback: nextStep
         },
-        success: {
+        finish: {
           label: "Finish",
           className: "",
           callback: function() {
@@ -266,10 +262,42 @@ $(document).ready(function () {
     
     dialog.on("shown.bs.modal", function(dialog) {
       $('#title').focus();
-      $(".bootbox").find('button[data-bb-handler="previous"]').prop('disabled', true);
-      $(".bootbox").find('button[data-bb-handler="success"]').prop('disabled', true);
+      setPreviousDisabled(true);
+      setFinishDisabled(true);
     });
   }  
+  
+  function nextStep() {
+    currentStep++;
+    $('#title').focus();
+    setPreviousDisabled(false);
+    return false;
+  }
+  
+  function previousStep() {
+    currentStep--;
+    $('#title').focus();
+    if(currentStep === 1) {
+      setPreviousDisabled(true);
+    }
+    return false;
+  }
+  
+  function setPreviousDisabled(disable) {
+    getBootBoxButton('previous').prop('disabled', disable);
+  }
+  
+  function setNextDisabled(disable) {
+    getBootBoxButton('next').prop('disabled', disable);
+  }
+  
+  function setFinishDisabled(disable) {
+    getBootBoxButton('finish').prop('disabled', disable);
+  }
+  
+  function getBootBoxButton(label) {
+    return $(".bootbox").find('button[data-bb-handler="' + label + '"]');
+  }
 
 });
     </script>
