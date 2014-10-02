@@ -57,7 +57,16 @@ body{
   line-height: 0.9555;
   border-radius: 15px;
 }
-    
+
+/* dialog changes */
+.modal-header {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.modal-body {
+  padding-top: 5px;
+}
+      
     </style>
 </head>
 <body>
@@ -132,7 +141,7 @@ body{
   
     <script src="./js/jquery-2.1.1.min.js"></script>
     <script src="./js/bootstrap.min.js"></script>
-    <script src="./js/bootbox.min.js"></script>
+    <script src="./js/bootbox.js"></script>
     <script>
         
 $(document).ready(function () {
@@ -183,7 +192,7 @@ $(document).ready(function () {
    $('#launchWizard').on('click', launchWizardDialog);
   
   function launchWizardDialog() {
-    bootbox.dialog({
+    var dialog = bootbox.dialog({
       title: "Add a Widget",
       message: 
                '<div class="stepwizard">' +
@@ -208,7 +217,7 @@ $(document).ready(function () {
                '      <div class="form-group"> ' +
                '        <label class="col-md-4 control-label" for="title">Title</label> ' +
                '        <div class="col-md-6"> ' +
-               '          <input id="title" name="title" type="text" placeholder="The title of the new widget" class="form-control input-md"> ' +
+               '          <input id="title" name="title" type="text" placeholder="The title of the new widget" class="form-control input-md" autofocus> ' +
                '        </div> ' +
                '      </div> ' +
                '      <div class="form-group"> ' +
@@ -254,9 +263,12 @@ $(document).ready(function () {
         }
       }
     });
-    $('Previous').prop('disabled', true);
     
-    $('#title').focus();
+    dialog.on("shown.bs.modal", function(dialog) {
+      $('#title').focus();
+      $(".bootbox").find('button[data-bb-handler="previous"]').prop('disabled', true);
+      $(".bootbox").find('button[data-bb-handler="success"]').prop('disabled', true);
+    });
   }  
 
 });
