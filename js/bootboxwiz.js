@@ -7,9 +7,11 @@ function BootBoxWiz(options) {
 
   this.onFinish = ((options.onFinish !== null && options.onFinish !== undefined) ? options.onFinish : function() {});
 
-  this.stepBaseId = ((options.stepBaseId !== null && options.stepBaseId !== undefined) ? options.stepBaseId : 'wizardContent');
+  this.title = ((options.title !== null && options.title !== undefined) ? options.title : 'Wizard');
+
+  
+  this.stepBaseId = ((options.stepBaseId !== null && options.stepBaseId !== undefined) ? options.stepBaseId : 'wizard');
   this.stepContent = ((options.stepContent !== null && options.stepContent !== undefined) ? options.stepContent : ['']);
-  this.stepIds = ((options.stepIds !== null && options.stepIds !== undefined) ? options.stepIds : ['']);
   
   this.guideEnabled = ((options.guideEnabled !== null && options.guideEnabled !== undefined) ? options.guideEnabled : true);
   
@@ -26,26 +28,13 @@ BootBoxWiz.prototype.launch = function() {
   if(this.guideEnabled) {
     messageContent += 
       '<div class="stepwizard">' +
-      '  <svg class="stepwizard-row" viewBox="0 0 1000 50" style="width: inherit">' +
+      '  <svg class="stepwizard-row" height="25px" viewBox="0 0 1000 50" style="width: inherit; padding-bottom:15px;">' +
       '    <line x1="0" y1="25" x2="1000" y2="25" style="stroke:darkgray; stroke-width:1" />';
-    
-    //'    <svg class="stepwizard-row" height="25px" viewBox="0 0 800 50" style="width: inherit">' +
-    //'      <text text-anchor="middle" x="200" y="25" style="font-family: Times New Roman; font-size: 24; stroke: #000000; fill: #000000; dominant-baseline: middle; dy=".3em">1</text>' +
-    
-    var 
     
     for(i = 0; i < this.nbrSteps; i++) {
       messageContent += 
-        '    <circle id="wizardStepInd' + this.nbrSteps + '" cx="' + (xFreq + (xFreq * this.nbrSteps)) + '" cy="25" r="20" stroke="darkgray" stroke-width="1" fill="white" />' +
-        '    <text id="wizardStepIndText' + this.nbrSteps + '" text-anchor="middle" x="' + (xFreq + (xFreq * this.nbrSteps)) + '" y="25" style="font-size: 18; dominant-baseline: middle;" fill:"lightgray" >' + (this.nbrSteps + 1) + '</text>';
-
-        
-//        '    <circle id="wizardStepInd1" cx="200" cy="25" r="20" stroke="#428bca" stroke-width="1" fill="#428bca" />' +
-//        '    <text id="wizardStepIndText1" text-anchor="middle" x="200" y="25" style="font-size: 18; dominant-baseline: middle;">1</text>' +
-//        '    <circle id="wizardStepInd2" cx="400" cy="25" r="20" stroke="darkgray" stroke-width="1" fill="white" />' +
-//        '    <text id="wizardStepIndText2" text-anchor="middle" x="400" y="25" style="font-size: 18; dominant-baseline: middle;" fill:"lightgray" >2</text>' +
-//        '    <circle id="wizardStepInd3" cx="600" cy="25" r="20" stroke="darkgray" stroke-width="1" fill="white" />' +
-//        '    <text id="wizardStepIndText3" text-anchor="middle" x="600" y="25" style="font-size: 18; dominant-baseline: middle;">3</text>' +
+        '    <circle id="' + this.stepBaseId + 'StepInd' + i + '" cx="' + ((xFreq / 2) + (xFreq * i)) + '" cy="25" r="20" stroke="darkgray" stroke-width="1" fill="white" />' +
+        '    <text id="' + this.stepBaseId + 'StepIndText' + i + '" text-anchor="middle" x="' + ((xFreq / 2) + (xFreq * i)) + '" y="25" style="font-size: 18; dominant-baseline: middle;" fill:"lightgray" >' + (i + 1) + '</text>';
     }
 
     messageContent += 
@@ -60,7 +49,7 @@ BootBoxWiz.prototype.launch = function() {
   
   for(var i = 0; i < this.nbrSteps; i++) {
     messageContent += 
-      '      <div class="row wizardContent" id="wizardContent' + i + '">' +
+      '      <div class="row ' + this.stepBaseId + 'wizardContent" id="' + this.stepBaseId + 'Content' + i + '">' +
       this.stepContent[i] +
       '      </div>';
   }
@@ -70,21 +59,21 @@ BootBoxWiz.prototype.launch = function() {
     '  </div>' +
     '</div>';
     
-    
   this.dialog = bootbox.dialog({
-    title: "Add a Widget",
+    title: this.title,
     message: messageContent,
     buttons: {
       previous: {
         label: "Previous",
         // className: "pull-left btn-default",
         className: "btn-default",
-        callback: this.previousStep
+        callback: this.previousStep.bind(this)
       },
       next: {
         label: "Next",
         className: "btn-primary",
-        callback: this.nextStep
+        // callback: function () {return this.nextStep()}.bind(this)
+        callback: this.nextStep.bind(this)
       },
       finish: {
         label: "Finish",
@@ -94,10 +83,9 @@ BootBoxWiz.prototype.launch = function() {
     }
   });  
 
-  this.wizNavListItems = $('div.wizardNavPanel div a');
-  this.wizContent = $('.wizardContent');
-  this.currentWizPanel = 1;
-  this.nbrPanels = $('div.wizardNavPanel div a').length;
+  // this.wizNavListItems = $('div.wizardNavPanel div a');
+  // this.wizContent = $('.' + this.stepBaseId + 'wizardContent');
+  this.currentWizPanel = 0;
 
 //    // listen for clicks on wizard nav buttons
 //    wizNavListItems.on('click', function (e) {
@@ -121,7 +109,7 @@ BootBoxWiz.prototype.launch = function() {
     $('#title').focus();
     this._setPreviousDisabled(true);
     this._setFinishDisabled(true);
-  });
+  }.bind(this));
 }
 
 BootBoxWiz.prototype.nextStep = function() {
@@ -132,7 +120,7 @@ BootBoxWiz.prototype.nextStep = function() {
 
   this._setPreviousDisabled(false);
 
-  if(this.currentWizPanel === this.nbrPanels) {
+  if(this.currentWizPanel === (this.nbrSteps - 1)) {
     this._setNextDisabled(true);
     this._setFinishDisabled(false);
   }
@@ -149,7 +137,7 @@ BootBoxWiz.prototype.previousStep = function() {
   this._setNextDisabled(false);
   this._setFinishDisabled(true);
 
-  if(this.currentWizPanel === 1) {
+  if(this.currentWizPanel === 0) {
     this._setPreviousDisabled(true);
   }
 
@@ -157,36 +145,36 @@ BootBoxWiz.prototype.previousStep = function() {
 }
 
 BootBoxWiz.prototype._hideAllSteps = function() {
-  $('.wizardContent').hide();
+  $('.' + this.stepBaseId + 'wizardContent').hide();
 }
 
 BootBoxWiz.prototype._hideWizPanel = function(counter) {
-  $('#wizardContent' + counter).hide();
-  $('#wizardStepInd' + counter).attr("fill", "white");
-  $('#wizardStepInd' + counter).attr("stroke", "darkgray");
-  $('#wizardStepIndText' + counter).attr("fill", "lightgray");
+  $('#' + this.stepBaseId + 'Content' + counter).hide();
+  $('#' + this.stepBaseId + 'StepInd' + counter).attr("fill", "white");
+  $('#' + this.stepBaseId + 'StepInd' + counter).attr("stroke", "darkgray");
+  $('#' + this.stepBaseId + 'StepIndText' + counter).attr("fill", "lightgray");
 }
 
 BootBoxWiz.prototype._showWizPanel = function(counter) {
-  $('#wizardContent' + counter).show();
-  $('#wizardStepInd' + counter).attr("fill", "#428bca");
-  $('#wizardStepInd' + counter).attr("stroke", "#428bca");
-  $('#wizardStepIndText' + counter).attr("fill", "white");
+  $('#' + this.stepBaseId + 'Content' + counter).show();
+  $('#' + this.stepBaseId + 'StepInd' + counter).attr("fill", "#428bca");
+  $('#' + this.stepBaseId + 'StepInd' + counter).attr("stroke", "#428bca");
+  $('#' + this.stepBaseId + 'StepIndText' + counter).attr("fill", "white");
   $('#title').focus();
 }
 
 BootBoxWiz.prototype._setPreviousDisabled = function(disable) {
-  getBootBoxButton('previous').prop('disabled', disable);
+  this._getBootBoxButton('previous').prop('disabled', disable);
 }
 
 BootBoxWiz.prototype._setNextDisabled = function(disable) {
-  getBootBoxButton('next').prop('disabled', disable);
+  this._getBootBoxButton('next').prop('disabled', disable);
 }
 
 BootBoxWiz.prototype._setFinishDisabled = function(disable) {
-  getBootBoxButton('finish').prop('disabled', disable);
+  this._getBootBoxButton('finish').prop('disabled', disable);
 }
 
-BootBoxWiz.prototype.getBootBoxButton = function(label) {
+BootBoxWiz.prototype._getBootBoxButton = function(label) {
   return $(".bootbox").find('button[data-bb-handler="' + label + '"]');
 }
