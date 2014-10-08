@@ -15,50 +15,50 @@ ArcGauge.VALUES_ACTUAL = "valuesActual";
 function ArcGauge(options) {
   options = options || {};
 
-  this.startAngle = ((options.startAngle != null && options.startAngle !== undefined) ? options.startAngle : ArcGauge.TAU * .6);
-  this.arcAngle = ((options.arcAngle != null && options.arcAngle !== undefined) ? options.arcAngle : ArcGauge.TAU * .8);
+  this.startAngle = ((options.startAngle !== null && options.startAngle !== undefined) ? options.startAngle : ArcGauge.TAU * 0.6);
+  this.arcAngle = ((options.arcAngle !== null && options.arcAngle !== undefined) ? options.arcAngle : ArcGauge.TAU * 0.8);
   this.endAngle = this.startAngle + this.arcAngle;
   
-  this.goodMargin = ((options.goodMargin != null && options.goodMargin !== undefined) ? options.goodMargin : 2);
-  this.dangerMargin = ((options.dangerMargin != null && options.dangerMargin !== undefined) ? options.dangerMargin : 10);
-  this.colorMode = ((options.colorMode != null && options.colorMode !== undefined) ? options.colorMode : ArcGauge.COLOR_MODE_VALUE);
+  this.goodMargin = ((options.goodMargin !== null && options.goodMargin !== undefined) ? options.goodMargin : 2);
+  this.dangerMargin = ((options.dangerMargin !== null && options.dangerMargin !== undefined) ? options.dangerMargin : 10);
+  this.colorMode = ((options.colorMode !== null && options.colorMode !== undefined) ? options.colorMode : ArcGauge.COLOR_MODE_VALUE);
 
-  this.valueType = ((options.valueType != null && options.valueType !== undefined) ? options.valueType : ArcGauge.VALUES_ACTUAL);
+  this.valueType = ((options.valueType !== null && options.valueType !== undefined) ? options.valueType : ArcGauge.VALUES_ACTUAL);
   
-  this.minValue = ((options.minValue != null && options.minValue !== undefined) ? options.minValue : 0);
-  this.maxValue = ((options.maxValue != null && options.maxValue !== undefined) ? options.maxValue : 100);
+  this.minValue = ((options.minValue !== null && options.minValue !== undefined) ? options.minValue : 0);
+  this.maxValue = ((options.maxValue !== null && options.maxValue !== undefined) ? options.maxValue : 100);
 
-  this.goodColor = ((options.goodColor != null && options.goodColor !== undefined) ? options.goodColor : "green");
-  this.warningColor = ((options.warningColor != null && options.warningColor !== undefined) ? options.warningColor : "orange");
-  this.dangerColor = ((options.dangerColor != null && options.dangerColor !== undefined) ? options.dangerColor : "red");
-  this.markColor = ((options.markColor != null && options.markColor !== undefined) ? options.markColor : "gray");
-  this.textColor = ((options.textColor != null && options.textColor !== undefined) ? options.textColor : "black");
-  this.backgroundColor = ((options.backgroundColor != null && options.backgroundColor !== undefined) ? options.backgroundColor : "lightgray");
+  this.goodColor = ((options.goodColor !== null && options.goodColor !== undefined) ? options.goodColor : "green");
+  this.warningColor = ((options.warningColor !== null && options.warningColor !== undefined) ? options.warningColor : "orange");
+  this.dangerColor = ((options.dangerColor !== null && options.dangerColor !== undefined) ? options.dangerColor : "red");
+  this.markColor = ((options.markColor !== null && options.markColor !== undefined) ? options.markColor : "gray");
+  this.textColor = ((options.textColor !== null && options.textColor !== undefined) ? options.textColor : "black");
+  this.backgroundColor = ((options.backgroundColor !== null && options.backgroundColor !== undefined) ? options.backgroundColor : "lightgray");
   
-  this.value = ((options.value != null && options.value !== undefined) ? options.value : 0);
+  this.value = ((options.value !== null && options.value !== undefined) ? options.value : 0);
   this.setValue(this.value, false);
   
-  this.target = ((options.target != null && options.target !== undefined) ? options.target : .5);
+  this.target = ((options.target !== null && options.target !== undefined) ? options.target : 0.5);
   this.setTarget(this.target, false);
 
-  this.textDisplayMode = ((options.textDisplayMode != null && options.textDisplayMode !== undefined) ? options.textDisplayMode : ArcGauge.DISPLAY_PERCENTAGE);
-  this.textSize = ((options.textSize != null && options.textSize !== undefined) ? options.textSize : 40);
-  this.textFontName = ((options.textFontName != null && options.textFontName !== undefined) ? options.textFontName : "sans-serif");
-  this.textFontWeight = ((options.textFontWeight != null && options.textFontWeight !== undefined) ? options.textFontWeight : "bold");
+  this.textDisplayMode = ((options.textDisplayMode !== null && options.textDisplayMode !== undefined) ? options.textDisplayMode : ArcGauge.DISPLAY_PERCENTAGE);
+  this.textSize = ((options.textSize !== null && options.textSize !== undefined) ? options.textSize : 40);
+  this.textFontName = ((options.textFontName !== null && options.textFontName !== undefined) ? options.textFontName : "sans-serif");
+  this.textFontWeight = ((options.textFontWeight !== null && options.textFontWeight !== undefined) ? options.textFontWeight : "bold");
   
-  this.appendTo = ((options.appendTo != null && options.appendTo !== undefined) ? options.appendTo : "body")
+  this.appendTo = ((options.appendTo !== null && options.appendTo !== undefined) ? options.appendTo : "body");
     
-  this.width = ((options.width != null && options.width !== undefined) ? options.width : 300);
-  this.height = ((options.height != null && options.height !== undefined) ? options.height : 300);
+  this.width = ((options.width !== null && options.width !== undefined) ? options.width : 300);
+  this.height = ((options.height !== null && options.height !== undefined) ? options.height : 300);
 
   // An arc function with all values bound except the endAngle. So, to compute an
   // SVG path string for a given angle, we pass an object with an endAngle
   // property to the `arc` function, and it will return the corresponding string.
 
-  this.innerRadius = ((options.innerRadius != null && options.innerRadius !== undefined) ? options.innerRadius : 80);
-  this.outerRadius = ((options.outerRadius != null && options.outerRadius !== undefined) ? options.outerRadius : 120);
-  this.markerInnerRadius = ((options.markerInnerRadius != null && options.markerInnerRadius !== undefined) ? options.markerInnerRadius : options.outerRadius + 2);
-  this.markerOuterRadius = ((options.markerOuterRadius != null && options.markerOuterRadius !== undefined) ? options.markerOuterRadius : this.markerInnerRadius + 4);
+  this.innerRadius = ((options.innerRadius !== null && options.innerRadius !== undefined) ? options.innerRadius : 80);
+  this.outerRadius = ((options.outerRadius !== null && options.outerRadius !== undefined) ? options.outerRadius : 120);
+  this.markerInnerRadius = ((options.markerInnerRadius !== null && options.markerInnerRadius !== undefined) ? options.markerInnerRadius : options.outerRadius + 2);
+  this.markerOuterRadius = ((options.markerOuterRadius !== null && options.markerOuterRadius !== undefined) ? options.markerOuterRadius : this.markerInnerRadius + 4);
   
   var arc = d3.svg.arc()
       .innerRadius(this.innerRadius)
@@ -144,7 +144,7 @@ ArcGauge.prototype._getTextValue = function() {
   }
   
   return displayText;
-}
+};
 
 ArcGauge.prototype._determineForegroundColor = function() {
   var foregroundColor = this.goodColor;
@@ -161,9 +161,9 @@ ArcGauge.prototype._determineForegroundColor = function() {
 
   // TODO: sort out range mode for color
   if(this.colorMode === ArcGauge.COLOR_MODE_RANGE) {
-    if(this.value < .3) {
+    if(this.value < 0.3) {
       foregroundColor = this.dangerColor;
-    } else if(this.value < .7) {
+    } else if(this.value < 0.7) {
       foregroundColor = this.warningColor;
     } else {
       foregroundColor = this.goodColor;
@@ -171,10 +171,10 @@ ArcGauge.prototype._determineForegroundColor = function() {
   }
   
   return foregroundColor;
-}
+};
 
 ArcGauge.prototype.setTarget = function(newValue, redrawGauge) {
-  redrawGauge = ((redrawGauge != null && redrawGauge !== undefined) ? redrawGauge : true);
+  redrawGauge = ((redrawGauge !== null && redrawGauge !== undefined) ? redrawGauge : true);
   
   this.target = newValue;
   
@@ -208,10 +208,10 @@ ArcGauge.prototype.setTarget = function(newValue, redrawGauge) {
         .style("fill", arcGaugeInst._determineForegroundColor());
     })(this.valuePercentage, this);
   }
-}
+};
 
 ArcGauge.prototype.setValue = function(newValue, redrawGauge) {
-  redrawGauge = ((redrawGauge != null && redrawGauge !== undefined) ? redrawGauge : true);
+  redrawGauge = ((redrawGauge !== null && redrawGauge !== undefined) ? redrawGauge : true);
   var formatPercent = d3.format(".0%");
   this.value = newValue;
   var oldValue = 0;
@@ -249,7 +249,7 @@ ArcGauge.prototype.setValue = function(newValue, redrawGauge) {
   }
   
   // note: cannot bind this to the tween function, as this points to the selection of the tween
-}
+};
 
 ArcGauge.prototype.demo = function() {
   // Every so often, start a transition to a new random angle. Use transition.call
@@ -265,7 +265,7 @@ ArcGauge.prototype.demo = function() {
       this.setValue(Math.random());
     }
   }.bind(this), 1500);
-}
+};
 
 // Creates a tween on the specified transition's "d" attribute, transitioning
 // any selected arcs from their current angle to the specified new angle.
