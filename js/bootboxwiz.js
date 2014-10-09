@@ -1,6 +1,7 @@
 this['bootBoxWiz'] = {};
     
-BootBoxWiz.COLOR_MODE_RANGE = "colorModeRange";
+BootBoxWiz.TYPE_DYNAMIC = "dynamic";
+BootBoxWiz.TYPE_FIXED = "fixed";
 
 function BootBoxWiz(options) {
   options = options || {};
@@ -16,6 +17,7 @@ function BootBoxWiz(options) {
   this.guideEnabled = ((options.guideEnabled !== null && options.guideEnabled !== undefined) ? options.guideEnabled : true);
   
   this.nbrSteps = this.stepContent.length;
+  this.stepLogic = [];
   
   this.currentStep = 1;
 }
@@ -47,11 +49,33 @@ BootBoxWiz.prototype.launch = function() {
     '  <div class="col-md-12"> ' +
     '    <form class="form-horizontal"> ';
   
-  for(var i = 0; i < this.nbrSteps; i++) {
-    messageContent += 
-      '      <div class="row ' + this.stepBaseId + 'wizardContent" id="' + this.stepBaseId + 'Content' + i + '">' +
-      this.stepContent[i] +
-      '      </div>';
+  for(i = 0; i < this.stepContent.length; i++) {
+    if(this.stepContent[i] instanceof Object) {
+      if(this.stepContent[i].content !== null && this.stepContent[i].content !== undefined) {
+        if(this.stepContent[i].content instanceof Array) {
+          this.nbrSteps += this.stepContent[i].content.length - 1;
+          
+          this.stepLogic[i + j] = ((this.stepContent[i].content.logic !== null && this.stepContent[i].content.logic) ? this.stepContent[i].content.logic : function () {});
+          
+          for(var j = 0; j < this.stepContent[i].content.length; j++) {
+            messageContent += 
+              '      <div class="row ' + this.stepBaseId + 'wizardContent" id="' + this.stepBaseId + 'Content' + (i + j) + '">' +
+              this.stepContent[i].content[j] +
+              '      </div>';
+          }
+        } else {
+          messageContent += 
+            '      <div class="row ' + this.stepBaseId + 'wizardContent" id="' + this.stepBaseId + 'Content' + i + '">' +
+            this.stepContent[i].content +
+            '      </div>';
+        }
+      }
+    } else {
+      messageContent += 
+        '      <div class="row ' + this.stepBaseId + 'wizardContent" id="' + this.stepBaseId + 'Content' + i + '">' +
+        this.stepContent[i] +
+        '      </div>';
+    }
   }
   
   messageContent += 
