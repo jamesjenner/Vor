@@ -1,0 +1,15 @@
+fixed
+dynamic
+
+Add widget:
+  Title (fixed)
+  Widget Type (fixed)
+  Widget Params (dynamic)
+  Data Source (fixed)
+  Data to Widget map (dynamic)
+
+Add data source
+  Name (fixed)
+  Type (VersionOne, Jenkins, SFDC, etc) (fixed)
+  Data specific info e.g.
+    Credentials (dynamic)
