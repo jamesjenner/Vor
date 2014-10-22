@@ -18,6 +18,7 @@ function BootBoxWiz(options) {
   
   this.nbrSteps = this.stepContent.length;
   this.stepLogic = [];
+  this.stepContentSize = [];
   
   this.currentStep = 1;
 }
@@ -30,10 +31,12 @@ BootBoxWiz.prototype.launch = function() {
   if(this.guideEnabled) {
     messageContent += 
       '<div class="stepwizard">' +
-      '  <svg class="stepwizard-row" height="25px" viewBox="0 0 1000 50" style="width: inherit; padding-bottom:15px;">' +
+      '  <svg class="stepwizard-row" height="25px" viewBox="0 0 1000 50" style="width: inherit; height: inherit; padding-bottom:15px;">' +
       '    <line x1="0" y1="25" x2="1000" y2="25" style="stroke:darkgray; stroke-width:1" />';
     
     for(i = 0; i < this.nbrSteps; i++) {
+      this.stepLogic[i] = function () { return 0};
+      this.stepContentSize[i] = 1;
       messageContent += 
         '    <circle id="' + this.stepBaseId + 'StepInd' + i + '" cx="' + ((xFreq / 2) + (xFreq * i)) + '" cy="25" r="20" stroke="darkgray" stroke-width="1" fill="white" />' +
         '    <text id="' + this.stepBaseId + 'StepIndText' + i + '" text-anchor="middle" x="' + ((xFreq / 2) + (xFreq * i)) + '" y="25" style="font-size: 18; dominant-baseline: middle;" fill:"lightgray" >' + (i + 1) + '</text>';
@@ -45,7 +48,7 @@ BootBoxWiz.prototype.launch = function() {
   }
 
   messageContent += 
-    '<div class="row">  ' +
+    '<div class="stepwizard row">  ' +
     '  <div class="col-md-12"> ' +
     '    <form class="form-horizontal"> ';
   
@@ -53,9 +56,9 @@ BootBoxWiz.prototype.launch = function() {
     if(this.stepContent[i] instanceof Object) {
       if(this.stepContent[i].content !== null && this.stepContent[i].content !== undefined) {
         if(this.stepContent[i].content instanceof Array) {
-          this.nbrSteps += this.stepContent[i].content.length - 1;
-          
-          this.stepLogic[i + j] = ((this.stepContent[i].content.logic !== null && this.stepContent[i].content.logic) ? this.stepContent[i].content.logic : function () {});
+          // this.nbrSteps += this.stepContent[i].content.length - 1;
+          this.stepLogic[i] = ((this.stepContent[i].logic !== null && this.stepContent[i].logic) ? this.stepContent[i].logic : function () { return 0});
+          this.stepContentSize[i] = this.stepContent[i].content.length;
           
           for(var j = 0; j < this.stepContent[i].content.length; j++) {
             messageContent += 
@@ -64,6 +67,8 @@ BootBoxWiz.prototype.launch = function() {
               '      </div>';
           }
         } else {
+          this.stepLogic[i] = function () { return 0};
+          this.stepContentSize[i] = 1;
           messageContent += 
             '      <div class="row ' + this.stepBaseId + 'wizardContent" id="' + this.stepBaseId + 'Content' + i + '">' +
             this.stepContent[i].content +
@@ -110,6 +115,7 @@ BootBoxWiz.prototype.launch = function() {
   // this.wizNavListItems = $('div.wizardNavPanel div a');
   // this.wizContent = $('.' + this.stepBaseId + 'wizardContent');
   this.currentWizPanel = 0;
+  this.currentWizPanelStep = 0;
 
 //    // listen for clicks on wizard nav buttons
 //    wizNavListItems.on('click', function (e) {
@@ -137,14 +143,16 @@ BootBoxWiz.prototype.launch = function() {
 }
 
 BootBoxWiz.prototype.nextStep = function() {
-  this._hideWizPanel(this.currentWizPanel++);
+  this.currentWizPanelStep++;
+  this._hideWizPanel(this.currentWizPanel);
+  this._determineContentOffset();
   this._showWizPanel(this.currentWizPanel);
 
   $('#title').focus();
 
   this._setPreviousDisabled(false);
 
-  if(this.currentWizPanel === (this.nbrSteps - 1)) {
+  if(this.currentWizPanelStep === (this.nbrSteps - 1)) {
     this._setNextDisabled(true);
     this._setFinishDisabled(false);
   }
@@ -153,7 +161,9 @@ BootBoxWiz.prototype.nextStep = function() {
 }
 
 BootBoxWiz.prototype.previousStep = function() {
-  this._hideWizPanel(this.currentWizPanel--);
+  this.currentWizPanelStep--;
+  this._hideWizPanel(this.currentWizPanel);
+  this._determineContentOffset();
   this._showWizPanel(this.currentWizPanel);
 
   $('#title').focus();
@@ -161,7 +171,7 @@ BootBoxWiz.prototype.previousStep = function() {
   this._setNextDisabled(false);
   this._setFinishDisabled(true);
 
-  if(this.currentWizPanel === 0) {
+  if(this.currentWizPanelStep === 0) {
     this._setPreviousDisabled(true);
   }
 
@@ -186,6 +196,19 @@ BootBoxWiz.prototype._showWizPanel = function(counter) {
   $('#' + this.stepBaseId + 'StepIndText' + counter).attr("fill", "white");
   $('#title').focus();
 }
+
+BootBoxWiz.prototype._determineContentOffset = function(step) {
+  var stepOffset = this.stepLogic[this.currentWizPanelStep]($('.stepwizard .form-horizontal').serialize());
+  
+  this.currentWizPanel = this.currentWizPanelStep + stepOffset; 
+  
+  for(var i = 0; i < this.currentWizPanel; i++) {
+    this.currentWizPanel += this.stepContentSize[i] - 1;
+  }
+  
+  return stepOffset;
+}
+
 
 BootBoxWiz.prototype._setPreviousDisabled = function(disable) {
   this._getBootBoxButton('previous').prop('disabled', disable);

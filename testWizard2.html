@@ -160,7 +160,7 @@ $(document).ready(function () {
         '<div class="form-group"> ' +
         '  <label class="col-md-4 control-label" for="icon">Fastener</label> ' +
         '  <div class="col-md-4">' + 
-        '    <select class="selectpicker">' +     
+        '    <select name="type" class="selectpicker">' +     
         '      <option>Nut and Bolt</option>' + 
         '      <option>Paper Clip</option>' + 
         '      <option>Staple</option>' + 
@@ -176,11 +176,11 @@ $(document).ready(function () {
         '  <div class="col-md-12">' +
         '    <div class="form-group">' +
         '      <label class="control-label">Diameter</label>' +
-        '      <input maxlength="200" type="text" required="required" class="form-control" placeholder="Enter bolt diameter(mm)" />' +
+        '      <input name="diameter" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter bolt diameter(mm)" />' +
         '    </div>' +
         '    <div class="form-group">' +
         '      <label class="control-label">Length</label>' +
-        '      <input maxlength="200" type="text" required="required" class="form-control" placeholder="Enter bolt length (mm)"  />' +
+        '      <input name="length" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter bolt length (mm)"  />' +
         '    </div>' +
         '  </div>' +
         '</div>',
@@ -188,7 +188,7 @@ $(document).ready(function () {
         '<div class="col-xs-12">' +
         '  <label class="col-md-4 control-label" for="icon">Paper Clip Size</label> ' +
         '  <div class="col-md-4">' + 
-        '    <select class="selectpicker">' +     
+        '    <select name="sizeOption" class="selectpicker">' +     
         '      <option>25mm</option>' + 
         '      <option>28mm</option>' + 
         '      <option>33mm</option>' + 
@@ -200,7 +200,7 @@ $(document).ready(function () {
         '<div class="col-xs-12">' +
         '  <label class="col-md-4 control-label" for="icon">Staple Size</label> ' +
         '  <div class="col-md-4">' + 
-        '    <select class="selectpicker">' +     
+        '    <select name="stapleSize" class="selectpicker">' +     
         '      <option>Standard</option>' + 
         '      <option>Mini</option>' + 
         '      <option>Tiny</option>' + 
@@ -224,6 +224,9 @@ $(document).ready(function () {
   }
   
   function step2Logic(fields) {
+    console.log("step2Logic(): ");
+    console.log(fields);
+    return 0;
   }
   
 });
