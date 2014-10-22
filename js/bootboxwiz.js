@@ -200,6 +200,10 @@ BootBoxWiz.prototype._showWizPanel = function(counter) {
 BootBoxWiz.prototype._determineContentOffset = function(step) {
   var stepOffset = this.stepLogic[this.currentWizPanelStep]($('.stepwizard .form-horizontal').serialize());
   
+  // look at using a jquery extension to do this properly see:
+  // http://stackoverflow.com/a/8407771/1125784
+  // https://github.com/macek/jquery-serialize-object
+  
   this.currentWizPanel = this.currentWizPanelStep + stepOffset; 
   
   for(var i = 0; i < this.currentWizPanel; i++) {
