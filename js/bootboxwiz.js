@@ -52,6 +52,7 @@ BootBoxWiz.prototype.launch = function() {
     '  <div class="col-md-12"> ' +
     '    <form class="form-horizontal"> ';
   
+  var currentId = 0;
   for(i = 0; i < this.stepContent.length; i++) {
     if(this.stepContent[i] instanceof Object) {
       if(this.stepContent[i].content !== null && this.stepContent[i].content !== undefined) {
@@ -62,7 +63,7 @@ BootBoxWiz.prototype.launch = function() {
           
           for(var j = 0; j < this.stepContent[i].content.length; j++) {
             messageContent += 
-              '      <div class="row ' + this.stepBaseId + 'wizardContent" id="' + this.stepBaseId + 'Content' + (i + j) + '">' +
+              '      <div class="row ' + this.stepBaseId + 'wizardContent" id="' + this.stepBaseId + 'Content' + (currentId++) + '">' +
               this.stepContent[i].content[j] +
               '      </div>';
           }
@@ -70,14 +71,14 @@ BootBoxWiz.prototype.launch = function() {
           this.stepLogic[i] = function () { return 0};
           this.stepContentSize[i] = 1;
           messageContent += 
-            '      <div class="row ' + this.stepBaseId + 'wizardContent" id="' + this.stepBaseId + 'Content' + i + '">' +
+            '      <div class="row ' + this.stepBaseId + 'wizardContent" id="' + this.stepBaseId + 'Content' + (currentId++) + '">' +
             this.stepContent[i].content +
             '      </div>';
         }
       }
     } else {
       messageContent += 
-        '      <div class="row ' + this.stepBaseId + 'wizardContent" id="' + this.stepBaseId + 'Content' + i + '">' +
+        '      <div class="row ' + this.stepBaseId + 'wizardContent" id="' + this.stepBaseId + 'Content' + (currentId++) + '">' +
         this.stepContent[i] +
         '      </div>';
     }
@@ -145,7 +146,7 @@ BootBoxWiz.prototype.launch = function() {
 BootBoxWiz.prototype.nextStep = function() {
   this.currentWizPanelStep++;
   this._hideWizPanel(this.currentWizPanel);
-  this._determineContentOffset();
+  this._applyContentOffsets();
   this._showWizPanel(this.currentWizPanel);
 
   $('#title').focus();
@@ -163,7 +164,7 @@ BootBoxWiz.prototype.nextStep = function() {
 BootBoxWiz.prototype.previousStep = function() {
   this.currentWizPanelStep--;
   this._hideWizPanel(this.currentWizPanel);
-  this._determineContentOffset();
+  this._applyContentOffsets();
   this._showWizPanel(this.currentWizPanel);
 
   $('#title').focus();
@@ -197,20 +198,24 @@ BootBoxWiz.prototype._showWizPanel = function(counter) {
   $('#title').focus();
 }
 
-BootBoxWiz.prototype._determineContentOffset = function(step) {
-  var stepOffset = this.stepLogic[this.currentWizPanelStep]($('.stepwizard .form-horizontal').serialize());
+BootBoxWiz.prototype._applyContentOffsets = function(step) {
+  // Using https://github.com/macek/jquery-serialize-object to serialize to an object
+  var stepOffset = this.stepLogic[this.currentWizPanelStep]($('.stepwizard .form-horizontal').serializeObject());
   
-  // look at using a jquery extension to do this properly see:
-  // http://stackoverflow.com/a/8407771/1125784
-  // https://github.com/macek/jquery-serialize-object
+  // iterate through previous steps and apply size
+  var previousStepsOffset = 0;
   
-  this.currentWizPanel = this.currentWizPanelStep + stepOffset; 
-  
-  for(var i = 0; i < this.currentWizPanel; i++) {
-    this.currentWizPanel += this.stepContentSize[i] - 1;
+  // this.stepContentSize[i]
+  for(var i = 0; i < this.currentWizPanelStep; i++) {
+    previousStepsOffset += this.stepContentSize[i] - 1;
   }
   
-  return stepOffset;
+  this.currentWizPanel = previousStepsOffset + this.currentWizPanelStep + stepOffset
+  
+  console.log("stepOffset: " + stepOffset);
+  console.log("this.currentWizPanel: " + this.currentWizPanel);
+  
+  // return stepOffset;
 }
 
 

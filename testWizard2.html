@@ -88,6 +88,7 @@ body{
     <script src="./bower_components/jquery/dist/jquery.min.js"></script>
     <script src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./bower_components/bootbox/bootbox.js"></script>
+    <script src="./bower_components/jquery-serialize-object/dist/jquery.serialize-object.min.js"></script>
     <script src="./js/bootboxwiz.js"></script>
     <script>
         
@@ -100,7 +101,7 @@ $(document).ready(function () {
   function launchWizardDialog() {
   
     var wizardDialog = new BootBoxWiz({
-      title: 'Adding a Widget',
+      title: 'Wizard Dialog Static',
       stepContent: [
         '<div class="form-group"> ' +
         '  <label class="col-md-4 control-label" for="title">Title</label> ' +
@@ -146,10 +147,11 @@ $(document).ready(function () {
   function launchWizardDialog2() {
   
     var wizardDialog2 = new BootBoxWiz({
-      title: 'Adding a Widget (2)',
+      title: 'Wizard Dialog Dynamic',
       guideEnabled: false,
       stepContent: [ {
         type: BootBoxWiz.TYPE_FIXED,
+        title: "Step 1",
         content:
         '<div class="form-group"> ' +
         '  <label class="col-md-4 control-label" for="title">Title</label> ' +
@@ -170,7 +172,13 @@ $(document).ready(function () {
       },
       {
         type: BootBoxWiz.TYPE_DYNAMIC,
+        title: "Step 2",
         logic: step2Logic,
+        titles: [
+          'Bolt Details',
+          'Paper Clip Details',
+          'Staple Details',
+        ],
         content: [
         '<div class="col-xs-12">' +
         '  <div class="col-md-12">' +
@@ -211,10 +219,13 @@ $(document).ready(function () {
       },
       {
         type: BootBoxWiz.TYPE_FIXED,
+        title: "Step 3",
         content: 
         '<div class="col-xs-12">' +
-        '  <div class="col-md-12">' +
-        '  </div>' +
+        '  <label class="col-md-4 control-label" for="title">Thoughts?</label> ' +
+        '  <div class="col-md-6"> ' +
+        '    <input id="title" name="thoughts" type="text" placeholder="Enter any thoughts that you have" class="form-control input-md" autofocus> ' +
+        '  </div> ' +
         '</div>'
       }
       ]
@@ -226,6 +237,23 @@ $(document).ready(function () {
   function step2Logic(fields) {
     console.log("step2Logic(): ");
     console.log(fields);
+                    
+    var fastener = ((fields.type !== null && fields.type !== undefined) ? fields.type : 'Nut and Bolt');
+    
+    switch(fastener) {
+      case "Nut and Bolt":
+        return 0;
+        break;
+      
+      case "Paper Clip":
+        return 1;
+        break;
+
+      case "Staple":
+        return 2;
+        break;
+    }
+                    
     return 0;
   }
   
