@@ -21,6 +21,9 @@
     "bootbox": "~4.3.0",
     "bootstrap": "~3.2.0",
     "d3": "~3.4.13",
-    "fontawesome": "~4.2.0"
+    "fontawesome": "~4.2.0",
+    "bootstrap-iconpicker": "~1.6.0",
+    "bootstrap-select": "~1.6.3",
+    "c3js-chart": "~0.3.0"
   }
 }
