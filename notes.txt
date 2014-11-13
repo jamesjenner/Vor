@@ -13,3 +13,43 @@ Add data source
   Type (VersionOne, Jenkins, SFDC, etc) (fixed)
   Data specific info e.g.
     Credentials (dynamic)
+
+Data sources:
+
+
+Add
+List 
+  -> Modify
+  -> Delete
+
+
+
+Admin
+- view devices
+- add device
+- remove device
+- manage device
+
+
+per device
+
+- general
+  - columns
+  - header enabled/disabled
+  - banner enabled/disabled
+- header
+  - logo
+  - title
+  - sub-title
+- theme
+  - scheme
+  - override
+- data sources -> list -> add/modify/delete
+- banner
+  - position (top/bottom)
+  - rotation time
+  - content list -> add/modify/delete
+    - name
+    - value (source/physical text/html)
+    - frequency
+    - expiry date
