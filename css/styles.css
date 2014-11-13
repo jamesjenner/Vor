@@ -268,15 +268,48 @@ ul.dropdown-menu-form {
 */
 }
 
-.configButtons {
-  display: none;
+.configButtonActive {
+  background-color: black;
+}
+
+.configButtonActive:hover {
+  background-color: transparent;
+  border-color: white;
+  color: white;
+}
+
+.configButtonActive:focus {
+  background-color: black;
+  border-color: white;
+  color: white;
+  
+}
+
+.configButtonInactive {
+  background-color: transparent;
+}
+
+.configButtonInactive:focus {
   background-color: transparent;
   border-color: transparent;
   color: white;
 }
 
+.configButtons {
+  display: none;
+  border-color: transparent;
+  color: white;
+}
+
+.configButtons.btn-sml:hover {
+  background-color: transparent;
+  border-color: white;
+  color: white;
+}
+
 .configButtons.btn-sml {
   line-height: 1;
+  background-color: transparent;
 }
 
 .configButtons.btn-sml:active {
@@ -285,22 +318,13 @@ ul.dropdown-menu-form {
   border-color: #555;
 }
 
-.configButtons:hover {
-  display: none;
+.configButtonInactive:hover {
   background-color: transparent;
   border-color: white;
   color: white;
 }
 
-.configButtons:focus {
-  display: none;
-  background-color: transparent;
-  border-color: transparent;
-  color: white;
-}
-
 .configButtons:active {
-  display: none;
   background-color: black;
   border-color: blue;
   color: white;
@@ -331,6 +355,17 @@ ul.dropdown-menu-form {
 .configToggleButton.active:hover {
   border-color: white;
 }
+
+
+.displayButton {
+  display: inline-block;
+}
+
+.hiddenButton {
+  display: none;
+}
+
+
 
 /* Bootbox dialog styling */
 /*
@@ -447,4 +482,16 @@ ul.dropdown-menu-form {
 
 .iconpicker {
   border-color: rgba(100, 100, 100, .90);
+}
+
+.btn-text {
+  font-size: 8px;
+}
+
+.activePane {
+/*  display: inherit;*/
+}
+
+.hidePane {
+/*  display: none;*/
 }

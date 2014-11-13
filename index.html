@@ -85,28 +85,51 @@
       <div class="container">
         <div class="navbar-collapse collapse navbar-responsive-collapse">
           <div class="navbar-brand navbar-left ventyxVerticalLine">
-            <span>Ellipse 8</span>
+            <span>Ellipse 8</span><br/>
             <span>Enterprise Asset Management</span>
           </div>
           <div class="navbar-brand navbar-right">
             <div>
-              <button id="" type="button" class="btn btn-default configButtons">
-                <i class="fa fa-square-o fa-lg"></i>
-              </button>
-              <button id="addPanel" type="button" class="btn btn-default configButtons">
+              <button id="addPanel" type="button" class="btn btn-default configButtons configButtonInactive">
                 <i class="fa fa-plus fa-lg"></i>
+<!--
+                <br/>
+                <span class="btn-text">Add Panel</span>
+-->
               </button>
-              <button id="reloadScreen" type="button" class="btn btn-default configButtons">
-                <i class="fa fa-undo fa-lg"></i>
+              <button id="viewDataSources" type="button" class="btn btn-default configButtons configButtonInactive">
+                <i class="fa fa-database fa-lg"></i>
+<!--
+                <br/>
+                <span class="btn-text">Data Source</span>
+-->
               </button>
-              <button id="editSettings" type="button" class="btn btn-default configButtons">
-                <i class="fa fa-sliders fa-lg"></i>
+              <button id="viewContent" type="button" class="btn btn-default configButtons configButtonInactive">
+                <i class="fa fa-newspaper-o fa-lg"></i>
+<!--
+                <br/>
+                <span class="btn-text">Content</span>
+-->
+              </button>
+              <button id="viewThemes" type="button" class="btn btn-default configButtons configButtonInactive">
+                <i class="fa fa-paint-brush fa-lg"></i>
+<!--
+                <br/>
+                <span class="btn-text">Theme</span>
+-->
+              </button>
+              <button id="viewHome" type="button" class="btn btn-default configButtons configButtonActive">
+                <i class="fa fa-home fa-lg"></i>
+<!--
+                <br/>
+                <span class="btn-text">Home</span>
+-->
               </button>
               <div class="btn-group" data-toggle="buttons">
                   <label class="btn btn-default configToggleButton">
-                    <input id="toggleConfigMode" type="checkbox"><i class="fa fa-cogs fa-lg"></i>
+                    <input id="toggleConfigMode" type="checkbox">
+                    <i class="fa fa-cogs fa-lg"></i>
                   </label>
-
                 <!-- </button> -->
               </div>
             </div>
@@ -114,8 +137,8 @@
         </div>
       </div>
     </div>
-    <div class="container no-width">
-      <div class="row no-pad">
+    <div id="mainBody" class="container no-width">
+      <div id="homePane" class="activePane row no-pad">
         <div id="column1" class="col-sm-6">
           <div id="columnContainer1" class="col-sm-12">
           </div>
@@ -191,7 +214,14 @@
           </div>
         </div>
       </div>
-
+      <div id="settingsPane" class="hidePane container no-width">
+      </div>
+      <div id="themesPane" class="hidePane container no-width">
+      </div>
+      <div id="bannerContentPane" class="hidePane container no-width">
+      </div>
+      <div id="dataSourcesPane" class="hidePane container no-width">
+      </div>
     </div>
 
     <!-- Bootstrap core JavaScript
