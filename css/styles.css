@@ -73,9 +73,7 @@ html {
   background: url(../private_images/mySrc/tree2.jpg);
   background: url(../private_images/mySrc/tree4.jpeg);
   background: url(../private_images/mySrc/spiderweb1.jpg);
-  -webkit-background-size: cover;
   -mox-background-size: cover;
-  -o-background-size: cover;
   background-size: cover;
   
 }
@@ -474,6 +472,66 @@ ul.dropdown-menu-form {
 
 .modal-body {
   background-color: rgba(255, 255, 255, .80);
+  display: block;
+  box-sizing: border-box;
+  color: #333;
+  padding: 15px;
+  position: relative;
+}
+
+.pane-header {
+  background-color: rgba(255, 255, 255, .90);
+  border-bottom-color: rgba(255, 255, 255, 0.90);
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  box-sizing: border-box;
+  display: block;
+  height: 56px;
+  line-height: 20px;
+  padding: 15px;
+  width: 100%;
+}
+
+.pane-content {
+  position: relative;
+  background-clip: padding-box;
+  border-width: 2px;
+  border-color: rgba(255, 255, 255, .95);
+  border-radius: 6px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+}
+
+.pane-title {
+  margin: 0;
+  color: #333;
+  font-size: 18px;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.pane-body {
+  background-color: rgba(255, 255, 255, .80);
+  display: block;
+  box-sizing: border-box;
+  color: #333;
+  padding: 15px;
+  position: relative;
+}
+
+.pane-content {
+  background-color: transparent;
+  border-color: rgba(255, 255, 255, .95);
+  border-width: 2px;
+}
+
+.pane-footer {
+  background-color: rgba(255, 255, 255, .90);
+  border-top-color: rgba(255, 255, 255, 0.90);
+  padding: 15px;
+  text-align: right;
+  border-top: 1px solid #e5e5e5;
+  box-sizing: border-box;
+  display: block;
 }
 
 .form-control {

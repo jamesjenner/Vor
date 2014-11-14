@@ -10,6 +10,7 @@
 
 function configureApplication() {
   addApplicationButtonListeners();
+  $('.selectpicker').selectpicker();
 }
 
 function addApplicationButtonListeners() {
@@ -503,7 +504,7 @@ function addDataSource(panelIdSelecter) {
   $('.selectpicker').selectpicker();
 }
 
-function addDataSourceDialogSourceLogic() {
+function addDataSourceDialogSourceLogic(fields) {
   var paymentType = ((fields.paymentType !== null && fields.paymentType !== undefined) ? fields.paymentType : 'Version One');
 
   switch(paymentType) {

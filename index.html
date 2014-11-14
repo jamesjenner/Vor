@@ -118,6 +118,13 @@
                 <span class="btn-text">Theme</span>
 -->
               </button>
+              <button id="viewSettings" type="button" class="btn btn-default configButtons configButtonInactive">
+                <i class="fa fa-file-text-o fa-lg"></i>
+<!--
+                <br/>
+                <span class="btn-text">Settings</span>
+-->
+              </button>
               <button id="viewHome" type="button" class="btn btn-default configButtons configButtonActive">
                 <i class="fa fa-home fa-lg"></i>
 <!--
@@ -214,13 +221,129 @@
           </div>
         </div>
       </div>
-      <div id="settingsPane" class="hidePane container no-width">
+      <div id="settingsPane" class="pane-content hidePane panel no-width"  style="display: none">
+        <div class="pane-header">
+          <h4 class="pane-title">General Settings</h4>
+        </div>
+        <div class="pane-body">
+          <div class="row">
+            <div class="col-md-12">
+              <form class="form-horizontal">
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="settingsLogo">Logo</label>
+                  <div class="col-md-6">
+                    <input name="settingsLogo" maxlength="200" type="text" required="required" class="form-control" placeholder="Select the logo" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="settingsTitle">Title</label>
+                  <div class="col-md-6">
+                    <input name="settingsTitle" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the title for the display" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="settingsSubTitle">Subtitle</label>
+                  <div class="col-md-6">
+                    <input name="settingsSubTitle" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the subtitle for the display" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="settingsDisplayColumns">Columns</label>
+                  <div class="col-md-2">
+                    <input name="settingsDisplayColumns" maxlength="200" type="text" required="required" class="form-control" placeholder="Number of columns" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="settingsHeaderEnabled">Display Header</label>
+                  <div class="col-md-1">
+                    <input name="settingsHeaderEnabled" maxlength="200" type="text" required="required" class="form-control" placeholder="" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="settingsBannerEnabled">Display Banner</label>
+                  <div class="col-md-1">
+                    <input name="settingsBannerEnabled" maxlength="200" type="text" required="required" class="form-control" placeholder="" />
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="pane-footer">
+          <button type="button" class="btn btn-primary">Apply</button>
+        </div>
       </div>
-      <div id="themesPane" class="hidePane container no-width">
+      <div id="themesPane" class="pane-content hidePane panel no-width"  style="display: none">
+        <div class="pane-header">
+          <h4 class="pane-title">Themes</h4>
+        </div>
+        <div class="pane-body">
+          <div class="row">
+            <div class="col-md-12">
+              <form class="form-horizontal">
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="pane-footer">
+          <button type="button" class="btn btn-primary">Apply</button>
+        </div>      
       </div>
-      <div id="bannerContentPane" class="hidePane container no-width">
+      <div id="bannerContentPane" class="pane-content hidePane panel no-width"  style="display: none">
+        <div class="pane-header">
+          <h4 class="pane-title">Content</h4>
+        </div>
+        <div class="pane-body">
+          <div class="row">
+            <div class="col-md-12">
+              <form class="form-horizontal">
+
+                
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="contentPosition">Position</label>
+                  <div class="col-md-4">
+                    <select name="contentPosition" class="selectpicker">
+                      <option>Top</option>
+                      <option selected="selected">Bottom</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="contentRotationPeriod">Rotation Period (ms)</label>
+                  <div class="col-md-2">
+                    <input name="contentRotationPeriod" maxlength="200" type="text" required="required" class="form-control" placeholder="" />
+                  </div>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="pane-footer">
+          <button type="button" class="btn btn-primary">Apply</button>
+        </div>      
       </div>
-      <div id="dataSourcesPane" class="hidePane container no-width">
+      <div id="dataSourcesPane" class="pane-content hidePane panel no-width"  style="display: none">
+        <div class="pane-header">
+          <h4 class="pane-title">Data Sources</h4>
+        </div>
+        <div class="pane-body">
+          <div class="row">
+            <div class="col-md-12">
+              <form class="form-horizontal">
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="pane-footer">
+          <button type="button" class="btn btn-primary">Apply</button>
+        </div>      
       </div>
     </div>
 

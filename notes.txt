@@ -45,7 +45,7 @@ per device
   - scheme
   - override
 - data sources -> list -> add/modify/delete
-- banner
+- content
   - position (top/bottom)
   - rotation time
   - content list -> add/modify/delete
