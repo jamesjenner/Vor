@@ -354,7 +354,6 @@ ul.dropdown-menu-form {
   border-color: white;
 }
 
-
 .displayButton {
   display: inline-block;
 }
@@ -544,6 +543,10 @@ ul.dropdown-menu-form {
 
 .btn-text {
   font-size: 8px;
+}
+
+table {
+  background-color: white;
 }
 
 .activePane {

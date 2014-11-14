@@ -10,7 +10,12 @@
 
 function configureApplication() {
   addApplicationButtonListeners();
+  
+  // apply select picker styling
   $('.selectpicker').selectpicker();
+  
+  // apply jasny rowlink logic to tables
+  $('tbody.rowlink').rowlink();
 }
 
 function addApplicationButtonListeners() {
@@ -44,14 +49,29 @@ function addApplicationButtonListeners() {
   });
     
   $("#viewDataSources").on('click', function() {
-    // addDataSource();
     toggleButtonViewSelection('viewDataSources');
     hidePanelButton('addPanel');
     displayPane("dataSourcesPane");
   });
-  
+
   $("body").on('click', '#addPanel', function() {
     addPanel();
+  });
+  
+  setupDataSourcesPane();
+}
+
+function setupDataSourcesPane() {
+  $(".dataSourceRow").on('click', function() {
+    viewDataSourceWizard('update', {});
+    // viewDataSourceDetailPane($(this).attr("data-key"));
+    return false;
+  });
+  
+  $("#addDataSource").on('click', function() {
+    viewDataSourceWizard('add', {});
+    // viewDataSourceDetailPane($(this).attr("data-key"));
+    return false;
   });
 }
 
@@ -73,9 +93,6 @@ function toggleButtonViewSelection(buttonId) {
   
   $('#' + buttonId).toggleClass('configButtonInactive');
   $('#' + buttonId).toggleClass('configButtonActive');
-  
-  // toggleClass('configButtonActive');
-  
 }
 
 function showPanelButton(buttonId) {
@@ -101,6 +118,10 @@ function displayPane(paneId) {
   });
 }
 
+function viewDataSourceDetailPane(key) {
+  displayPane("dataSourceDetail");
+}
+  
 function addPanel() {
   bootbox.dialog({
     title: "Add a Panel",
@@ -362,9 +383,23 @@ function addWidgetDialogDataSourceLogic(fields) {
   return 0;
 }
 
-function addDataSource(panelIdSelecter) {
+function viewDataSourceWizard(mode, data) {
+  var mode = ((mode !== null && mode !== undefined) ? mode : 'add');
+  var data = ((data !== null && data !== undefined) ? data : {});
+  var title = "Data Source";
+  
+  switch(mode) {
+    case 'add':
+      title = "Add a Data Source";
+      break;
+
+    case 'update':
+      title = "Modify Data Source";
+      break;
+  }
+  
   var addWidgetWizardDialog = new BootBoxWiz({
-    title: 'Add a Data Source',
+    title: title,
     guideEnabled: false,
     stepContent: [ {
       type: BootBoxWiz.TYPE_FIXED,
@@ -392,7 +427,7 @@ function addDataSource(panelIdSelecter) {
     {
       type: BootBoxWiz.TYPE_DYNAMIC,
       title: "Step 2",
-      logic: addDataSourceDialogSourceLogic,
+      logic: dataSourceDialogSourceLogic,
       titles: [
         'Version One',
         'Jenkins',
@@ -504,7 +539,7 @@ function addDataSource(panelIdSelecter) {
   $('.selectpicker').selectpicker();
 }
 
-function addDataSourceDialogSourceLogic(fields) {
+function dataSourceDialogSourceLogic(fields) {
   var paymentType = ((fields.paymentType !== null && fields.paymentType !== undefined) ? fields.paymentType : 'Version One');
 
   switch(paymentType) {
