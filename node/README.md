@@ -1,9 +1,13 @@
+
+
 ##Dependancies
 
+* opt `npm install opt`
+* websocket `npm install websocket`
+* node-uuid `npm install node-uuid`
+* bcrypt/bcryptjs, use bcryptjs on windows `npm install bcryptjs`, bcrypt on linux `npm install bcrypt`
 
-* node-Oath - https://github.com/ciaranj/node-oauth
+To install all dependancies, use the following command that is appropriate.
 
-
-To install dependancies, use the following command.
-
-    npm install oath
+* Linux: `npm install opt websocket node-uuid bcrypt`
+* Windows: `npm install opt websocket node-uuid bcryptjs`
