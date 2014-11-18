@@ -317,7 +317,7 @@ Server.prototype.messageEvent = function (event) {
 //      break;
 
     default:
-        if(!this._processMessageHandlers(this, msg.id, msg.body)) {
+        if(!this._processMessageHandlers(msg.id, msg.body)) {
           this.rcvdUnsupportedMessage();
         }
         break;
@@ -329,11 +329,11 @@ Server.prototype.messageEvent = function (event) {
 /*
  * calls each message handler until the message is complete or no more handlers
  */
-Server.prototype._processMessageHandlers = function(server, id, messageContent) {
+Server.prototype._processMessageHandlers = function(id, messageContent) {
   var processed = false;
   
   for(var i = 0; i < this.messageHandlers.length && !processed; i++) {
-    processed = this.messageHandlers[i](server, id, messageContent);
+    processed = this.messageHandlers[i](this, id, messageContent);
   }
   
   return processed;

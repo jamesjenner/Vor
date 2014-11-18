@@ -33,6 +33,8 @@ module.exports = PanelHandler;
 
 PanelHandler.PANELS_FILE = 'panels.json';
 
+PanelHandler.Panel = Panel;
+
 function PanelHandler(options) {
   // EventEmitter.call(this);
   this.panels = [];
@@ -160,4 +162,36 @@ PanelHandler.prototype._load = function() {
 
 PanelHandler.prototype._save = function() {
   fs.writeFileSync(PanelHandler.PANELS_FILE, JSON.stringify(this.panels, null, '\t'));
+};
+
+PanelHandler.messsageHandler = function (comms, connection, msgId, msgBody) {
+  var messageProcessed = false;
+  
+  switch (msgId) {
+    case Panel.MESSAGE_ADD_PANEL:
+      comms.emit(Panel.MESSAGE_ADD_PANEL, connection, msgBody);
+      messageProcessed = true;
+      break;
+
+    case Panel.MESSAGE_DELETE_PANEL:
+      comms.emit(Panel.MESSAGE_DELETE_PANEL, connection, msgBody);
+      messageProcessed = true;
+      break;
+
+    case Panel.MESSAGE_UPDATE_PANEL:
+  // TODO: sort out logs
+  //  if (self.loggingIn) {
+  //    self.loggerIn.info('update panel', data);
+  //  }
+      comms.emit(Panel.MESSAGE_UPDATE_PANEL, connection, msgBody);
+      messageProcessed = true;
+      break;
+
+    case Panel.MESSAGE_GET_PANELS:
+      comms.emit(Panel.MESSAGE_GET_PANELS, connection);
+      messageProcessed = true;
+      break;
+  }
+  
+  return messageProcessed;
 };

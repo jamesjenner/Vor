@@ -206,35 +206,39 @@ var clientComms = new Comms({
   sslKey: config.sslKey,
   sslCert: config.sslCert,
   debug: config.debug,
-  debugLevel: config.debugLevel
+  debugLevel: config.debugLevel,
+  messageHandlers: [
+    PanelHandler.messsageHandler,
+  ]
 });
 
 var panelHandler = new PanelHandler();
 
 // listen for the events from clients
-clientComms.on('newConnectionAccepted', function (c) {
+clientComms.on(Comms.NEW_CONNECTION_ACCEPTED, function (c) {
   newConnection(c);
 });
 
-clientComms.on('addPanel', function (c, d) {
-  clientComms.sendAddPanel(c, panelHandler.addPanel(d));
+clientComms.on(PanelHandler.Panel.MESSAGE_ADD_PANEL, function (c, d) {
+  // TODO: move message logic into panel handler
+  clientComms.sendMessage(c, PanelHandler.Panel.MESSAGE_ADD_PANEL, panelHandler.addPanel(d));
 });
 
-clientComms.on('updatePanel', function (c, d) {
+clientComms.on(PanelHandler.Panel.MESSAGE_UPDATE_PANEL, function (c, d) {
   var panel = panelHandler.updatePanel(c, d);
   if (panel !== null) {
-    clientComms.sendUpdatePanel(panel);
+    clientComms.sendMessage(c, PanelHandler.Panel.MESSAGE_UPDATE_PANEL, panel);
   }
 });
 
-clientComms.on('deletePanel', function (c, d) {
+clientComms.on(PanelHandler.Panel.MESSAGE_DELETE_PANEL, function (c, d) {
   if(panelHandler.removePanel(d)) {
-    clientComms.sendDeletePanel(c, d);
+    clientComms.sendMessage(c, PanelHandler.Panel.MESSAGE_DELETE_PANEL, d);
   }
 });
 
-clientComms.on('sendPanels', function (c) {
-  clientComms.sendPanels(c, panelHandler.panels);
+clientComms.on(PanelHandler.Panel.MESSAGE_GET_PANELS, function (c) {
+  clientComms.sendMessage(c, PanelHandler.Panel.MESSAGE_PANELS, panelHandler.panels);
 });
 
 // start up the server for clients
@@ -248,5 +252,5 @@ function newConnection(connection) {
     console.log((new Date()) + ' New connection accepted');
   }
   // on a new connection send the vehicles to the client
-  clientComms.sendPanels(connection, panelHandler.panels);
+  clientComms.sendMessage(connection, PanelHandler.Panel.MESSAGE_PANELS, panelHandler.panels);
 }
