@@ -32,7 +32,7 @@ var fs = require('fs');
 var ws = require('websocket').server;
 var uuid = require('node-uuid');
 var crypto = require('crypto');
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 
 var Message = require('./shared/message.js');
 var Panel = require('./shared/panel.js');
@@ -432,6 +432,7 @@ function authenticateConnection(self, connection, msgBody) {
     if (foundUser) {
       // validate if the salt and hash of the password is valid
       var hashed = bcrypt.hashSync(user.password, salt);
+      // TODO: look at using bcrypt.compareSync(password, bcrypt.hashSync(user.password, salt)); // refer https://www.npmjs.org/package/bcryptjs
       validUser = (password === hashed);
     }
   }

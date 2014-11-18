@@ -33,12 +33,6 @@ if(typeof module == "undefined"){
 module.exports = Message;
 
 Message.UNKNOWN = '__unknown';
-Message.ADD_PANEL = 'addPanel';
-Message.DELETE_PANEL = 'deletePanel';
-Message.UPDATE_PANEL = 'updatePanel';
-Message.GET_PANELS = 'getPanels';
-Message.PANELS = 'panels';
-
 
 Message.AUTHENTICATE = 'authenticate';
 Message.AUTHENTICATION_ACCEPTED = 'authenticationAccepted';

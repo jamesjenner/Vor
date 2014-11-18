@@ -44,6 +44,13 @@ Panel.DEFAULT_NAME = 'Panel Name';
 Panel.DEFAULT_WIDTH = 1;
 Panel.DEFAULT_POSITION = -1;
 
+Panel.MESSAGE_ADD_PANEL = 'addPanel';
+Panel.MESSAGE_DELETE_PANEL = 'deletePanel';
+Panel.MESSAGE_UPDATE_PANEL = 'updatePanel';
+Panel.MESSAGE_GET_PANELS = 'getPanels';
+Panel.MESSAGE_PANELS = 'panels';
+
+
 function Panel(options) {
   options = options || {};
   

@@ -137,7 +137,7 @@ PanelHandler.prototype._findById = function (id) {
 };
 
 PanelHandler.prototype._load = function() {
-  this.panels = {};
+  this.panels = [];
 
   try {
     this.panels = JSON.parse(fs.readFileSync(PanelHandler.PANELS_FILE));
@@ -154,7 +154,7 @@ PanelHandler.prototype._load = function() {
     // TODO: add sorting for new structure of panels... not sure if possible
     // panels.sort(compareName);
   } else {
-    this.panels = {};
+    this.panels = [];
   }
 };
 
