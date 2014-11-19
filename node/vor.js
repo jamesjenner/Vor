@@ -213,44 +213,11 @@ var clientComms = new Comms({
 });
 
 var panelHandler = new PanelHandler();
-
-// listen for the events from clients
-clientComms.on(Comms.NEW_CONNECTION_ACCEPTED, function (c) {
-  newConnection(c);
-});
-
-clientComms.on(PanelHandler.Panel.MESSAGE_ADD_PANEL, function (c, d) {
-  // TODO: move message logic into panel handler
-  clientComms.sendMessage(c, PanelHandler.Panel.MESSAGE_ADD_PANEL, panelHandler.addPanel(d));
-});
-
-clientComms.on(PanelHandler.Panel.MESSAGE_UPDATE_PANEL, function (c, d) {
-  var panel = panelHandler.updatePanel(c, d);
-  if (panel !== null) {
-    clientComms.sendMessage(c, PanelHandler.Panel.MESSAGE_UPDATE_PANEL, panel);
-  }
-});
-
-clientComms.on(PanelHandler.Panel.MESSAGE_DELETE_PANEL, function (c, d) {
-  if(panelHandler.removePanel(d)) {
-    clientComms.sendMessage(c, PanelHandler.Panel.MESSAGE_DELETE_PANEL, d);
-  }
-});
-
-clientComms.on(PanelHandler.Panel.MESSAGE_GET_PANELS, function (c) {
-  clientComms.sendMessage(c, PanelHandler.Panel.MESSAGE_PANELS, panelHandler.panels);
-});
+panelHandler.setupCommsListeners(clientComms);
 
 // start up the server for clients
 if (config.debug) {
   console.log((new Date()) + " vor.js: starting client server");
 }
-clientComms.startClientServer();
 
-function newConnection(connection) {
-  if (config.debug) {
-    console.log((new Date()) + ' New connection accepted');
-  }
-  // on a new connection send the vehicles to the client
-  clientComms.sendMessage(connection, PanelHandler.Panel.MESSAGE_PANELS, panelHandler.panels);
-}
+clientComms.startClientServer();

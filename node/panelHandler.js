@@ -25,6 +25,8 @@
  */
 
 var Panel = require('./shared/panel.js');
+var Message = require('./shared/message.js');
+var Comms = require('./comms.js');
 var fs = require('fs');
 
 module.exports = PanelHandler;
@@ -33,12 +35,12 @@ module.exports = PanelHandler;
 
 PanelHandler.PANELS_FILE = 'panels.json';
 
-PanelHandler.Panel = Panel;
-
 function PanelHandler(options) {
   // EventEmitter.call(this);
   this.panels = [];
   this._load();
+  
+  // TODO: add log/debug logic
 }
 
 PanelHandler.prototype.addPanel = function (data) {
@@ -164,6 +166,34 @@ PanelHandler.prototype._save = function() {
   fs.writeFileSync(PanelHandler.PANELS_FILE, JSON.stringify(this.panels, null, '\t'));
 };
 
+PanelHandler.prototype.setupCommsListeners = function(comms) {
+  comms.on(Comms.NEW_CONNECTION_ACCEPTED, function (c) {
+    comms.sendMessage(c, Panel.MESSAGE_PANELS, this.panels);
+  }.bind(this));
+  
+  comms.on(Panel.MESSAGE_ADD_PANEL, function (c, d) {
+    comms.sendMessage(c, Panel.MESSAGE_ADD_PANEL, this.addPanel(d));
+  }.bind(this));
+
+  comms.on(Panel.MESSAGE_UPDATE_PANEL, function (c, d) {
+    var panel = this.updatePanel(c, d);
+    
+    if (panel !== null) {
+      comms.sendMessage(c, Panel.MESSAGE_UPDATE_PANEL, panel);
+    }
+  }.bind(this));
+
+  comms.on(Panel.MESSAGE_DELETE_PANEL, function (c, d) {
+    if(this.removePanel(d)) {
+      comms.sendMessage(c, Panel.MESSAGE_DELETE_PANEL, d);
+    }
+  }.bind(this));
+
+  comms.on(Panel.MESSAGE_GET_PANELS, function (c) {
+    comms.sendMessage(c, Panel.MESSAGE_PANELS, this.panels);
+  }.bind(this));
+};
+
 PanelHandler.messsageHandler = function (comms, connection, msgId, msgBody) {
   var messageProcessed = false;
   
@@ -195,3 +225,4 @@ PanelHandler.messsageHandler = function (comms, connection, msgId, msgBody) {
   
   return messageProcessed;
 };
+
