@@ -1,7 +1,7 @@
 /*jlint node: true */
 /*global require, console, module, process, __dirname */
 /*
- * vor.js
+ * application.js
  *
  * Copyright (C) 2014 by James Jenner
  *
@@ -27,12 +27,9 @@
 var path = require('path');
 var opt = require('opt').create();
 var fs = require('fs');
-//var uuid = require('node-uuid');
-//var log4js = require('log4js');
 
-var Message = require('./shared/message.js');
+var MeltingPot = require('meltingpot');
 
-var Comms = require('./comms.js');
 var PanelHandler = require('./panelHandler.js');
 
 //var VEHICLES_FILE = 'vehicles.json';
@@ -42,17 +39,17 @@ var PanelHandler = require('./panelHandler.js');
 //  appenders: [
 //    {
 //      type: "file",
-//      filename: "vor.log",
+//      filename: "meltingpot.log",
 //      category: ['videre', 'file']
 // },
 //    {
 //      type: "file",
-//      filename: "vor_clientcomms_in.log",
+//      filename: "meltingpot_clientcomms_in.log",
 //      category: ['clientIn', 'file']
 // },
 //    {
 //      type: "file",
-//      filename: "vor_clientcomms_out.log",
+//      filename: "meltingpot_clientcomms_out.log",
 //      category: ['clientOut', 'file']
 // }
 // /*
@@ -77,18 +74,18 @@ var config = {
   port: 9007,
   securePort: 9008,
   uuidV1: false,
-  communicationType: Message.COMMS_TYPE_UNSECURE_ONLY,
+  communicationType: MeltingPot.Message.COMMS_TYPE_UNSECURE_ONLY,
   sslKey: 'keys/privatekey.pem',
   sslCert: 'keys/certificate.pem',
   autoDiscover: false,
 };
 
 var search_paths = [
-  "vor.conf",
-  path.join(process.env.HOME, ".vor-rc"),
-  "/usr/local/etc/vor.conf",
-  "/usr/etc/vor.conf",
-  "/etc/vor.conf"
+  "meltingpot.conf",
+  path.join(process.env.HOME, ".meltingpot-rc"),
+  "/usr/local/etc/meltingpot.conf",
+  "/usr/etc/meltingpot.conf",
+  "/etc/meltingpot.conf"
 ];
 
 var listingProtocols = false;
@@ -96,7 +93,7 @@ var listingProtocols = false;
 opt.configSync(config, search_paths);
 
 opt.optionHelp("USAGE node " + path.basename(process.argv[1]),
-  "SYNOPSIS: Vor is the back end for the vor front end .\n\n\t\t node " + path.basename(process.argv[1]) + " --help",
+  "SYNOPSIS: The application is the back end for the meltingpot front end .\n\n\t\t node " + path.basename(process.argv[1]) + " --help",
   "OPTIONS:",
   "Copyright (c) 2014 James G Jenner, all rights reserved\n" +
   " Released under MIT License\n" +
@@ -113,15 +110,15 @@ opt.option(["-d", "--debug"], function (param) {
 }, "Generate debugging messages, level is optional. 0 - informational, 1 - detailed");
 
 opt.option(["-so", "--secure-only"], function (param) {
-  config.communicationType = Message.COMMS_TYPE_SECURE_ONLY;
+  config.communicationType = MeltingPot.Message.COMMS_TYPE_SECURE_ONLY;
 }, "Set communications to only accept secure connections");
 
 opt.option(["-uo", "--unsecure-only"], function (param) {
-  config.communicationType = Message.COMMS_TYPE_UNSECURE_ONLY;
+  config.communicationType = MeltingPot.Message.COMMS_TYPE_UNSECURE_ONLY;
 }, "Set communications to only accept unsecure connections, this is the default type");
 
 opt.option(["-m", "--mixed"], function (param) {
-  config.communicationType = Message.COMMS_TYPE_MIXED;
+  config.communicationType = MeltingPot.Message.COMMS_TYPE_MIXED;
 }, "Set communications to accept secure and unsecure connections");
 
 opt.option(["-u1", "--uuid-v1"], function (param) {
@@ -198,7 +195,7 @@ opt.optionWith(process.argv);
 // load existing definitions
 
 // setup the client communications
-var clientComms = new Comms({
+var clientComms = new MeltingPot.Comms({
   port: config.port,
   securePort: config.securePort,
   uuidV1: config.uuidV1,
@@ -217,7 +214,7 @@ panelHandler.setupCommsListeners(clientComms);
 
 // start up the server for clients
 if (config.debug) {
-  console.log((new Date()) + " vor.js: starting client server");
+  console.log((new Date()) + " application.js: starting client server");
 }
 
 clientComms.startClientServer();

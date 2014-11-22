@@ -1,0 +1,38 @@
+{
+  "name": "meltingpot",
+  "version": "0.0.1",
+  "homepage": "https://github.com/jamesjenner/meltingpot",
+  "authors": [
+    "james-jenner <james.g.jenner@gmail.com>"
+  ],
+  "description": "HTML based application, websockets for comms and node.js for backend",
+  "keywords": [
+    "application",
+    "websocket",
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "Gruntfile.js",
+    "application.js",
+    "bower_components",
+    "comms.js",
+    "node_modules",
+    "*.json",
+    "panelHandler.js",
+    "shared/panel.js",
+    "test",
+    "tests"
+  ],
+  "_release": "0.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.0.1",
+    "commit": "44d86bbf2a5346a57c70d0e92c94df4ede1619e4"
+  },
+  "_source": "git://github.com/jamesjenner/meltingpot.git",
+  "_target": "~0.0.1",
+  "_originalSource": "meltingpot",
+  "_direct": true
+}

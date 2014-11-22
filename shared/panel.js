@@ -40,9 +40,18 @@ module.exports = Panel;
 
 Panel.KEY = 'Panel';
 
+Panel.ICON_USER_DEFINED = 'userDefined';
+Panel.ICON_FONT_AWESOME = 'fontAwesom';
+Panel.ICON_GLYPHICON = 'glyphicon';
+Panel.ICON_OPEN_ICONIC = 'openIconic';
+Panel.ICON_ENTYPO = 'entypo';
+
 Panel.DEFAULT_NAME = 'Panel Name';
 Panel.DEFAULT_WIDTH = 1;
-Panel.DEFAULT_POSITION = -1;
+Panel.DEFAULT_ROW = 0;
+Panel.DEFAULT_COLUMN = 1;
+Panel.DEFAULT_ICON_TYPE = Panel.ICON_FONT_AWESOME;
+Panel.DEFAULT_ICON_NAME = 'fa-group';
 
 Panel.MESSAGE_ADD_PANEL = 'addPanel';
 Panel.MESSAGE_DELETE_PANEL = 'deletePanel';
@@ -58,15 +67,41 @@ function Panel(options) {
   
   this.id = ((options.id !== null && options.id !== undefined) ? options.id : uuidV1 ? uuid.v1() : uuid.v4());
   this.name = ((options.name !== null && options.name !== undefined) ? options.name : Panel.DEFAULT_NAME);
+  this.column = ((options.column !== null && options.column !== undefined) ? options.column : Panel.DEFAULT_COLUMN);
   this.width = ((options.width !== null && options.width !== undefined) ? options.width : Panel.DEFAULT_WIDTH);
-  this.position = ((options.position !== null && options.position !== undefined) ? options.position : Panel.DEFAULT_POSITION);
+  this.row = ((options.row !== null && options.row !== undefined) ? options.row : Panel.DEFAULT_ROW);
+  this.iconName = ((options.iconName !== null && options.iconName !== undefined) ? options.iconName : Panel.DEFAULT_ICON_NAME);
+  this.iconType = ((options.iconType !== null && options.iconType !== undefined) ? options.iconType : Panel.DEFAULT_ICON_TYPE);
 }
 
 /* 
  * merge
  */
 Panel.merge = function (d1, d2) {
-  d1.name = ((d2.name !== null && d2.name !== undefined) ? d2.name : d1.name);
-  d1.width = ((d2.width !== null && d2.width !== undefined) ? d2.width : d1.width);
-  d1.position = ((d2.position !== null && d2.position !== undefined) ? d2.position : d1.position);
+//  d1.name = mergeIfSet(d2.name, d1.name);
+//  d1.column = mergeIfSet(d2.column, d1.column);
+//  d1.width = mergeIfSet(d2.width, d1.width);
+//  d1.row = mergeIfSet(d2.row, d1.row);
+//
+//  d1.name = mergeIfModified(d1, d2, 'name');
+//  d1.column = mergeIfModified(d1, d2, 'column');
+//  d1.width = mergeIfModified(d1, d2, 'width');
+//  d1.row = mergeIfModified(d1, d2, 'row');
+
+  mergeAttribute(d1, d2, 'name');
+  mergeAttribute(d1, d2, 'column');
+  mergeAttribute(d1, d2, 'width');
+  mergeAttribute(d1, d2, 'row');
 };
+
+//function mergeIfSet(newValue, oldValue) {
+//  return  ((newValue !== null && newValue !== undefined) ? newValue : oldValue);
+//}
+//
+//function mergeIfModified(objectOld, objectNew, attribute) {
+//  return  ((objectNew[attribute] !== null && objectNew[attribute] !== undefined) ? objectNew[attribute] : objectOld[attribute]);
+//}
+
+function mergeAttribute(object, modifiedObject, attribute) {
+  object[attribute] = ((modifiedObject[attribute] !== null && modifiedObject[attribute] !== undefined) ? modifiedObject[attribute] : object[attribute]);
+}
