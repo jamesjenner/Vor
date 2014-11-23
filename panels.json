@@ -1,11 +1,38 @@
 [
 	{
-		"id": "43043ebf-101f-4142-9fd0-8ab82c6b4f3b",
-		"name": "Accademic",
+		"id": "7c4d2325-f5fb-4f78-8b88-436dbc01456e",
+		"name": "Maintenance",
 		"column": 1,
 		"width": 1,
 		"row": 0,
-		"iconName": "fa-mortar-board",
+		"iconName": "fa-wrench",
+		"iconType": "fontAwesom"
+	},
+	{
+		"id": "58ee7b81-f885-4e36-913d-0d831f831e9e",
+		"name": "Materials",
+		"column": 1,
+		"width": 1,
+		"row": 0,
+		"iconName": "fa-truck",
+		"iconType": "fontAwesom"
+	},
+	{
+		"id": "5db92c08-b0d8-4ca5-9f84-84691d12822e",
+		"name": "Human Resources",
+		"column": 1,
+		"width": 1,
+		"row": 0,
+		"iconName": "fa-group",
+		"iconType": "fontAwesom"
+	},
+	{
+		"id": "623f37d3-dcd6-4e71-8d25-c2f1f610d90c",
+		"name": "Finance",
+		"column": 1,
+		"width": 1,
+		"row": 0,
+		"iconName": "fa-institution",
 		"iconType": "fontAwesom"
 	}
 ]
