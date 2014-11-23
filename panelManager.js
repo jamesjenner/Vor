@@ -1,3 +1,5 @@
+/* jshint browser: true, jquery: true */
+/* global Panel:false, console:false, server:false, addWidget:false */
 
 function addPanel(panel) {
   sendAddPanel(panel);
@@ -23,7 +25,7 @@ function processPanelMessages(server, id, content) {
       break;
 
     case Panel.MESSAGE_UPDATE_PANEL:
-      // receivedUpdatePanel(server, new Panel(content));
+      receivedUpdatePanel(server, new Panel(content));
       processed = true;
       break;
   }
@@ -38,15 +40,40 @@ function isPanelAddMode() {
 
 
 function receivedAddPanel(server, d) {
-  // get mode
-  var buttonsVisible = false;
-  
   addPanelToDom(d, isPanelAddMode());
 }
 
 function receivedDeletePanel(server, d) {
-  // $("#row" + d.id).remove();
   deletePanel(d.id);
+}
+
+function receivedUpdatePanel(server, panel) {
+  // get current data
+  var currentPanelElement = $('#panel' + panel.id);
+  
+  var currentPanel = new Panel(currentPanelElement.data());
+  
+  console.log("current data for " + panel.id + " is: " + JSON.stringify(currentPanel, null, " "));
+  
+  // apply changes to DOM
+  if(currentPanel.name !== panel.name) {
+    
+  }
+  
+  if(currentPanel.column !== panel.column) {
+    changePanelColumn(panel);
+  }
+  
+  if(currentPanel.row !== panel.row) {
+    changePanelRow(panel);
+  }
+  
+  if(currentPanel.iconName !== panel.iconName) {
+    
+  }
+  
+  // update data attributes for id
+  
 }
 
 function receivedPanels(server, d) {
@@ -57,7 +84,7 @@ function receivedPanels(server, d) {
   
   var panelsArray = [];
   
-  for (item in d) {
+  for (var item in d) {
    panelsArray.push(new Panel(d[item]));
   }
 
@@ -77,23 +104,25 @@ function receivedPanels(server, d) {
 
 function sendAddPanel(panel) {
   server.sendMessage(Panel.MESSAGE_ADD_PANEL, panel);
-  return false;
 }
 
 function sendDeletePanel(panel) {
   server.sendMessage(Panel.MESSAGE_DELETE_PANEL, panel);
-  return false;
+}
+
+function sendUpdatePanel(panel) {
+  server.sendMessage(Panel.MESSAGE_UPDATE_PANEL, panel);
 }
 
 function addPanelToDom(panel, buttonsVisible) {
   var displayButtonClass = buttonsVisible ? "displayButton" : "";
   var displayStyle = buttonsVisible ? "block" : "none";
-  console.log("adding " + panel.name + " to column: " + panel.column);
+  console.log("adding " + panel.name + " to column: " + panel.column + " row: " + panel.row);
   $("#columnContainer" + panel.column).append(
     '<div id="panel' + panel.id + '" class="panel" ' + 
       'data-name="' + panel.name + '" ' +
-      'data-icon-name="' + panel.iconName + '" ' +
-      'data-icon-type="' + panel.iconType + '" ' +
+      'data-iconName="' + panel.iconName + '" ' +
+      'data-iconType="' + panel.iconType + '" ' +
       'data-column="' + panel.column + '" ' +
       'data-row="' + panel.row + '" ' +
       'data-width="' + panel.width + '">' +
@@ -138,23 +167,29 @@ function addPanelToDom(panel, buttonsVisible) {
   });
     
   $('#panelBtnDelete' + panel.id).on('click', function() {
-    sendDeletePanel(panel)
+    sendDeletePanel(panel);
   });
     
   $('#panelBtnMoveDown' + panel.id).on('click', function() {
-    movePanelDown(panel.id);
+    panel.row++;
+    sendUpdatePanel(panel);
+    // movePanelDown(panel.id);
   });
     
   $('#panelBtnMoveUp' + panel.id).on('click', function() {
-    movePanelUp(panel.id);
+    panel.row--;
+    sendUpdatePanel(panel);
+    // movePanelUp(panel.id);
   });
     
   $('#panelBtnMoveLeft' + panel.id).on('click', function() {
-    movePanelLeft(panel.id);
+    panel.column--;
+    sendUpdatePanel(panel);
   });
     
   $('#panelBtnMoveRight' + panel.id).on('click', function() {
-    movePanelRight(panel.id);
+    panel.column++;
+    sendUpdatePanel(panel);
   });
 }
 
@@ -176,7 +211,6 @@ function movePanelDown(id) {
 }
 
 function movePanelUp(id) {
-  // $('#panel' + id).remove();
   var panelList = getPanelList(id);
   
   if(panelList['panel' + id].position > 0) {
@@ -185,43 +219,51 @@ function movePanelUp(id) {
   }
 }
 
-function movePanelRight(id) {
-  var panel = $('#panel' + id);
-  var column = panel.data("column");
+function changePanelColumn(panelData) {
+  var panel = $('#panel' + panelData.id);
   
-//  panel
-//    .fadeOut('fast', function() {
-//      panel.appendTo("#columnContainer" + (column + 1));
-//      panel.hide();
-//      panel.fadeIn('fast');
-//    });
-
-  $('#panel' + id)
+  $('#panel' + panelData.id)
     .animate({height: 0, padding: 0, margin: 0}, {easing: "linear", duration: "fast", queue: false})
     .fadeOut('fast', function() {
-      panel.appendTo("#columnContainer" + (column + 1));
-      panel.hide();
-      panel.css('height', '');    
-      panel.css('padding', '');    
-      panel.css('margin', '');    
-      panel.fadeIn('fast');
+      panel
+        .appendTo("#columnContainer" + panelData.column)
+        .hide()
+        .css('height', '')
+        .css('padding', '')
+        .css('margin', '')
+        .fadeIn('fast')
+        .data('column', panel.column);;
       
   });
 }
 
-function movePanelLeft(id) {
-  var panel = $('#panel' + id);
-  var column = panel.data("column");
-
-  $('#panel' + id)
+function changePanelRow(panelData) {
+  var panelList = getPanelList(panelData.id);
+  var panel = $('#panel' + panelData.id);
+  var insertPointPanelId, p, pData;
+  
+  // panelList is sorted based on apperance, which will be in row order, so iterate, find the correct pos and insert.
+  for(p in panelList) {
+    pData = $(panelList[p].value).data();
+    
+    if(pData.row === panelData.row) {
+      break;
+    }
+    
+    insertPointPanelId = pData.id;
+  }
+  
+  $('#panel' + panelData.id)
     .animate({height: 0, padding: 0, margin: 0}, {easing: "linear", duration: "fast", queue: false})
     .fadeOut('fast', function() {
-      panel.appendTo("#columnContainer" + (column));
-      panel.hide();
-      panel.css('height', '');    
-      panel.css('padding', '');    
-      panel.css('margin', '');    
-      panel.fadeIn('fast');
+      panel
+        .insertAfter("#panel" + insertPointPanelId)
+        .hide()
+        .css('height', '')
+        .css('padding', '')
+        .css('margin', '')
+        .fadeIn('fast')
+        .data('row', panel.row);;
   });
 }
 
@@ -232,7 +274,13 @@ function getPanelList(id) {
   var panelList = {};
   
   $('#panel' + id).parent().children().each(function() { 
-    panelList[$(this).attr('id')] = {id: $(this).attr('id'), position: counter++, value: this, prevId: null, nextId: null};
+    panelList[$(this).attr('id')] = {
+      id: $(this).attr('id'), 
+      position: counter++, 
+      value: this, 
+      prevId: null, 
+      nextId: null
+    };
     
     if(prevPanel !== null) {
       panelList[$(this).attr('id')].prevId = prevPanel.id;
