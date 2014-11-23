@@ -9,6 +9,7 @@
  */
 
 var server = null;
+var addPanelMode = false;
 
 function configureApplication() {
   addApplicationButtonListeners();
@@ -36,31 +37,31 @@ function addApplicationButtonListeners() {
   
   $("body").on('click', '#viewHome', function() {
     toggleButtonViewSelection('viewHome');
-    showPanelButton('addPanel');
+    showAddPanelButton();
     displayPane("homePane");
   });
   
   $("body").on('click', '#viewSettings', function() {
     toggleButtonViewSelection('viewSettings');
-    hidePanelButton('addPanel');
+    hideAddPanelButton();
     displayPane("settingsPane");
   });
   
   $("body").on('click', '#viewThemes', function() {
     toggleButtonViewSelection('viewThemes');
-    hidePanelButton('addPanel');
+    hideAddPanelButton();
     displayPane("themesPane");
   });
     
   $("body").on('click', '#viewContent', function() {
     toggleButtonViewSelection('viewContent');
-    hidePanelButton('addPanel');
+    hideAddPanelButton();
     displayPane("bannerContentPane");
   });
     
   $("#viewDataSources").on('click', function() {
     toggleButtonViewSelection('viewDataSources');
-    hidePanelButton('addPanel');
+    hideAddPanelButton();
     displayPane("dataSourcesPane");
   });
 
@@ -103,6 +104,16 @@ function toggleButtonViewSelection(buttonId) {
   
   $('#' + buttonId).toggleClass('configButtonInactive');
   $('#' + buttonId).toggleClass('configButtonActive');
+}
+
+function showAddPanelButton() {
+  showPanelButton('addPanel');
+  addPanelMode = true;
+}
+
+function hideAddPanelButton() {
+  hidePanelButton('addPanel');
+  addPanelMode = false;
 }
 
 function showPanelButton(buttonId) {
