@@ -32,9 +32,17 @@ function processPanelMessages(server, id, content) {
   return processed;
 }
 
+function isPanelAddMode() {
+  // TODO: addPanelMode is global (refer main.js), not really happy about this
+  return addPanelMode;
+}
+
 
 function receivedAddPanel(server, d) {
-  addPanelToDom(d);
+  // get mode
+  var buttonsVisible = false;
+  
+  addPanelToDom(d, isPanelAddMode());
 }
 
 function receivedDeletePanel(server, d) {
@@ -45,11 +53,13 @@ function receivedDeletePanel(server, d) {
 function receivedPanels(server, d) {
   // $(".panelRow").remove();
 
+  // get mode
+  var buttonsVisible = isPanelAddMode();
+  
   for (var i in d) {
-    addPanelToDom(new Panel(d[i]));
+    addPanelToDom(new Panel(d[i]), buttonsVisible);
   }
 }
-
 
 function sendAddPanel(panel) {
   server.sendMessage(Panel.MESSAGE_ADD_PANEL, panel);
@@ -61,31 +71,39 @@ function sendDeletePanel(panel) {
   return false;
 }
 
-
-function addPanelToDom(panel) {
+function addPanelToDom(panel, buttonsVisible) {
+  var displayButtonClass = buttonsVisible ? "displayButton" : "";
+  var displayStyle = buttonsVisible ? "block" : "none";
+  
   $("#columnContainer" + panel.column).append(
-    '<div id="panel' + panel.id + '" class="panel">' +
+    '<div id="panel' + panel.id + '" class="panel" ' + 
+      'data-name="' + panel.name + '" ' +
+      'data-icon-name="' + panel.iconName + '" ' +
+      'data-icon-type="' + panel.iconType + '" ' +
+      'data-column="' + panel.column + '" ' +
+      'data-row="' + panel.row + '" ' +
+      'data-width="' + panel.width + '">' +
     '  <div class="panel-heading">' +
     '      <div class="btn-group pull-right">' +
-    '        <button id="panelBtnAddWidget' + panel.id + '" type="button" class="configButtons btn btn-default btn-sml" style="display: block;">' +
+    '        <button id="panelBtnAddWidget' + panel.id + '" type="button" class="configButtons btn btn-default btn-sml ' + displayButtonClass + '" style="display: ' + displayStyle + ';">' +
     '          <i class="fa fa-plus "></i>' +
     '        </button>' +
-    '        <button id="panelBtnRemoveWidget' + panel.id + '" type="button" class="configButtons btn btn-default btn-sml" style="display: block;">' +
+    '        <button id="panelBtnRemoveWidget' + panel.id + '" type="button" class="configButtons btn btn-default btn-sml ' + displayButtonClass + '" style="display: ' + displayStyle + ';">' +
     '          <i class="fa fa-minus"></i>' +
     '        </button>' +
-    '        <button id="panelBtnDelete' + panel.id + '" type="button" class="configButtons btn btn-default btn-sml" style="display: block;">' +
+    '        <button id="panelBtnDelete' + panel.id + '" type="button" class="configButtons btn btn-default btn-sml ' + displayButtonClass + '" style="display: ' + displayStyle + ';">' +
     '          <i class="fa fa-trash"></i>' +
     '        </button>' +
-    '        <button id="panelBtnMoveDown' + panel.id + '" type="button" class="configButtons btn btn-default btn-sml" style="display: block;">' +
+    '        <button id="panelBtnMoveDown' + panel.id + '" type="button" class="configButtons btn btn-default btn-sml ' + displayButtonClass + '" style="display: ' + displayStyle + ';">' +
     '          <i class="fa fa-arrow-down"></i>' +
     '        </button>' +
-    '        <button id="panelBtnMoveUp' + panel.id + '" type="button" class="configButtons btn btn-default btn-sml" style="display: block;">' +
+    '        <button id="panelBtnMoveUp' + panel.id + '" type="button" class="configButtons btn btn-default btn-sml ' + displayButtonClass + '" style="display: ' + displayStyle + ';">' +
     '          <i class="fa fa-caret-up"></i>' +
     '        </button>' +
-    '        <button id="panelBtnMoveLeft' + panel.id + '" type="button" class="configButtons btn btn-default btn-sml" style="display: block;">' +
+    '        <button id="panelBtnMoveLeft' + panel.id + '" type="button" class="configButtons btn btn-default btn-sml ' + displayButtonClass + '" style="display: ' + displayStyle + ';">' +
     '          <i class="fa fa-arrow-left"></i>' +
     '        </button>' +
-    '        <button id="panelBtnMoveRight' + panel.id + '" type="button" class="configButtons btn btn-default btn-sml" style="display: block;">' +
+    '        <button id="panelBtnMoveRight' + panel.id + '" type="button" class="configButtons btn btn-default btn-sml ' + displayButtonClass + '" style="display: ' + displayStyle + ';">' +
     '          <i class="fa fa-chevron-right"></i>' +
     '        </button>' +
     '      </div>' +
@@ -139,7 +157,7 @@ function movePanelDown(id) {
   
   if(panelList['panel' + id].position < (Object.keys(panelList).length - 1)) {
     // move down
-    swapPanel(panelList['panel' + id].id, panelList['panel' + id].nextId);
+    swapPanelVertically(panelList['panel' + id].id, panelList['panel' + id].nextId);
   }
 }
 
@@ -149,16 +167,48 @@ function movePanelUp(id) {
   
   if(panelList['panel' + id].position > 0) {
     // move up
-    swapPanel(panelList['panel' + id].id, panelList['panel' + id].prevId);
+    swapPanelVertically(panelList['panel' + id].id, panelList['panel' + id].prevId);
   }
 }
 
 function movePanelRight(id) {
+  var panel = $('#panel' + id);
+  var column = panel.data("column");
   
+//  panel
+//    .fadeOut('fast', function() {
+//      panel.appendTo("#columnContainer" + (column + 1));
+//      panel.hide();
+//      panel.fadeIn('fast');
+//    });
+
+  $('#panel' + id)
+    .animate({height: 0, padding: 0, margin: 0}, {easing: "linear", duration: "fast", queue: false})
+    .fadeOut('fast', function() {
+      panel.appendTo("#columnContainer" + (column + 1));
+      panel.hide();
+      panel.css('height', '');    
+      panel.css('padding', '');    
+      panel.css('margin', '');    
+      panel.fadeIn('fast');
+      
+  });
 }
 
 function movePanelLeft(id) {
-  
+  var panel = $('#panel' + id);
+  var column = panel.data("column");
+
+  $('#panel' + id)
+    .animate({height: 0, padding: 0, margin: 0}, {easing: "linear", duration: "fast", queue: false})
+    .fadeOut('fast', function() {
+      panel.appendTo("#columnContainer" + (column));
+      panel.hide();
+      panel.css('height', '');    
+      panel.css('padding', '');    
+      panel.css('margin', '');    
+      panel.fadeIn('fast');
+  });
 }
 
 function getPanelList(id) {
@@ -181,7 +231,7 @@ function getPanelList(id) {
   return panelList;
 }
 
-function swapPanel(a, b){ 
+function swapPanelVertically(a, b){ 
     a = $('#' + a)[0]; 
     b = $('#' + b)[0]; 
   
