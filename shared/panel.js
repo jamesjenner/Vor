@@ -92,6 +92,8 @@ Panel.merge = function (d1, d2) {
   mergeAttribute(d1, d2, 'column');
   mergeAttribute(d1, d2, 'width');
   mergeAttribute(d1, d2, 'row');
+  mergeAttribute(d1, d2, 'iconName');
+  mergeAttribute(d1, d2, 'iconType');
 };
 
 //function mergeIfSet(newValue, oldValue) {
