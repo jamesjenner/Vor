@@ -1,7 +1,6 @@
 
 function addPanel(panel) {
   sendAddPanel(panel);
-  // addPanelToDom(panel);
 }
 
 function processPanelMessages(server, id, content) {
@@ -51,14 +50,29 @@ function receivedDeletePanel(server, d) {
 }
 
 function receivedPanels(server, d) {
+  // TODO: logic to handle resend of panels
   // $(".panelRow").remove();
 
-  // get mode
   var buttonsVisible = isPanelAddMode();
   
-  for (var i in d) {
-    addPanelToDom(new Panel(d[i]), buttonsVisible);
+  var panelsArray = [];
+  
+  for (item in d) {
+   panelsArray.push(new Panel(d[item]));
   }
+
+  panelsArray.sort(function (a, b) {
+      if (a.row < b.row) {
+          return -1;
+      } else if (a.row > b.row) {
+          return 1;
+      }
+      return 0;
+  });
+
+  panelsArray.forEach(function (p) {
+    addPanelToDom(p, buttonsVisible);
+  });
 }
 
 function sendAddPanel(panel) {
@@ -74,7 +88,7 @@ function sendDeletePanel(panel) {
 function addPanelToDom(panel, buttonsVisible) {
   var displayButtonClass = buttonsVisible ? "displayButton" : "";
   var displayStyle = buttonsVisible ? "block" : "none";
-  
+  console.log("adding " + panel.name + " to column: " + panel.column);
   $("#columnContainer" + panel.column).append(
     '<div id="panel' + panel.id + '" class="panel" ' + 
       'data-name="' + panel.name + '" ' +
