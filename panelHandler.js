@@ -176,7 +176,7 @@ PanelHandler.prototype.setupCommsListeners = function(comms) {
   }.bind(this));
 
   comms.on(Panel.MESSAGE_UPDATE_PANEL, function (c, d) {
-    var panel = this.updatePanel(c, d);
+    var panel = this.updatePanel(d);
     
     if (panel !== null) {
       comms.sendMessage(c, Panel.MESSAGE_UPDATE_PANEL, panel);
