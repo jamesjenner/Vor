@@ -2,6 +2,7 @@
 /* global Panel:false, console:false, server:false, addWidget:false */
 
 function addPanel(panel) {
+  // TODO: determine the correct row (row of last element for column + 1)
   sendAddPanel(panel);
 }
 
@@ -28,6 +29,17 @@ function processPanelMessages(server, id, content) {
       receivedUpdatePanel(server, new Panel(content));
       processed = true;
       break;
+
+    case Panel.MESSAGE_MOVE_PANEL_UP:
+      console.log("content: " + content);
+      receivedMovePanelUp(server, content);
+      processed = true;
+      break;
+
+    case Panel.MESSAGE_MOVE_PANEL_DOWN:
+      receivedMovePanelDown(server, content);
+      processed = true;
+      break;
   }
 
   return processed;
@@ -47,6 +59,14 @@ function receivedDeletePanel(server, d) {
   deletePanel(d.id);
 }
 
+function receivedMovePanelUp(server, id) {
+  movePanelUp(id);
+}
+
+function receivedMovePanelDown(server, id) {
+  movePanelDown(id);
+}
+
 function receivedUpdatePanel(server, panel) {
   // get current data
   var currentPanelElement = $('#panel' + panel.id);
@@ -62,10 +82,6 @@ function receivedUpdatePanel(server, panel) {
   
   if(currentPanel.column !== panel.column) {
     changePanelColumn(panel);
-  }
-  
-  if(currentPanel.row !== panel.row) {
-    changePanelRow(panel);
   }
   
   if(currentPanel.iconName !== panel.iconName) {
@@ -114,17 +130,24 @@ function sendUpdatePanel(panel) {
   server.sendMessage(Panel.MESSAGE_UPDATE_PANEL, panel);
 }
 
+function sendMovePanelUp(id) {
+  server.sendMessage(Panel.MESSAGE_MOVE_PANEL_UP, id);
+}
+
+function sendMovePanelDown(id) {
+  server.sendMessage(Panel.MESSAGE_MOVE_PANEL_DOWN, id);
+}
+
 function addPanelToDom(panel, buttonsVisible) {
   var displayButtonClass = buttonsVisible ? "displayButton" : "";
   var displayStyle = buttonsVisible ? "block" : "none";
-  console.log("adding " + panel.name + " to column: " + panel.column + " row: " + panel.row);
+
   $("#columnContainer" + panel.column).append(
     '<div id="panel' + panel.id + '" class="panel" ' + 
       'data-name="' + panel.name + '" ' +
       'data-iconName="' + panel.iconName + '" ' +
       'data-iconType="' + panel.iconType + '" ' +
       'data-column="' + panel.column + '" ' +
-      'data-row="' + panel.row + '" ' +
       'data-width="' + panel.width + '">' +
     '  <div class="panel-heading">' +
     '      <div class="btn-group pull-right">' +
@@ -171,15 +194,11 @@ function addPanelToDom(panel, buttonsVisible) {
   });
     
   $('#panelBtnMoveDown' + panel.id).on('click', function() {
-    panel.row++;
-    sendUpdatePanel(panel);
-    // movePanelDown(panel.id);
+    sendMovePanelDown(panel.id);
   });
     
   $('#panelBtnMoveUp' + panel.id).on('click', function() {
-    panel.row--;
-    sendUpdatePanel(panel);
-    // movePanelUp(panel.id);
+    sendMovePanelUp(panel.id);
   });
     
   $('#panelBtnMoveLeft' + panel.id).on('click', function() {
@@ -232,7 +251,7 @@ function changePanelColumn(panelData) {
         .css('padding', '')
         .css('margin', '')
         .fadeIn('fast')
-        .data('column', panel.column);;
+        .data('column', panel.column);
       
   });
 }
@@ -263,7 +282,7 @@ function changePanelRow(panelData) {
         .css('padding', '')
         .css('margin', '')
         .fadeIn('fast')
-        .data('row', panel.row);;
+        .data('row', panel.row);
   });
 }
 

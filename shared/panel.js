@@ -59,6 +59,9 @@ Panel.MESSAGE_UPDATE_PANEL = 'updatePanel';
 Panel.MESSAGE_GET_PANELS = 'getPanels';
 Panel.MESSAGE_PANELS = 'panels';
 
+Panel.MESSAGE_MOVE_PANEL_UP = 'movePanelUp';
+Panel.MESSAGE_MOVE_PANEL_DOWN = 'movePanelDown';
+
 
 function Panel(options) {
   options = options || {};
@@ -78,31 +81,14 @@ function Panel(options) {
  * merge
  */
 Panel.merge = function (d1, d2) {
-//  d1.name = mergeIfSet(d2.name, d1.name);
-//  d1.column = mergeIfSet(d2.column, d1.column);
-//  d1.width = mergeIfSet(d2.width, d1.width);
-//  d1.row = mergeIfSet(d2.row, d1.row);
-//
-//  d1.name = mergeIfModified(d1, d2, 'name');
-//  d1.column = mergeIfModified(d1, d2, 'column');
-//  d1.width = mergeIfModified(d1, d2, 'width');
-//  d1.row = mergeIfModified(d1, d2, 'row');
-
   mergeAttribute(d1, d2, 'name');
   mergeAttribute(d1, d2, 'column');
   mergeAttribute(d1, d2, 'width');
-  mergeAttribute(d1, d2, 'row');
+  // TODO: sort out management of row value
+  // mergeAttribute(d1, d2, 'row');
   mergeAttribute(d1, d2, 'iconName');
   mergeAttribute(d1, d2, 'iconType');
 };
-
-//function mergeIfSet(newValue, oldValue) {
-//  return  ((newValue !== null && newValue !== undefined) ? newValue : oldValue);
-//}
-//
-//function mergeIfModified(objectOld, objectNew, attribute) {
-//  return  ((objectNew[attribute] !== null && objectNew[attribute] !== undefined) ? objectNew[attribute] : objectOld[attribute]);
-//}
 
 function mergeAttribute(object, modifiedObject, attribute) {
   object[attribute] = ((modifiedObject[attribute] !== null && modifiedObject[attribute] !== undefined) ? modifiedObject[attribute] : object[attribute]);

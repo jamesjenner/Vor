@@ -44,9 +44,10 @@ function PanelHandler(options) {
 }
 
 PanelHandler.prototype.addPanel = function (data) {
-  // TODO: add logic to check if the panel exists, based on name
   var panel = new Panel(data);
 
+  panel.row = this.panels.length;
+  
   this.panels.push(panel);
 
   this._save();
@@ -54,6 +55,67 @@ PanelHandler.prototype.addPanel = function (data) {
   return panel;
 };
 
+PanelHandler.prototype.movePanelDown = function (id) {
+  var originalPanel = null;
+  var swapPanel = null;
+  var newRow;
+  
+  if (id === null || id === undefined) {
+    // TODO: add log or debug option
+    return;
+  }
+
+  originalPanel = this._findById(id);
+
+  if((originalPanel.row + 1) > (this.panels.length - 1)) {
+    return '';
+  }
+  
+  if (originalPanel !== null) {
+    swapPanel = this._findByColumnRow(originalPanel.column, originalPanel.row + 1);
+  }
+
+  if (swapPanel !== null) {
+    newRow = swapPanel.row;
+    swapPanel.row = originalPanel.row;
+    originalPanel.row = newRow;
+    
+    this._save();
+  }
+  
+  return id;
+};
+
+PanelHandler.prototype.movePanelUp = function (id) {
+  var originalPanel = null;
+  var swapPanel = null;
+  var newRow;
+  
+  if (id === null || id === undefined) {
+    // TODO: add log or debug option
+    return;
+  }
+
+  originalPanel = this._findById(id);
+
+  if(originalPanel.row < 1) {
+    return '';
+  }
+  
+  if (originalPanel !== null) {
+    swapPanel = this._findByColumnRow(originalPanel.column, originalPanel.row - 1);
+  }
+
+  if (swapPanel !== null) {
+    newRow = swapPanel.row;
+    swapPanel.row = originalPanel.row;
+    originalPanel.row = newRow;
+    
+    this._save();
+  }
+  
+  return id;
+};
 /*
  * updatePanel updates the panel
  * 
@@ -62,13 +124,11 @@ PanelHandler.prototype.addPanel = function (data) {
  * returns the resulting panel (merged) if identified by id, otherwise null
  */
 PanelHandler.prototype.updatePanel = function (data) {
-  // if the message isn't set and the id isn't set then do nothing
   if (data === null || data === undefined || data.id === null || data.id === undefined) {
 //    console.log((new Date()) + ' Update panel failed, id is not specififed.');
     return;
   }
 
-  // find the vehicle
   var panel = this._findById(data.id);
 
   if (panel !== null) {
@@ -119,7 +179,7 @@ PanelHandler.prototype.removePanel = function (data) {
 };
 
 /** 
- * findById - finds the panel based on it's id
+ * _findById - finds the panel based on it's id
  *
  * returns null if not found, otherwise the panel
  */
@@ -133,6 +193,28 @@ PanelHandler.prototype._findById = function (id) {
 
   for (var i in this.panels) {
     if (this.panels[i].id === id) {
+      return this.panels[i];
+    }
+  }
+
+  return panel;
+};
+
+/** 
+ * _findByColumnRow - finds the panel for the specified row and column
+ *
+ * returns null if not found, otherwise the panel
+ */
+PanelHandler.prototype._findByColumnRow = function (column, row) {
+  var panel = null;
+
+  // if id isn't set then return
+  if (row === null || row === undefined || column === null || column === undefined) {
+    return panel;
+  }
+
+  for (var i in this.panels) {
+    if ( this.panels[i].column === column && this.panels[i].row === row) {
       return this.panels[i];
     }
   }
@@ -175,6 +257,14 @@ PanelHandler.prototype.setupCommsListeners = function(comms) {
     comms.sendMessage(c, Panel.MESSAGE_ADD_PANEL, this.addPanel(d));
   }.bind(this));
 
+  comms.on(Panel.MESSAGE_MOVE_PANEL_UP, function (c, d) {
+    comms.sendMessage(c, Panel.MESSAGE_MOVE_PANEL_UP, this.movePanelUp(d));
+  }.bind(this));
+
+  comms.on(Panel.MESSAGE_MOVE_PANEL_DOWN, function (c, d) {
+    comms.sendMessage(c, Panel.MESSAGE_MOVE_PANEL_DOWN, this.movePanelDown(d));
+  }.bind(this));
+
   comms.on(Panel.MESSAGE_UPDATE_PANEL, function (c, d) {
     var panel = this.updatePanel(d);
     
@@ -208,6 +298,16 @@ PanelHandler.messsageHandler = function (comms, connection, msgId, msgBody) {
       messageProcessed = true;
       break;
 
+    case Panel.MESSAGE_MOVE_PANEL_UP:
+      comms.emit(Panel.MESSAGE_MOVE_PANEL_UP, connection, msgBody);
+      messageProcessed = true;
+      break;
+      
+    case Panel.MESSAGE_MOVE_PANEL_DOWN:
+      comms.emit(Panel.MESSAGE_MOVE_PANEL_DOWN, connection, msgBody);
+      messageProcessed = true;
+      break;
+      
     case Panel.MESSAGE_UPDATE_PANEL:
   // TODO: sort out logs
   //  if (self.loggingIn) {
