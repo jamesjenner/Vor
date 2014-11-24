@@ -154,13 +154,18 @@ PanelHandler.prototype.updatePanel = function (data) {
 PanelHandler.prototype.removePanel = function (data) {
   // if the message isn't set and the id isn't set then do nothing
   if (data === null || data === undefined || data.id === null || data.id === undefined) {
-//    console.log((new Date()) + ' Update panel failed, id is not specififed.');
+    // TODO: sort out log reporting
     return;
   }
 
+  var adjust = false;
+  var row = data.row;
   var idx = -1;
-  
-  for(var i = 0, l = this.panels.length; i < l; i++) {
+  var len = this.panels.length;
+  var i = 0;
+
+  // determine entry
+  for(i = 0; i < len; i++) {
     if(this.panels[i].id === data.id) {
       idx = i;
       break;
@@ -172,6 +177,14 @@ PanelHandler.prototype.removePanel = function (data) {
   }
   
   this.panels.splice(idx, 1);
+  len--;
+  
+  // reorder row
+  for(i = idx; i < len; i++) {
+    if(this.panels[i].column === data.column) {
+      this.panels[i].row = row++;
+    }
+  }
   
   this._save();
   
