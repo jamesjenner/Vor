@@ -46,7 +46,7 @@ function PanelHandler(options) {
 PanelHandler.prototype.addPanel = function (data) {
   var panel = new Panel(data);
 
-  panel.row = this.panels.length;
+  panel.row = this._getNumberOfPanels(panel.column);
   
   this.panels.push(panel);
 
@@ -82,7 +82,7 @@ PanelHandler.prototype.movePanelDown = function (id) {
     
     this._save();
   }
-  
+
   return id;
 };
 
@@ -176,6 +176,22 @@ PanelHandler.prototype.removePanel = function (data) {
   this._save();
   
   return true;
+};
+
+PanelHandler.prototype._getNumberOfPanels = function (column) {
+  var count = 0;
+  
+  if (column === null || column === undefined) {
+    column = 0;
+  }
+
+  for (var i in this.panels) {
+    if (this.panels[i].column === column) {
+      count++;
+    }
+  }
+  
+  return count;
 };
 
 /** 
