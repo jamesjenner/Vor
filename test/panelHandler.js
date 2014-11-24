@@ -9,7 +9,12 @@ var Message = require('../shared/panel.js');
 // expect(wsDefsProcessed).to.deep.equal(expected.def, testDesc + ": definitions do not match");
     
 describe('#PanelHandler', function() {
+  before(function() {
+    // backup the existing 
+    fs.renameSync(PanelHandler.PANELS_FILE, PanelHandler.PANELS_FILE + ".tmp");
+  });
   beforeEach(function() {
+    // create a version for testing
     fs.writeFileSync(PanelHandler.PANELS_FILE, JSON.stringify(
 [
 	{
@@ -50,6 +55,19 @@ describe('#PanelHandler', function() {
 	}
 ]      
     , null, '\t'));
+  });
+  
+  
+  afterEach(function() {
+    // delete the test version
+    fs.unlinkSync(PanelHandler.PANELS_FILE);
+
+  });
+  
+  after(function() {
+    // restore the original 
+    fs.renameSync(PanelHandler.PANELS_FILE + ".tmp", PanelHandler.PANELS_FILE);
+
   });
   
   it('adds panel correctly', function(done) {
@@ -209,11 +227,5 @@ describe('#PanelHandler', function() {
 	panelHandler.panels[2].row.should.equal(2);
     panelHandler.panels[3].id.should.equal("978f05e0-eae6-4ae9-933d-1e8e11651fe8");
 	panelHandler.panels[3].row.should.equal(3);
-  });
-  
-  
-  
-  afterEach(function() {
-    fs.unlinkSync(PanelHandler.PANELS_FILE);
   });
 });
