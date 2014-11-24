@@ -2,3 +2,4 @@ private_images/
 node_modules/
 *.log
 panels.json
+users.json
