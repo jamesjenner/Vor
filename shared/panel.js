@@ -61,6 +61,8 @@ Panel.MESSAGE_PANELS = 'panels';
 
 Panel.MESSAGE_MOVE_PANEL_UP = 'movePanelUp';
 Panel.MESSAGE_MOVE_PANEL_DOWN = 'movePanelDown';
+Panel.MESSAGE_MOVE_PANEL_RIGHT = 'movePanelRight';
+Panel.MESSAGE_MOVE_PANEL_LEFT = 'movePanelLeft';
 
 
 function Panel(options) {

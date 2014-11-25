@@ -373,6 +373,14 @@ PanelHandler.prototype.setupCommsListeners = function(comms) {
     comms.sendMessage(c, Panel.MESSAGE_MOVE_PANEL_DOWN, this.movePanelDown(d));
   }.bind(this));
 
+  comms.on(Panel.MESSAGE_MOVE_PANEL_LEFT, function (c, d) {
+    comms.sendMessage(c, Panel.MESSAGE_MOVE_PANEL_LEFT, this.movePanelLeft(d));
+  }.bind(this));
+
+  comms.on(Panel.MESSAGE_MOVE_PANEL_RIGHT, function (c, d) {
+    comms.sendMessage(c, Panel.MESSAGE_MOVE_PANEL_RIGHT, this.movePanelRight(d));
+  }.bind(this));
+
   comms.on(Panel.MESSAGE_UPDATE_PANEL, function (c, d) {
     var panel = this.updatePanel(d);
     
@@ -413,6 +421,16 @@ PanelHandler.messsageHandler = function (comms, connection, msgId, msgBody) {
       
     case Panel.MESSAGE_MOVE_PANEL_DOWN:
       comms.emit(Panel.MESSAGE_MOVE_PANEL_DOWN, connection, msgBody);
+      messageProcessed = true;
+      break;
+      
+    case Panel.MESSAGE_MOVE_PANEL_LEFT:
+      comms.emit(Panel.MESSAGE_MOVE_PANEL_LEFT, connection, msgBody);
+      messageProcessed = true;
+      break;
+      
+    case Panel.MESSAGE_MOVE_PANEL_RIGHT:
+      comms.emit(Panel.MESSAGE_MOVE_PANEL_RIGHT, connection, msgBody);
       messageProcessed = true;
       break;
       
