@@ -230,22 +230,24 @@ PanelHandler.prototype.updatePanel = function (data) {
  * 
  * returns true if sucessful, otherwise false
  */
-PanelHandler.prototype.removePanel = function (data) {
+PanelHandler.prototype.removePanel = function (id) {
   // if the message isn't set and the id isn't set then do nothing
-  if (data === null || data === undefined || data.id === null || data.id === undefined) {
+  if (id === null || id === undefined) {
     // TODO: sort out log reporting
-    return;
+    return false;
   }
 
+  var panel = this._findById(id);
+  
   var adjust = false;
-  var row = data.row;
+  var row = panel.row;
   var idx = -1;
   var len = this.panels.length;
   var i = 0;
 
   // determine entry
   for(i = 0; i < len; i++) {
-    if(this.panels[i].id === data.id) {
+    if(this.panels[i].id === panel.id) {
       idx = i;
       break;
     }
@@ -260,7 +262,7 @@ PanelHandler.prototype.removePanel = function (data) {
   
   // reorder row
   for(i = idx; i < len; i++) {
-    if(this.panels[i].column === data.column) {
+    if(this.panels[i].column === panel.column) {
       this.panels[i].row = row++;
     }
   }
