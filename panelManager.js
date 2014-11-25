@@ -40,6 +40,16 @@ function processPanelMessages(server, id, content) {
       receivedMovePanelDown(server, content);
       processed = true;
       break;
+
+    case Panel.MESSAGE_MOVE_PANEL_LEFT:
+      receivedMovePanelLeft(server, content);
+      processed = true;
+      break;
+
+    case Panel.MESSAGE_MOVE_PANEL_RIGHT:
+      receivedMovePanelRight(server, content);
+      processed = true;
+      break;
   }
 
   return processed;
@@ -65,6 +75,14 @@ function receivedMovePanelUp(server, id) {
 
 function receivedMovePanelDown(server, id) {
   movePanelDown(id);
+}
+
+function receivedMovePanelLeft(server, panel) {
+  changePanelColumn(panel);
+}
+
+function receivedMovePanelRight(server, panel) {
+  changePanelColumn(panel);
 }
 
 function receivedUpdatePanel(server, panel) {
@@ -138,6 +156,14 @@ function sendMovePanelDown(id) {
   server.sendMessage(Panel.MESSAGE_MOVE_PANEL_DOWN, id);
 }
 
+function sendMovePanelLeft(id) {
+  server.sendMessage(Panel.MESSAGE_MOVE_PANEL_LEFT, id);
+}
+
+function sendMovePanelRight(id) {
+  server.sendMessage(Panel.MESSAGE_MOVE_PANEL_RIGHT, id);
+}
+
 function addPanelToDom(panel, buttonsVisible) {
   var displayButtonClass = buttonsVisible ? "displayButton" : "";
   var displayStyle = buttonsVisible ? "block" : "none";
@@ -147,7 +173,6 @@ function addPanelToDom(panel, buttonsVisible) {
       'data-name="' + panel.name + '" ' +
       'data-iconName="' + panel.iconName + '" ' +
       'data-iconType="' + panel.iconType + '" ' +
-      'data-column="' + panel.column + '" ' +
       'data-width="' + panel.width + '">' +
     '  <div class="panel-heading">' +
     '      <div class="btn-group pull-right">' +
@@ -202,13 +227,11 @@ function addPanelToDom(panel, buttonsVisible) {
   });
     
   $('#panelBtnMoveLeft' + panel.id).on('click', function() {
-    panel.column--;
-    sendUpdatePanel(panel);
+    sendMovePanelLeft(panel.id);
   });
     
   $('#panelBtnMoveRight' + panel.id).on('click', function() {
-    panel.column++;
-    sendUpdatePanel(panel);
+    sendMovePanelRight(panel.id);
   });
 }
 
@@ -250,39 +273,8 @@ function changePanelColumn(panelData) {
         .css('height', '')
         .css('padding', '')
         .css('margin', '')
-        .fadeIn('fast')
-        .data('column', panel.column);
+        .fadeIn('fast');
       
-  });
-}
-
-function changePanelRow(panelData) {
-  var panelList = getPanelList(panelData.id);
-  var panel = $('#panel' + panelData.id);
-  var insertPointPanelId, p, pData;
-  
-  // panelList is sorted based on apperance, which will be in row order, so iterate, find the correct pos and insert.
-  for(p in panelList) {
-    pData = $(panelList[p].value).data();
-    
-    if(pData.row === panelData.row) {
-      break;
-    }
-    
-    insertPointPanelId = pData.id;
-  }
-  
-  $('#panel' + panelData.id)
-    .animate({height: 0, padding: 0, margin: 0}, {easing: "linear", duration: "fast", queue: false})
-    .fadeOut('fast', function() {
-      panel
-        .insertAfter("#panel" + insertPointPanelId)
-        .hide()
-        .css('height', '')
-        .css('padding', '')
-        .css('margin', '')
-        .fadeIn('fast')
-        .data('row', panel.row);
   });
 }
 
