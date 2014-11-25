@@ -65,8 +65,8 @@ function receivedAddPanel(server, d) {
   addPanelToDom(d, isPanelAddMode());
 }
 
-function receivedDeletePanel(server, d) {
-  deletePanel(d.id);
+function receivedDeletePanel(server, id) {
+  deletePanel(id);
 }
 
 function receivedMovePanelUp(server, id) {
@@ -140,8 +140,8 @@ function sendAddPanel(panel) {
   server.sendMessage(Panel.MESSAGE_ADD_PANEL, panel);
 }
 
-function sendDeletePanel(panel) {
-  server.sendMessage(Panel.MESSAGE_DELETE_PANEL, panel);
+function sendDeletePanel(id) {
+  server.sendMessage(Panel.MESSAGE_DELETE_PANEL, id);
 }
 
 function sendUpdatePanel(panel) {
@@ -215,7 +215,7 @@ function addPanelToDom(panel, buttonsVisible) {
   });
     
   $('#panelBtnDelete' + panel.id).on('click', function() {
-    sendDeletePanel(panel);
+    sendDeletePanel(panel.id);
   });
     
   $('#panelBtnMoveDown' + panel.id).on('click', function() {
