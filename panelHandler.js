@@ -39,6 +39,8 @@ function PanelHandler(options) {
   // EventEmitter.call(this);
   this.panels = [];
   this._load();
+  this.maxColumns = 2;
+  // TODO: add logic to support a settings/property for max columns
   
   // TODO: add log/debug logic
 }
@@ -116,6 +118,83 @@ PanelHandler.prototype.movePanelUp = function (id) {
   
   return id;
 };
+
+PanelHandler.prototype.movePanelLeft = function (id) {
+  var panel = null;
+  var oldColumn = 0;
+  var oldRow = 0;
+  
+  if (id === null || id === undefined) {
+    // TODO: add log or debug option
+    return;
+  }
+
+  panel = this._findById(id);
+
+  if (panel !== null) {
+    if((panel.column - 1) < 1) {
+      return '';
+    }
+
+    // find last position on left
+    
+    oldColumn = panel.column;
+    oldRow = panel.row;
+    panel.row = this._getNumberOfPanels(panel.column - 1); // first row is always zero
+    panel.column--; // adjust column after counting, otherwise out by one
+    
+    // update rows from where removed
+    for(var i = 0; i < this.panels.length; i++) {
+      if(this.panels[i].column === oldColumn && this.panels[i].row > oldRow) {
+        this.panels[i].row--;
+      }
+    }
+    
+    this._save();
+  }
+
+  return id;
+};
+
+
+PanelHandler.prototype.movePanelRight = function (id) {
+  var panel = null;
+  var oldColumn = 0;
+  var oldRow = 0;
+  
+  if (id === null || id === undefined) {
+    // TODO: add log or debug option
+    return;
+  }
+
+  panel = this._findById(id);
+
+  if (panel !== null) {
+    if((panel.column + 1) > this.maxColumns) {
+      return '';
+    }
+
+    // find last position on left
+    
+    oldColumn = panel.column;
+    oldRow = panel.row;
+    panel.row = this._getNumberOfPanels(panel.column + 1); // first row is always zero
+    panel.column++; // adjust column after counting, otherwise out by one
+    
+    // update rows from where removed
+    for(var i = 0; i < this.panels.length; i++) {
+      if(this.panels[i].column === oldColumn && this.panels[i].row > oldRow) {
+        this.panels[i].row--;
+      }
+    }
+    
+    this._save();
+  }
+
+  return id;
+};
+
+
 /*
  * updatePanel updates the panel
  * 
@@ -203,7 +282,7 @@ PanelHandler.prototype._getNumberOfPanels = function (column) {
       count++;
     }
   }
-  
+
   return count;
 };
 
