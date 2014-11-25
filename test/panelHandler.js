@@ -119,11 +119,7 @@ describe('#PanelHandler', function() {
   it('deletes panel correctly', function(done) {
     var panelHandler = new PanelHandler();
 
-    panelHandler.removePanel({
-		"id": "bf5a7fe8-3f30-4465-8629-80ec2fc04fa0",
-		"column": 1,
-		"row": 1,
-	});
+    panelHandler.removePanel("bf5a7fe8-3f30-4465-8629-80ec2fc04fa0");
     done();
     
     panelHandler.panels.length.should.equal(7);
