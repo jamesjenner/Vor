@@ -153,7 +153,7 @@ PanelHandler.prototype.movePanelLeft = function (id) {
     this._save();
   }
 
-  return id;
+  return panel;
 };
 
 
@@ -191,7 +191,7 @@ PanelHandler.prototype.movePanelRight = function (id) {
     this._save();
   }
 
-  return id;
+  return panel;
 };
 
 
