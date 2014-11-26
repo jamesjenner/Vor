@@ -2,5 +2,5 @@ private_images/
 node_modules/
 *.log
 panels.json
-dataSource.json
+dataSources.json
 users.json
