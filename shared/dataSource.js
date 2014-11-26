@@ -41,7 +41,7 @@ module.exports = DataSource;
 DataSource.KEY = 'DataSource';
 
 DataSource.TYPE_VERSION_ONE = 'Version One';
-DataSource.TYPE_JEKINS = 'Jenkins';
+DataSource.TYPE_JENKINS = 'Jenkins';
 DataSource.TYPE_SALES_FORCE = 'Sales Force';
 DataSource.TYPE_INTERNAL = 'Internal';
 
@@ -64,25 +64,27 @@ function DataSource(options) {
   this.type = ((options.type !== null && options.type !== undefined) ? options.type : DataSource.DEFAULT_TYPE);
   this.name = ((options.name !== null && options.name !== undefined) ? options.name : DataSource.DEFAULT_NAME);
   
+  this.protocol = ((options.protocol !== null && options.protocol !== undefined) ? options.protocol : '');
   this.hostname = ((options.hostname !== null && options.hostname !== undefined) ? options.hostname : '');
   this.port = ((options.port !== null && options.port !== undefined) ? options.port : '');
+  this.instance = ((options.instance !== null && options.instance !== undefined) ? options.instance : '');
   this.username = ((options.username !== null && options.username !== undefined) ? options.username : '');
   this.password = ((options.password !== null && options.password !== undefined) ? options.password : '');
 
-  this.protocol = ((options.protocol !== null && options.protocol !== undefined) ? options.protocol : '');
 }
 
 /* 
  * merge
  */
 DataSource.merge = function (d1, d2) {
+  mergeAttribute(d1, d2, 'type');
   mergeAttribute(d1, d2, 'name');
-  mergeAttribute(d1, d2, 'column');
-  mergeAttribute(d1, d2, 'width');
-  // TODO: sort out management of row value
-  // mergeAttribute(d1, d2, 'row');
-  mergeAttribute(d1, d2, 'iconName');
-  mergeAttribute(d1, d2, 'iconType');
+  mergeAttribute(d1, d2, 'protocol');
+  mergeAttribute(d1, d2, 'hostname');
+  mergeAttribute(d1, d2, 'port');
+  mergeAttribute(d1, d2, 'instance');
+  mergeAttribute(d1, d2, 'username');
+  mergeAttribute(d1, d2, 'password');
 };
 
 function mergeAttribute(object, modifiedObject, attribute) {
