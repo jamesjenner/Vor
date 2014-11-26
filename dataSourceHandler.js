@@ -195,7 +195,7 @@ DataSourceHandler.prototype.setupCommsListeners = function(comms) {
   }.bind(this));
 };
 
-DataSourceHandler.messsageHandler = function (comms, connection, msgId, msgBody) {
+DataSourceHandler.messageHandler = function (comms, connection, msgId, msgBody) {
   var messageProcessed = false;
   
   switch (msgId) {
