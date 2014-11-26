@@ -1,4 +1,4 @@
-/* global $:false,bootbox,document,BootBoxWiz */
+/* global $:false,bootbox,document,BootBoxWiz,Server,processPanelMessages,processDataSourceMessages,displayAddPanelDialog */
 
 /*
  * Main javascript logic for index.html
@@ -23,6 +23,7 @@ function configureApplication() {
   server = new Server({
     messageHandlers: [
       processPanelMessages,
+      processDataSourceMessages,
     ]
   });
 
