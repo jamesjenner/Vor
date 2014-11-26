@@ -354,6 +354,25 @@ ul.dropdown-menu-form {
   border-color: white;
 }
 
+.gridRowButtons {
+  border-color: transparent;
+  background-color: transparent;
+  color: #333;
+}
+
+.gridRowButtonInactive:hover {
+  background-color: transparent;
+  border-color: white;
+  color: white;
+}
+
+.gridRowButtons:active {
+  background-color: black;
+  border-color: blue;
+  color: #333;
+}
+
+
 .displayButton {
   display: inline-block;
 }
