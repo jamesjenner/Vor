@@ -402,7 +402,7 @@ PanelHandler.prototype.setupCommsListeners = function(comms) {
   }.bind(this));
 };
 
-PanelHandler.messsageHandler = function (comms, connection, msgId, msgBody) {
+PanelHandler.messageHandler = function (comms, connection, msgId, msgBody) {
   var messageProcessed = false;
   
   switch (msgId) {
