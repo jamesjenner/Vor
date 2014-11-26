@@ -1,3 +1,5 @@
+/* jshint browser: true, jquery: true */
+/* global bootbox:false, console:false, Panel:false, addPanel:false */
 
 function displayAddPanelDialog() {
   bootbox.dialog({
