@@ -1,9 +1,14 @@
 /* jshint browser: true, jquery: true */
-/* global DataSource:false, console:false, server:false, */
+/* global DataSource:false, console:false, server:false, viewDataSourceWizard:false */
 
 function addDataSource(dataSource) {
   // TODO: determine the correct row (row of last element for column + 1)
   sendAddDataSource(dataSource);
+}
+
+function updateDataSource(dataSource) {
+  // TODO: determine the correct row (row of last element for column + 1)
+  sendUpdateDataSource(dataSource);
 }
 
 function processDataSourceMessages(server, id, content) {
@@ -106,11 +111,10 @@ function addDataSourceToDom(dataSource) {
     '  <td>' + dataSource.name + '</td>' +
     '  <td class="rowlink-skip">' + 
     '    <div class="btn-group pull-right">' +
-    '      <button id="dataSourceBtnDelete' + dataSource.id + '" type="button" class="configButtons btn btn-default btn-sml ">' +
+    '      <button id="dataSourceBtnDelete' + dataSource.id + '" type="button" class="gridRowButtons btn btn-default ">' +
     '        <i class="fa fa-trash"></i>' +
     '      </button>' +
     '    </div>' +
-    '    <a href="#">Action</a>' +
     '  </td>' +
     '</tr>'
   );
