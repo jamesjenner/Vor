@@ -208,7 +208,8 @@ function addPanelToDom(panel, buttonsVisible) {
   $('#panel' + panel.id).hide().fadeIn('slow');
   
   $('#panelBtnAddWidget' + panel.id).on('click', function() {
-    addWidget('#panel' + panel.id);
+    // addWidget('#panel' + panel.id);
+    addWidget(panel.id);
   });
     
   $('#panelBtnRemoveWidget' + panel.id).on('click', function() {
