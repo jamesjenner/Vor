@@ -124,7 +124,12 @@ function addDataSourceToDom(dataSource) {
   $('#dataSourceBtnDelete' + dataSource.id).on('click', function() {
     sendDeleteDataSource(dataSource.id);
   });
+  
+  dataSources.push(dataSource);
 }
+
+// TODO: sort out this global
+var dataSources = [];
 
 function deleteDataSource(id) {
   $('#dataSourceRow' + id)
