@@ -356,37 +356,7 @@
                     <th>Actions</th>
                   </tr>
                 </thead>
-                <tbody data-link="row" class="rowlink">
-                  <tr>
-                    <td><a class="dataSourceRow" href="#inputmask"  data-key="1111182892">Jenkins</a></td>
-                    <td>Brisbane Development</td>
-                    <td class="rowlink-skip"><a href="#">Action</a></td>
-                  </tr>
-                  <tr>
-                    <td><a class="dataSourceRow" href="#skasjkakj"  data-key="1">Version One</a></td>
-                    <td>Test Sandbox</td>
-                    <td class="rowlink-skip"><a href="#">Action</a></td>
-                  </tr>
-                  <tr>
-                    <td><a class="dataSourceRow" href="#skasjkakj"  data-key="1111182820">Version One</a></td>
-                    <td>Production</td>
-                    <td class="rowlink-skip"><a href="#">Action</a></td>
-                  </tr>
-                  <tr>
-                    <td><a class="dataSourceRow" href="#rowlinkMo"  data-key="1111182822">Salesforce.com</a></td>
-                    <td>Test Sandbox #1</td>
-                    <td class="rowlink-skip"><a href="#">Action</a></td>
-                  </tr>
-                  <tr>
-                    <td><a class="dataSourceRow" href="#rowlinkMo"  data-key="1111182829">Salesforce.com</a></td>
-                    <td>Test Sandbox #2</td>
-                    <td class="rowlink-skip"><a href="#">Action</a></td>
-                  </tr>
-                  <tr>
-                    <td><a class="dataSourceRow" href="#rowlinkMo" data-key="1111182828">Salesforce.com</a></td>
-                    <td>Production</td>
-                    <td class="rowlink-skip"><a href="#">Action</a></td>
-                  </tr>
+                <tbody id="dataSourcesGrid" data-link="row" class="rowlink">
                 </tbody>
               </table>
             </div>
@@ -420,13 +390,16 @@
 
     <script src="./bower_components/jasny-bootstrap/dist/js/jasny-bootstrap.min.js"></script>
     
-    <script src="./main.js"></script>
     <script src="./node_modules/node-uuid/uuid.js"></script>    
     <script src="./bower_components/meltingpot/shared/message.js"></script>
     <script src="./bower_components/meltingpot/server.js"></script>
     <script src="./shared/panel.js"></script>
     <script src="./panelManager.js"></script>
     <script src="./panelDialog.js"></script>
+    <script src="./shared/dataSource.js"></script>
+    <script src="./dataSourceManager.js"></script>
+    <script src="./dataSourceDialog.js"></script>
+    <script src="./main.js"></script>
   <script> 
     $(document).ready(function() {
       configureApplication();

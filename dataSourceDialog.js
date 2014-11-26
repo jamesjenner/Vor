@@ -1,165 +1,37 @@
-/* global $:false,bootbox,document,BootBoxWiz */
 
-/*
- * Main javascript logic for index.html
- * 
- * Dependancies:
- *    jquery
- *    css/styles.css
- */
+function viewDataSourceWizard(mode, dataSource) {
+  var mode = ((mode !== null && mode !== undefined) ? mode : 'add');
+  var dataSource = ((dataSource !== null && dataSource !== undefined) ? dataSource : {});
+  var title = "Data Source";
+  
+  switch(mode) {
+    case 'add':
+      title = "Add a Data Source";
+      break;
 
-var server = null;
-var addPanelMode = false;
-
-function configureApplication() {
-  addApplicationButtonListeners();
-  
-  // apply select picker styling
-  $('.selectpicker').selectpicker();
-  
-  // apply jasny rowlink logic to tables
-  $('tbody.rowlink').rowlink();
-  
-  server = new Server({
-    messageHandlers: [
-      processPanelMessages,
-    ]
-  });
-
-  server.connect();
-}
-
-function addApplicationButtonListeners() {
-  
-  $("body").on('change', '#toggleConfigMode', function() {
-    toggleConfigMode();
-  });
-  
-  $("body").on('click', '#viewHome', function() {
-    toggleButtonViewSelection('viewHome');
-    showAddPanelButton();
-    displayPane("homePane");
-  });
-  
-  $("body").on('click', '#viewSettings', function() {
-    toggleButtonViewSelection('viewSettings');
-    hideAddPanelButton();
-    displayPane("settingsPane");
-  });
-  
-  $("body").on('click', '#viewThemes', function() {
-    toggleButtonViewSelection('viewThemes');
-    hideAddPanelButton();
-    displayPane("themesPane");
-  });
-    
-  $("body").on('click', '#viewContent', function() {
-    toggleButtonViewSelection('viewContent');
-    hideAddPanelButton();
-    displayPane("bannerContentPane");
-  });
-    
-  $("#viewDataSources").on('click', function() {
-    toggleButtonViewSelection('viewDataSources');
-    hideAddPanelButton();
-    displayPane("dataSourcesPane");
-  });
-
-  $("body").on('click', '#addPanel', function() {
-    displayAddPanelDialog();
-  });
-  
-  // TODO: better manage adding triggers for sub areas 
-  setupDataSourcesPane();
-}
-
-function toggleConfigMode() {
-  var currentPaneId = $('.activePane').attr('id');
-  
-  if(currentPaneId !== "") {
-    $("#viewHome").trigger('click');
+    case 'update':
+      title = "Modify Data Source";
+      break;
   }
   
-  $(".configButtons").fadeToggle("slow", function() {}).toggleClass('displayButton').css("display","");
-}
-
-function toggleButtonViewSelection(buttonId) {
-  var previousId = $('.configButtonActive').attr('id');
-
-  $('#' + previousId).toggleClass('configButtonInactive');
-  $('#' + previousId).toggleClass('configButtonActive');
-  
-  $('#' + buttonId).toggleClass('configButtonInactive');
-  $('#' + buttonId).toggleClass('configButtonActive');
-}
-
-function showAddPanelButton() {
-  showPanelButton('addPanel');
-  addPanelMode = true;
-}
-
-function hideAddPanelButton() {
-  hidePanelButton('addPanel');
-  addPanelMode = false;
-}
-
-function showPanelButton(buttonId) {
-  $('#' + buttonId).removeClass('hiddenButton');
-}
-
-function hidePanelButton(buttonId) {
-  $('#' + buttonId).addClass('hiddenButton');
-}
-
-function displayPane(paneId) {
-  var previousId = $('.activePane').attr('id');
-  
-  if(previousId === paneId) {
-    return;
-  }
-  
-  $('#' + previousId).fadeToggle("fast", function() {
-    $(this).toggleClass('activePane');
-    $('#' + paneId).fadeToggle("fast", function() {
-      $(this).toggleClass('activePane');
-    });
-  });
-}
-
-function viewDataSourceDetailPane(key) {
-  displayPane("dataSourceDetail");
-}
-  
-function addWidget(panelIdSelecter) {
   var addWidgetWizardDialog = new BootBoxWiz({
-    title: 'Add a Widget',
+    title: title,
+    onFinish: function() { processDataSourceDialog(mode, dataSource); },
     guideEnabled: false,
     stepContent: [ {
       type: BootBoxWiz.TYPE_FIXED,
       title: "Step 1",
       content:
       '<div class="form-group"> ' +
-      '  <label class="col-md-4 control-label" for="widgetTitle">Title</label> ' +
+      '  <label class="col-md-4 control-label" for="dataSourceName">Name</label> ' +
       '  <div class="col-md-6"> ' +
-      '    <input id="widgetTitle" name="widgetTitle" type="text" placeholder="Enter the title for the widget" class="form-control input-md" autofocus> ' +
+      '    <input id="dataSourceName" name="dataSourceName" type="text" placeholder="Enter the name for the data source" class="form-control input-md" autofocus> ' +
       '  </div> ' +
       '</div> ' +
       '<div class="form-group">' +
-      '  <label class="col-md-4 control-label" for="widgetType">Type</label> ' +
+      '  <label class="col-md-4 control-label" for="dataSourceType">Type</label> ' +
       '  <div class="col-md-4">' + 
-      '    <select name="widgetType" class="selectpicker">' +     
-      '      <option>Value</option>' + 
-      '      <option>State</option>' + 
-      '      <option>Graph</option>' + 
-      '      <option>Graph Over Time</option>' + 
-      '      <option>History</option>' + 
-      '    </select>' + 
-      '  </div>' +
-      '</div>' +
-      '<div class="form-group">' +
-      '  <label class="col-md-4 control-label" for="widgetDataSource">Data Source</label> ' +
-      '  <div class="col-md-4">' + 
-      '    <select name="widgetDataSource" class="selectpicker">' +     
+      '    <select name="dataSourceType" class="selectpicker">' +     
       '      <option>Version One</option>' + 
       '      <option>Jenkins</option>' + 
       '      <option>Hudson</option>' + 
@@ -172,12 +44,13 @@ function addWidget(panelIdSelecter) {
     {
       type: BootBoxWiz.TYPE_DYNAMIC,
       title: "Step 2",
-      logic: addWidgetDialogWidgetTypeLogic,
+      logic: dataSourceDialogSourceLogic,
       titles: [
-        'Paypal',
-        'Credit Card',
-        'Electronic Funds Transfer',
-        'Bitcoin',
+        'Version One',
+        'Jenkins',
+        'Hudson',
+        'Salesforce.com',
+        'Internal',
       ],
       content: [
 
@@ -276,17 +149,6 @@ function addWidget(panelIdSelecter) {
       '  </div>' +
       '</div>',
       ],
-    },
-    {
-      type: BootBoxWiz.TYPE_FIXED,
-      title: "Step 3",
-      content: 
-      '<div class="col-xs-12">' +
-      '  <label class="col-md-4 control-label" for="feedback">Feedback?</label> ' +
-      '  <div class="col-md-6"> ' +
-      '    <input id="feedback" name="feedback" type="text" placeholder="Enter feedback on your transaction experiance" class="form-control input-md" autofocus> ' +
-      '  </div> ' +
-      '</div>'
     }
     ]
   });
@@ -294,25 +156,55 @@ function addWidget(panelIdSelecter) {
   $('.selectpicker').selectpicker();
 }
 
-function addWidgetDialogWidgetTypeLogic(fields) {
-  var paymentType = ((fields.paymentType !== null && fields.paymentType !== undefined) ? fields.paymentType : 'Value');
+function dataSourceDialogSourceLogic(fields) {
+  var paymentType = ((fields.paymentType !== null && fields.paymentType !== undefined) ? fields.paymentType : 'Version One');
 
   switch(paymentType) {
-    case "Value":
+    case "Version One":
       return 0;
       
-    case "State":
+    case "Jenkins":
       return 1;
       
-    case "Graph":
+    case "Hudson":
       return 2;
       
-    case "Graph Over Time":
+    case "Salesforce.com":
       return 3;
       
-    case "History":
+    case "Internal":
       return 4;
   }
 
   return 0;
+}
+
+function processDataSourceDialog(mode, dataSource) {
+  var dialogData = $('.stepwizard .form-horizontal').serializeObject();
+  var title = $('#title').val();
+  var icon = $('#selectPanelIcon input').val();
+  
+  
+  
+  console.log(dialogData);
+  // TODO: check bootboxwiz, call to steplogic doesn't appear to support multiple dialogs on one app, using class without scope defined by id
+  // TODO: assign data from dialog
+  // dataSourceName
+//  dataSourceType
+//  v1HostName
+//  v1Instance
+//  v1UserName
+//  v1Protocol
+//  v1Port
+//  v1Password
+  
+  switch(mode) {
+    case 'add':
+//       addDataSource();
+      break;
+
+    case 'update':
+//      updateDataSource();
+      break;
+  }
 }
