@@ -1,7 +1,9 @@
+/* jshint browser: true, jquery: true */
+/* global BootBoxWiz:false, console:false, DataSource:false, addDataSource:false, updateDataSource:false  */
 
 function viewDataSourceWizard(mode, dataSource) {
-  var mode = ((mode !== null && mode !== undefined) ? mode : 'add');
-  var dataSource = ((dataSource !== null && dataSource !== undefined) ? dataSource : {});
+  mode = ((mode !== null && mode !== undefined) ? mode : 'add');
+  dataSource = ((dataSource !== null && dataSource !== undefined) ? dataSource : {});
   var title = "Data Source";
   
   switch(mode) {
@@ -32,11 +34,10 @@ function viewDataSourceWizard(mode, dataSource) {
       '  <label class="col-md-4 control-label" for="dataSourceType">Type</label> ' +
       '  <div class="col-md-4">' + 
       '    <select name="dataSourceType" class="selectpicker">' +     
-      '      <option>Version One</option>' + 
-      '      <option>Jenkins</option>' + 
-      '      <option>Hudson</option>' + 
-      '      <option>Salesforce.com</option>' + 
-      '      <option>Internal</option>' + 
+      '      <option>' + DataSource.TYPE_VERSION_ONE + '</option>' + 
+      '      <option>' + DataSource.TYPE_JENKINS + '</option>' + 
+      '      <option>' + DataSource.TYPE_SALES_FORCE + '</option>' + 
+      '      <option>' + DataSource.TYPE_INTERNAL + '</option>' + 
       '    </select>' + 
       '  </div>' +
       '</div>',
@@ -46,19 +47,30 @@ function viewDataSourceWizard(mode, dataSource) {
       title: "Step 2",
       logic: dataSourceDialogSourceLogic,
       titles: [
-        'Version One',
-        'Jenkins',
-        'Hudson',
-        'Salesforce.com',
-        'Internal',
+        DataSource.TYPE_VERSION_ONE,
+        DataSource.TYPE_JENKINS,
+        DataSource.TYPE_SALES_FORCE,
+        DataSource.TYPE_INTERNAL,
       ],
       content: [
 
       '<div class="col-xs-12">' +
       '  <div class="col-md-12">' +
       '    <div class="form-group">' +
+      '      <label class="control-label" for="v1Protocol">Protocol</label>' +
+      '      <input name="v1Protocol" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the protocol (http|https)" />' +
+      '    </div>' +
+      '  </div>' +
+      '  <div class="col-md-12">' +
+      '    <div class="form-group">' +
       '      <label class="control-label" for="v1HostName">Hostname</label>' +
       '      <input name="v1HostName" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the hostname" />' +
+      '    </div>' +
+      '  </div>' +
+      '  <div class="col-md-12">' +
+      '    <div class="form-group">' +
+      '      <label class="control-label" for="v1Port">Port</label>' +
+      '      <input name="v1Port" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the port" />' +
       '    </div>' +
       '  </div>' +
       '  <div class="col-md-12">' +
@@ -79,63 +91,25 @@ function viewDataSourceWizard(mode, dataSource) {
       '      <input name="v1Password" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the password" />' +
       '    </div>' +
       '  </div>' +
+      '</div>',
+
+      '<div class="form-group"> ' +
       '  <div class="col-md-12">' +
       '    <div class="form-group">' +
-      '      <label class="control-label" for="v1Port">Port</label>' +
-      '      <input name="v1Port" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the port" />' +
+      '      <label class="control-label" for="jenkinsProtocol">Protocol</label>' +
+      '      <input name="jenkinsProtocol" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the protocol (http|https)" />' +
       '    </div>' +
       '  </div>' +
       '  <div class="col-md-12">' +
       '    <div class="form-group">' +
-      '      <label class="control-label" for="v1Protocol">Protocol</label>' +
-      '      <input name="v1Protocol" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the protocol (http|https)" />' +
+      '      <label class="control-label" for="jenkinsHostName">Hostname</label>' +
+      '      <input name="jenkinsHostName" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the hostname" />' +
       '    </div>' +
       '  </div>' +
-      '</div>',
-
-      '<div class="form-group"> ' +
-      '  <label class="col-md-4 control-label" for="creditCardName">Name</label> ' +
-      '  <div class="col-md-6"> ' +
-      '    <input id="creditCardName" name="creditCardName" type="text" placeholder="Enter the name on the credit card" class="form-control input-md" autofocus> ' +
-      '  </div> ' +
-      '</div> ' +
-      '<div class="form-group"> ' +
-      '  <label class="col-md-4 control-label" for="creditCardNumber">Credit Card Number</label> ' +
-      '  <div class="col-md-6"> ' +
-      '    <input id="creditCardNumber" name="creditCardNumber" type="text" placeholder="Enter the number of the credit card" class="form-control input-md" autofocus> ' +
-      '  </div> ' +
-      '</div>' +
-      '<div class="form-group"> ' +
-      '  <label class="col-md-4 control-label" for="creditCardExpiry">Expiry Date</label> ' +
-      '  <div class="col-md-6"> ' +
-      '    <input id="creditCardExpiry" name="creditCardExpiry" type="text" placeholder="Enter the expiry for the credit card" class="form-control input-md" autofocus> ' +
-      '  </div> ' +
-      '</div>' +
-      '<div class="form-group"> ' +
-      '  <label class="col-md-4 control-label" for="creditCardSecurity">Credit Card Security</label> ' +
-      '  <div class="col-md-6"> ' +
-      '    <input id="creditCardSecurity" name="creditCardSecurity" type="text" placeholder="Enter the credit card security id" class="form-control input-md" autofocus> ' +
-      '  </div> ' +
-      '</div>',
-
-
-      '<div class="col-xs-12">' +
       '  <div class="col-md-12">' +
       '    <div class="form-group">' +
-      '      <label class="control-label" for="eftAccountName">Account Name</label>' +
-      '      <input name="eftAccountName" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the name of your account" />' +
-      '    </div>' +
-      '    <div class="form-group">' +
-      '      <label class="control-label" for="eftBSB">BSB</label>' +
-      '      <input name="eftBSB" maxlength="8" type="text" required="required" class="form-control" placeholder="Enter your bank\'s BSB" />' +
-      '    </div>' +
-      '    <div class="form-group">' +
-      '      <label class="control-label" for="eftAccountNumber">Account Number</label>' +
-      '      <input name="eftAccountNumber" maxlength="30" type="text" required="required" class="form-control" placeholder="Enter your bank account" />' +
-      '    </div>' +
-      '    <div class="form-group">' +
-      '      <label class="control-label" for="eftReference">Reference</label>' +
-      '      <input name="eftReference" maxlength="30" type="text" class="form-control" placeholder="Enter a reference" />' +
+      '      <label class="control-label" for="jenkinsPort">Port</label>' +
+      '      <input name="jenkinsPort" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the port" />' +
       '    </div>' +
       '  </div>' +
       '</div>',
@@ -143,8 +117,65 @@ function viewDataSourceWizard(mode, dataSource) {
       '<div class="col-xs-12">' +
       '  <div class="col-md-12">' +
       '    <div class="form-group">' +
-      '      <label class="control-label" for="bitcoinTransId">To Address</label>' +
-      '      <input name="bitcoinTransId" maxlength="100" type="text" required="required" class="form-control" placeholder="Enter the transaction id" />' +
+      '      <label class="control-label" for="sfdcProtocol">Protocol</label>' +
+      '      <input name="sfdcProtocol" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the protocol (http|https)" />' +
+      '    </div>' +
+      '  </div>' +
+      '  <div class="col-md-12">' +
+      '    <div class="form-group">' +
+      '      <label class="control-label" for="sfdcHostName">Hostname</label>' +
+      '      <input name="sfdcHostName" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the hostname" />' +
+      '    </div>' +
+      '  </div>' +
+      '  <div class="col-md-12">' +
+      '    <div class="form-group">' +
+      '      <label class="control-label" for="sfdcUserName">Username</label>' +
+      '      <input name="sfdcUserName" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter username" />' +
+      '    </div>' +
+      '  </div>' +
+      '  <div class="col-md-12">' +
+      '    <div class="form-group">' +
+      '      <label class="control-label" for="sfdcPassword">Password</label>' +
+      '      <input name="sfdcPassword" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the password" />' +
+      '    </div>' +
+      '  </div>' +
+      '  <div class="col-md-12">' +
+      '    <div class="form-group">' +
+      '      <label class="control-label" for="sfdcPort">Port</label>' +
+      '      <input name="sfdcPort" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the port" />' +
+      '    </div>' +
+      '  </div>' +
+      '</div>',
+
+      '<div class="col-xs-12">' +
+      '  <div class="col-md-12">' +
+      '    <div class="form-group">' +
+      '      <label class="control-label" for="internalProtocol">Protocol</label>' +
+      '      <input name="internalProtocol" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the protocol (http|https)" />' +
+      '    </div>' +
+      '  </div>' +
+      '  <div class="col-md-12">' +
+      '    <div class="form-group">' +
+      '      <label class="control-label" for="internalHostName">Hostname</label>' +
+      '      <input name="internalHostName" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the hostname" />' +
+      '    </div>' +
+      '  </div>' +
+      '  <div class="col-md-12">' +
+      '    <div class="form-group">' +
+      '      <label class="control-label" for="internalPort">Port</label>' +
+      '      <input name="internalPort" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the port" />' +
+      '    </div>' +
+      '  </div>' +
+      '  <div class="col-md-12">' +
+      '    <div class="form-group">' +
+      '      <label class="control-label" for="internalUserName">Username</label>' +
+      '      <input name="internalUserName" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter username" />' +
+      '    </div>' +
+      '  </div>' +
+      '  <div class="col-md-12">' +
+      '    <div class="form-group">' +
+      '      <label class="control-label" for="internalPassword">Password</label>' +
+      '      <input name="internalPassword" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the password" />' +
       '    </div>' +
       '  </div>' +
       '</div>',
@@ -157,22 +188,19 @@ function viewDataSourceWizard(mode, dataSource) {
 }
 
 function dataSourceDialogSourceLogic(fields) {
-  var paymentType = ((fields.paymentType !== null && fields.paymentType !== undefined) ? fields.paymentType : 'Version One');
+  var dataSourceType = fields.dataSourceType;
 
-  switch(paymentType) {
-    case "Version One":
+  switch(dataSourceType) {
+    case DataSource.TYPE_VERSION_ONE:
       return 0;
       
-    case "Jenkins":
+    case DataSource.TYPE_JENKINS:
       return 1;
       
-    case "Hudson":
-      return 2;
-      
-    case "Salesforce.com":
+    case DataSource.TYPE_SALES_FORCE:
       return 3;
       
-    case "Internal":
+    case DataSource.TYPE_INTERNAL:
       return 4;
   }
 
@@ -184,27 +212,58 @@ function processDataSourceDialog(mode, dataSource) {
   var title = $('#title').val();
   var icon = $('#selectPanelIcon input').val();
   
-  
-  
-  console.log(dialogData);
   // TODO: check bootboxwiz, call to steplogic doesn't appear to support multiple dialogs on one app, using class without scope defined by id
-  // TODO: assign data from dialog
-  // dataSourceName
-//  dataSourceType
-//  v1HostName
-//  v1Instance
-//  v1UserName
-//  v1Protocol
-//  v1Port
-//  v1Password
+  
+  dataSource.name = dialogData.dataSourceName;
+  dataSource.type = dialogData.dataSourceType;
+  
+  switch(dialogData.dataSourceType) {
+    case DataSource.TYPE_VERSION_ONE:
+      dataSource.protocol   = dialogData.v1Protocol;
+      dataSource.hostname   = dialogData.v1HostName;
+      dataSource.port       = dialogData.v1Port;
+      dataSource.username   = dialogData.v1UserName;
+      dataSource.password   = dialogData.v1Password;
+      dataSource.v1Instance = dialogData.v1Instance;
+      break;
+      
+    case DataSource.TYPE_JENKINS:
+      dataSource.protocol   = dialogData.jenkinsProtocol;
+      dataSource.hostname   = dialogData.jenkinsHostName;
+      dataSource.port       = dialogData.jenkinsPort;
+      dataSource.username   = '';
+      dataSource.password   = '';
+      dataSource.v1Instance = '';
+      break;
+      
+    case DataSource.TYPE_SALES_FORCE:
+      dataSource.protocol   = dialogData.sfdcProtocol;
+      dataSource.hostname   = dialogData.sfdcHostName;
+      dataSource.port       = dialogData.sfdcPort;
+      dataSource.username   = dialogData.sfdcUserName;
+      dataSource.password   = dialogData.sfdcPassword;
+      dataSource.v1Instance = '';
+      break;
+      
+    case DataSource.TYPE_INTERNAL:
+      dataSource.protocol   = dialogData.internalProtocol;
+      dataSource.hostname   = dialogData.internalHostName;
+      dataSource.port       = dialogData.internalPort;
+      dataSource.username   = dialogData.internalUserName;
+      dataSource.password   = dialogData.internalPassword;
+      dataSource.v1Instance = '';
+      break;
+  }
   
   switch(mode) {
     case 'add':
 //       addDataSource();
+      addDataSource(new DataSource(dataSource));
       break;
 
     case 'update':
 //      updateDataSource();
+      updateDataSource(dataSource);
       break;
   }
 }
