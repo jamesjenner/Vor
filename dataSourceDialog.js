@@ -257,12 +257,10 @@ function processDataSourceDialog(mode, dataSource) {
   
   switch(mode) {
     case 'add':
-//       addDataSource();
       addDataSource(new DataSource(dataSource));
       break;
 
     case 'update':
-//      updateDataSource();
       updateDataSource(dataSource);
       break;
   }
