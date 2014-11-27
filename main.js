@@ -18,7 +18,7 @@ function configureApplication() {
   $('.selectpicker').selectpicker();
   
   // apply jasny rowlink logic to tables
-  $('tbody.rowlink').rowlink();
+  // $('tbody.rowlink').rowlink();
   
   server = new Server({
     messageHandlers: [

@@ -121,6 +121,13 @@ function addDataSourceToDom(dataSource) {
   
   $('#dataSource' + dataSource.id).hide().fadeIn('fast');
     
+  $('#dataSourcesPane .rowlink').rowlink();
+  $('#dataSourceRow' + dataSource.id).on('click', function() {
+    // TODO: sort out this logic
+    viewDataSourceWizard('update', dataSource);
+    return false;
+  });
+  
   $('#dataSourceBtnDelete' + dataSource.id).on('click', function() {
     sendDeleteDataSource(dataSource.id);
   });
@@ -165,7 +172,6 @@ function dataSourceDialogSourceLogic(fields) {
 
 function setupDataSourcesPane() {
   $(".dataSourceRow").on('click', function() {
-    viewDataSourceWizard('update', {});
     // viewDataSourceDetailPane($(this).attr("data-key"));
     return false;
   });
