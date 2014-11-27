@@ -48,49 +48,43 @@ function receivedDeleteDataSource(server, id) {
 }
 
 function receivedUpdateDataSource(server, dataSource) {
-  // get current data
-  var currentDataSourceElement = $('#dataSource' + dataSource.id);
+  var idx = dataSourcesIndex.indexOf(dataSource.id);
+  var currentDataSource = null;
   
-  var currentDataSource = new DataSource(currentDataSourceElement.data());
-  
-  console.log("current data for " + dataSource.id + " is: " + JSON.stringify(currentDataSource, null, " "));
-  
-  // apply changes to DOM
-  if(currentDataSource.name !== dataSource.name) {
+  if(idx < 0) {
+    dataSources.push(dataSource);
+    dataSourcesIndex.push(dataSource.id);
+  } else {
+    currentDataSource = dataSources[idx];
+    dataSources[idx] = dataSource;
     
+    if(currentDataSource.name !== dataSource.name) {
+      $('#dataSourceRowName' + dataSource.id).text(dataSource.name);
+    }
+    if(currentDataSource.type !== dataSource.type) {
+      $('#dataSourceRowType'  + dataSource.id).text(dataSource.type);
+    }
   }
-  
-  if(currentDataSource.iconName !== dataSource.iconName) {
-    
-  }
-  
-  // update data attributes for id
-  
 }
 
 function receivedDataSources(server, d) {
-  // TODO: logic to handle resend of dataSources
-  // $(".dataSourceRow").remove();
+  // TODO: test logic to remove existing data on DOM (needed for reconnection, but not supported)
+  $("#dataSourcesGrid").empty();
 
-  var dataSourcesArray = [];
+  dataSources = [];
+  var dataSource = null;
   
   for (var item in d) {
-   dataSourcesArray.push(new DataSource(d[item]));
+    dataSource = new DataSource(d[item]);
+    dataSources.push(dataSource);
+    dataSourcesIndex.push(dataSource.id);
+    addDataSourceToDom(dataSource);
   }
-
-  dataSourcesArray.sort(function (a, b) {
-      if (a.row < b.row) {
-          return -1;
-      } else if (a.row > b.row) {
-          return 1;
-      }
-      return 0;
-  });
-
-  dataSourcesArray.forEach(function (p) {
-    addDataSourceToDom(p);
-  });
 }
+
+// TODO: sort out this global
+var dataSources = [];
+var dataSourcesIndex = [];
 
 function sendAddDataSource(dataSource) {
   server.sendMessage(DataSource.MESSAGE_ADD_DATA_SOURCE, dataSource);
@@ -107,8 +101,8 @@ function sendUpdateDataSource(dataSource) {
 function addDataSourceToDom(dataSource) {
   $("#dataSourcesGrid").append(
     '<tr id="dataSourceRow' + dataSource.id + '">' +
-    '  <td><a class="dataSourceRow" href="#inputmask">' + dataSource.type + '</a></td>' +
-    '  <td>' + dataSource.name + '</td>' +
+    '  <td><a id="dataSourceRowType' + dataSource.id + '" class="dataSourceRow" href="#inputmask">' + dataSource.type + '</a></td>' +
+    '  <td id="dataSourceRowName' + dataSource.id + '">' + dataSource.name + '</td>' +
     '  <td class="rowlink-skip">' + 
     '    <div class="btn-group pull-right">' +
     '      <button id="dataSourceBtnDelete' + dataSource.id + '" type="button" class="gridRowButtons btn btn-default ">' +
@@ -131,12 +125,7 @@ function addDataSourceToDom(dataSource) {
   $('#dataSourceBtnDelete' + dataSource.id).on('click', function() {
     sendDeleteDataSource(dataSource.id);
   });
-  
-  dataSources.push(dataSource);
 }
-
-// TODO: sort out this global
-var dataSources = [];
 
 function deleteDataSource(id) {
   $('#dataSourceRow' + id)
