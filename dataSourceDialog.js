@@ -6,6 +6,8 @@ function viewDataSourceWizard(mode, dataSource) {
   dataSource = ((dataSource !== null && dataSource !== undefined) ? dataSource : {});
   var title = "Data Source";
   
+  
+  // TODO: remove hardcoding for add and update values
   switch(mode) {
     case 'add':
       title = "Add a Data Source";
@@ -183,7 +185,11 @@ function viewDataSourceWizard(mode, dataSource) {
     }
     ]
   });
+  
   addWidgetWizardDialog.launch();
+  if(mode === 'update') {
+    setDataSourceDialogValues(dataSource);
+  }
   $('.selectpicker').selectpicker();
 }
 
@@ -207,61 +213,92 @@ function dataSourceDialogSourceLogic(fields) {
   return 0;
 }
 
+function setDataSourceDialogValues(dataSource) {
+  $('[name=dataSourceName]').val(dataSource.name);
+  $('[name=dataSourceType]').val(dataSource.type);
+
+  $('[name=v1Protocol]').val(dataSource.protocol);
+  $('[name=v1HostName]').val(dataSource.hostname);
+  $('[name=v1Port]').val(dataSource.port);
+  $('[name=v1UserName]').val(dataSource.username);
+  $('[name=v1Password]').val(dataSource.password);
+  $('[name=v1Instance]').val(dataSource.instance);
+  
+  $('[name=jenkinsProtocol]').val(dataSource.protocol);
+  $('[name=jenkinsHostName]').val(dataSource.hostname);
+  $('[name=jenkinsPort]').val(dataSource.port);
+
+  $('[name=sfdcProtocol]').val(dataSource.protocol);
+  $('[name=sfdcHostName]').val(dataSource.hostname);
+  $('[name=sfdcPort]').val(dataSource.port);
+  $('[name=sfdcUserName]').val(dataSource.username);
+  $('[name=sfdcPassword]').val(dataSource.password);
+
+  $('[name=internalProtocol]').val(dataSource.protocol);
+  $('[name=internalHostName]').val(dataSource.hostname);
+  $('[name=internalPort]').val(dataSource.port);
+  $('[name=internalUserName]').val(dataSource.username);
+  $('[name=internalPassword]').val(dataSource.password);
+}
+
 function processDataSourceDialog(mode, dataSource) {
   var dialogData = $('.stepwizard .form-horizontal').serializeObject();
-  var title = $('#title').val();
-  var icon = $('#selectPanelIcon input').val();
   
   // TODO: check bootboxwiz, call to steplogic doesn't appear to support multiple dialogs on one app, using class without scope defined by id
   
-  dataSource.name = dialogData.dataSourceName;
-  dataSource.type = dialogData.dataSourceType;
+  var values = {};
+  
+  values.name = dialogData.dataSourceName;
+  values.type = dialogData.dataSourceType;
   
   switch(dialogData.dataSourceType) {
     case DataSource.TYPE_VERSION_ONE:
-      dataSource.protocol   = dialogData.v1Protocol;
-      dataSource.hostname   = dialogData.v1HostName;
-      dataSource.port       = dialogData.v1Port;
-      dataSource.username   = dialogData.v1UserName;
-      dataSource.password   = dialogData.v1Password;
-      dataSource.v1Instance = dialogData.v1Instance;
+      values.protocol   = dialogData.v1Protocol;
+      values.hostname   = dialogData.v1HostName;
+      values.port       = dialogData.v1Port;
+      values.username   = dialogData.v1UserName;
+      values.password   = dialogData.v1Password;
+      values.instance   = dialogData.v1Instance;
       break;
       
     case DataSource.TYPE_JENKINS:
-      dataSource.protocol   = dialogData.jenkinsProtocol;
-      dataSource.hostname   = dialogData.jenkinsHostName;
-      dataSource.port       = dialogData.jenkinsPort;
-      dataSource.username   = '';
-      dataSource.password   = '';
-      dataSource.v1Instance = '';
+      values.protocol   = dialogData.jenkinsProtocol;
+      values.hostname   = dialogData.jenkinsHostName;
+      values.port       = dialogData.jenkinsPort;
+      values.username   = '';
+      values.password   = '';
+      values.v1Instance = '';
       break;
       
     case DataSource.TYPE_SALES_FORCE:
-      dataSource.protocol   = dialogData.sfdcProtocol;
-      dataSource.hostname   = dialogData.sfdcHostName;
-      dataSource.port       = dialogData.sfdcPort;
-      dataSource.username   = dialogData.sfdcUserName;
-      dataSource.password   = dialogData.sfdcPassword;
-      dataSource.v1Instance = '';
+      values.protocol   = dialogData.sfdcProtocol;
+      values.hostname   = dialogData.sfdcHostName;
+      values.port       = dialogData.sfdcPort;
+      values.username   = dialogData.sfdcUserName;
+      values.password   = dialogData.sfdcPassword;
+      values.v1Instance = '';
       break;
       
     case DataSource.TYPE_INTERNAL:
-      dataSource.protocol   = dialogData.internalProtocol;
-      dataSource.hostname   = dialogData.internalHostName;
-      dataSource.port       = dialogData.internalPort;
-      dataSource.username   = dialogData.internalUserName;
-      dataSource.password   = dialogData.internalPassword;
-      dataSource.v1Instance = '';
+      values.protocol   = dialogData.internalProtocol;
+      values.hostname   = dialogData.internalHostName;
+      values.port       = dialogData.internalPort;
+      values.username   = dialogData.internalUserName;
+      values.password   = dialogData.internalPassword;
+      values.v1Instance = '';
       break;
   }
+
+  
   
   switch(mode) {
     case 'add':
-      addDataSource(new DataSource(dataSource));
+      addDataSource(new DataSource(values));
       break;
 
     case 'update':
-      updateDataSource(dataSource);
+      values.id = dataSource.id;
+      updateDataSource(values);
       break;
   }
 }
