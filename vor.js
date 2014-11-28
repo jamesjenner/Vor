@@ -30,8 +30,8 @@ var fs = require('fs');
 
 var MeltingPot = require('meltingpot');
 
-var PanelHandler = require('./panelHandler.js');
-var DataSourceHandler = require('./dataSourceHandler.js');
+var PanelHandler = require('./lib/server/panelHandler.js');
+var DataSourceHandler = require('./lib/server/dataSourceHandler.js');
 
 //var VEHICLES_FILE = 'vehicles.json';
 

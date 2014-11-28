@@ -3,8 +3,8 @@
 
 var fs = require('fs');
 var should = require('chai').should();
-var DataSourceHandler = require('../dataSourceHandler.js');
-var Message = require('../shared/dataSource.js');
+var DataSourceHandler = require('../lib/server/dataSourceHandler.js');
+var Message = require('../lib/shared/dataSource.js');
 
 // expect(wsDefsProcessed).to.deep.equal(expected.def, testDesc + ": definitions do not match");
     

@@ -3,8 +3,8 @@
 
 var fs = require('fs');
 var should = require('chai').should();
-var PanelHandler = require('../panelHandler.js');
-var Message = require('../shared/panel.js');
+var PanelHandler = require('../lib/server/panelHandler.js');
+var Message = require('../lib/shared/panel.js');
 
 // expect(wsDefsProcessed).to.deep.equal(expected.def, testDesc + ": definitions do not match");
     
