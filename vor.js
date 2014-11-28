@@ -76,9 +76,10 @@ var config = {
   securePort: 9008,
   uuidV1: false,
   communicationType: MeltingPot.Message.COMMS_TYPE_UNSECURE_ONLY,
-  sslKey: 'keys/privatekey.pem',
-  sslCert: 'keys/certificate.pem',
+  sslKey: 'keys' + path.sep + 'privatekey.pem',
+  sslCert: 'keys' + path.sep + 'certificate.pem',
   autoDiscover: false,
+  dataDirectory: '.' + path.sep + 'data' + path.sep,
 };
 
 var search_paths = [
@@ -126,9 +127,21 @@ opt.option(["-u1", "--uuid-v1"], function (param) {
   config.uuidV1 = true;
 }, "Set uuid generation for session keys to uuid v1, default is v4");
 
-opt.option(["-d", "--auto-discover"], function (param) {
+opt.option(["-ad", "--auto-discover"], function (param) {
   config.autoDiscover = true;
 }, "comms auto discovery");
+
+opt.option(["-dd", "--data-directory"], function (param) {
+  if (param !== undefined && param.trim()) {
+    config.dataDirectory = param.trim();
+    if(config.dataDirectory.charAt(config.dataDirectory.length - 1) !== path.sep) {
+      config.dataDirectory += path.sep;
+    }
+    opt.consume(param);
+  } else {
+    opt.usage("The directory must be provided with the option for data directory.", 1);
+  }
+}, "Set the directory for data files");
 
 // server comms settings
 opt.option(["-p", "--port"], function (param) {
@@ -211,10 +224,15 @@ var clientComms = new MeltingPot.Comms({
   ]
 });
 
-var panelHandler = new PanelHandler();
+// setup data directory
+if(!validateDataDirectory(config.dataDirectory)) {
+ return -1;
+}
+    
+var panelHandler = new PanelHandler({dataDirectory: config.dataDirectory});
 panelHandler.setupCommsListeners(clientComms);
 
-var dataSourceHandler = new DataSourceHandler();
+var dataSourceHandler = new DataSourceHandler({dataDirectory: config.dataDirectory});
 dataSourceHandler.setupCommsListeners(clientComms);
 
 // start up the server for clients
@@ -223,3 +241,34 @@ if (config.debug) {
 }
 
 clientComms.startClientServer();
+
+    
+/* 
+ * returns false if the directory cannot be created
+ */
+function validateDataDirectory(dataDirectory) {
+  var stats = null;
+
+  // check if file exists
+  try {
+    stats = fs.statSync(dataDirectory);
+  } catch (e) {
+  }
+
+  if(stats !== null) {
+    if(!stats.isDirectory()) {
+      console.log("ERROR: " + dataDirectory + " is not a directory");
+      return false;
+    }
+  } else {
+    // doesn't exist, create it
+    try {
+      fs.mkdirSync(dataDirectory);
+    } catch (e) {
+      console.log("ERROR: couldn't create data directory " + e);
+      return false;
+    }
+  }
+  
+  return true;
+}

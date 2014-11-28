@@ -6,16 +6,18 @@ var should = require('chai').should();
 var PanelHandler = require('../lib/server/panelHandler.js');
 var Message = require('../lib/shared/panel.js');
 
+var dataDirectory = './data/';
+
 // expect(wsDefsProcessed).to.deep.equal(expected.def, testDesc + ": definitions do not match");
     
 describe('#PanelHandler', function() {
   before(function() {
     // backup the existing 
-    fs.renameSync(PanelHandler.PANELS_FILE, PanelHandler.PANELS_FILE + ".tmp");
+    fs.renameSync(dataDirectory + PanelHandler.PANELS_FILE, dataDirectory + PanelHandler.PANELS_FILE + ".tmp");
   });
   beforeEach(function() {
     // create a version for testing
-    fs.writeFileSync(PanelHandler.PANELS_FILE, JSON.stringify(
+    fs.writeFileSync(dataDirectory + PanelHandler.PANELS_FILE, JSON.stringify(
 [
 	{
 		"id": "40fa0bae-a79d-4ded-9cda-bfeb43feae1f",
@@ -97,18 +99,18 @@ describe('#PanelHandler', function() {
   
   afterEach(function() {
     // delete the test version
-    fs.unlinkSync(PanelHandler.PANELS_FILE);
+    fs.unlinkSync(dataDirectory + PanelHandler.PANELS_FILE);
 
   });
   
   after(function() {
     // restore the original 
-    fs.renameSync(PanelHandler.PANELS_FILE + ".tmp", PanelHandler.PANELS_FILE);
+    fs.renameSync(dataDirectory + PanelHandler.PANELS_FILE + ".tmp", dataDirectory + PanelHandler.PANELS_FILE);
 
   });
   
   it('adds panel correctly', function(done) {
-    var panelHandler = new PanelHandler();
+    var panelHandler = new PanelHandler({dataDirectory: dataDirectory});
     panelHandler.addPanel({ "name": "III", "width": 1, "iconName": "fa-key", "iconType": "fontAwesom" });
     done();
     
@@ -117,7 +119,7 @@ describe('#PanelHandler', function() {
     panelHandler.panels[8].row.should.equal(4);
   });
   it('deletes panel correctly', function(done) {
-    var panelHandler = new PanelHandler();
+    var panelHandler = new PanelHandler({dataDirectory: dataDirectory});
 
     panelHandler.removePanel("bf5a7fe8-3f30-4465-8629-80ec2fc04fa0");
     done();
@@ -131,7 +133,7 @@ describe('#PanelHandler', function() {
 	panelHandler.panels[2].row.should.equal(2);
   });
   it('moves first entry up correctly', function(done) {
-    var panelHandler = new PanelHandler();
+    var panelHandler = new PanelHandler({dataDirectory: dataDirectory});
 
     panelHandler.movePanelUp("40fa0bae-a79d-4ded-9cda-bfeb43feae1f");
     done();
@@ -147,7 +149,7 @@ describe('#PanelHandler', function() {
 	panelHandler.panels[3].row.should.equal(3);
   });
   it('moves second entry up correctly', function(done) {
-    var panelHandler = new PanelHandler();
+    var panelHandler = new PanelHandler({dataDirectory: dataDirectory});
 
     panelHandler.movePanelUp("bf5a7fe8-3f30-4465-8629-80ec2fc04fa0");
     done();
@@ -163,7 +165,7 @@ describe('#PanelHandler', function() {
 	panelHandler.panels[3].row.should.equal(3);
   });
   it('moves third entry up correctly', function(done) {
-    var panelHandler = new PanelHandler();
+    var panelHandler = new PanelHandler({dataDirectory: dataDirectory});
 
     panelHandler.movePanelUp("64a0dd4a-0965-43e0-8016-3402662d467a");
     done();
@@ -179,7 +181,7 @@ describe('#PanelHandler', function() {
 	panelHandler.panels[3].row.should.equal(3);
   });
   it('moves fourth entry up correctly', function(done) {
-    var panelHandler = new PanelHandler();
+    var panelHandler = new PanelHandler({dataDirectory: dataDirectory});
 
     panelHandler.movePanelUp("978f05e0-eae6-4ae9-933d-1e8e11651fe8");
     done();
@@ -198,7 +200,7 @@ describe('#PanelHandler', function() {
   
   
   it('moves first entry down correctly', function(done) {
-    var panelHandler = new PanelHandler();
+    var panelHandler = new PanelHandler({dataDirectory: dataDirectory});
 
     panelHandler.movePanelDown("40fa0bae-a79d-4ded-9cda-bfeb43feae1f");
     done();
@@ -214,7 +216,7 @@ describe('#PanelHandler', function() {
 	panelHandler.panels[3].row.should.equal(3);
   });
   it('moves second entry down correctly', function(done) {
-    var panelHandler = new PanelHandler();
+    var panelHandler = new PanelHandler({dataDirectory: dataDirectory});
 
     panelHandler.movePanelDown("bf5a7fe8-3f30-4465-8629-80ec2fc04fa0");
     done();
@@ -230,7 +232,7 @@ describe('#PanelHandler', function() {
 	panelHandler.panels[3].row.should.equal(3);
   });
   it('moves third entry down correctly', function(done) {
-    var panelHandler = new PanelHandler();
+    var panelHandler = new PanelHandler({dataDirectory: dataDirectory});
 
     panelHandler.movePanelDown("64a0dd4a-0965-43e0-8016-3402662d467a");
     done();
@@ -246,7 +248,7 @@ describe('#PanelHandler', function() {
 	panelHandler.panels[3].row.should.equal(2);
   });
   it('moves fourth entry down correctly', function(done) {
-    var panelHandler = new PanelHandler();
+    var panelHandler = new PanelHandler({dataDirectory: dataDirectory});
 
     panelHandler.movePanelDown("978f05e0-eae6-4ae9-933d-1e8e11651fe8");
     done();
@@ -262,7 +264,7 @@ describe('#PanelHandler', function() {
 	panelHandler.panels[3].row.should.equal(3);
   });
   it('moves second entry right correctly', function(done) {
-    var panelHandler = new PanelHandler();
+    var panelHandler = new PanelHandler({dataDirectory: dataDirectory});
 
     panelHandler.movePanelRight("bf5a7fe8-3f30-4465-8629-80ec2fc04fa0");
     done();
@@ -297,7 +299,7 @@ describe('#PanelHandler', function() {
 	panelHandler.panels[7].column.should.equal(2);
   });
   it('moves two entries right correctly', function(done) {
-    var panelHandler = new PanelHandler();
+    var panelHandler = new PanelHandler({dataDirectory: dataDirectory});
 
     panelHandler.movePanelRight("bf5a7fe8-3f30-4465-8629-80ec2fc04fa0");
     panelHandler.movePanelRight("40fa0bae-a79d-4ded-9cda-bfeb43feae1f");
@@ -333,7 +335,7 @@ describe('#PanelHandler', function() {
 	panelHandler.panels[7].column.should.equal(2);
   });
   it('moves second entry left correctly', function(done) {
-    var panelHandler = new PanelHandler();
+    var panelHandler = new PanelHandler({dataDirectory: dataDirectory});
 
     panelHandler.movePanelLeft("bf5a7fe8-1111-4465-8629-80ec2fc04fa0");
     done();
@@ -368,7 +370,7 @@ describe('#PanelHandler', function() {
 	panelHandler.panels[7].column.should.equal(2);
   });
   it('moves two entry left correctly', function(done) {
-    var panelHandler = new PanelHandler();
+    var panelHandler = new PanelHandler({dataDirectory: dataDirectory});
 
     panelHandler.movePanelLeft("bf5a7fe8-1111-4465-8629-80ec2fc04fa0");
     panelHandler.movePanelLeft("40fa0bae-1111-4ded-9cda-bfeb43feae1f");

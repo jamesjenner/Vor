@@ -4,3 +4,4 @@ node_modules/
 panels.json
 dataSources.json
 users.json
+data/

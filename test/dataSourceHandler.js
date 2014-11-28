@@ -6,18 +6,20 @@ var should = require('chai').should();
 var DataSourceHandler = require('../lib/server/dataSourceHandler.js');
 var Message = require('../lib/shared/dataSource.js');
 
+var dataDirectory = './data/';
+
 // expect(wsDefsProcessed).to.deep.equal(expected.def, testDesc + ": definitions do not match");
     
 describe('#DataSourceHandler', function() {
   before(function() {
     // backup the existing 
-    if (fs.existsSync(DataSourceHandler.DATA_SOURCES_FILE)) {
-      fs.renameSync(DataSourceHandler.DATA_SOURCES_FILE, DataSourceHandler.DATA_SOURCES_FILE + ".tmp");
+    if (fs.existsSync(dataDirectory + DataSourceHandler.DATA_SOURCES_FILE)) {
+      fs.renameSync(dataDirectory + DataSourceHandler.DATA_SOURCES_FILE, dataDirectory + DataSourceHandler.DATA_SOURCES_FILE + ".tmp");
     }
   });
   beforeEach(function() {
     // create a version for testing
-    fs.writeFileSync(DataSourceHandler.DATA_SOURCES_FILE, JSON.stringify(
+    fs.writeFileSync(dataDirectory + DataSourceHandler.DATA_SOURCES_FILE, JSON.stringify(
 [
 	{
 		"id": "40fa0bae-a79d-4ded-9cda-bfeb43feae1f",
@@ -59,26 +61,26 @@ describe('#DataSourceHandler', function() {
   
   afterEach(function() {
     // delete the test version
-    fs.unlinkSync(DataSourceHandler.DATA_SOURCES_FILE);
+    fs.unlinkSync(dataDirectory + DataSourceHandler.DATA_SOURCES_FILE);
   });
   
   after(function() {
     // restore the original 
-    if (fs.existsSync(DataSourceHandler.DATA_SOURCES_FILE + ".tmp")) {
-      fs.renameSync(DataSourceHandler.DATA_SOURCES_FILE + ".tmp", DataSourceHandler.DATA_SOURCES_FILE);
+    if (fs.existsSync(dataDirectory + DataSourceHandler.DATA_SOURCES_FILE + ".tmp")) {
+      fs.renameSync(dataDirectory + DataSourceHandler.DATA_SOURCES_FILE + ".tmp", dataDirectory + DataSourceHandler.DATA_SOURCES_FILE);
     }
 
   });
   
   it('adds dataSource correctly', function(done) {
-    var dataSourceHandler = new DataSourceHandler();
+    var dataSourceHandler = new DataSourceHandler({dataDirectory: dataDirectory});
     dataSourceHandler.addDataSource({ "name": "III" });
     done();
     
     dataSourceHandler.dataSources.length.should.equal(9);
   });
   it('deletes dataSource correctly', function(done) {
-    var dataSourceHandler = new DataSourceHandler();
+    var dataSourceHandler = new DataSourceHandler({dataDirectory: dataDirectory});
 
     dataSourceHandler.removeDataSource("bf5a7fe8-3f30-4465-8629-80ec2fc04fa0");
     done();
