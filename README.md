@@ -33,6 +33,18 @@ Development
 Presumption is that grunt is installed. To test run `grunt`. This will perform all current tests.
 
 
+###TODO
+
+* Update meltingpot so that it has the same data directory option
+* Change meltingpot so that users.json is seperated out from the comms handler
+* Implement encryption for persisted data, specifically any credential information for third party data sources
+* Determine how to manage debug/logging, possibly update meltingpot first
+* Look at option for uploading icons and images, for panel icon and for logo
+* Determine approach for themes
+* Determine approach for user defined content, possibly markdown style
+* Update README.ms to include installation for development.
+* Decide on widget approach.
+
 License (MIT)
 ---------
 Copyright(c) 2014 James Jenner
