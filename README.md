@@ -44,6 +44,9 @@ Presumption is that grunt is installed. To test run `grunt`. This will perform a
 * Determine approach for user defined content, possibly markdown style
 * Update README.ms to include installation for development.
 * Decide on widget approach.
+* Display summary help if invalid param is used, possibly move away from opt
+* Add monitor to client to determine if comms is lost and regularly poll for reconnection
+* Add status bar popup to client when conditions like no comms or errors from server occurs
 
 License (MIT)
 ---------
