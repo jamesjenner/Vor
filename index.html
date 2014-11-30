@@ -212,34 +212,34 @@
                 <i class="fa fa-users fa-lg"></i> Human Resources
               </div>
               <div class="panel-body widget-container">
-                <div class="widget" style="height: 100%">
-                  <div id="progress5b" style="width: 100%; height: 148px; text-align: center; vertical-align: bottom;">
+                <div class="widget">
+                  <div id="progress5b" style="width: 100%; height: 148px; text-align: center; vertical-align: middle;">
                   </div>
                   <div style="width: 100%; text-align: center; margin-top: 10px">
-                    Work Complete
+                    <span  class="widget-title">Work Complete</span>
                   </div>  
                 </div>
                 <div class="widget">
-                  <span class="widget-number widget-bad">2</span>
-                  <span class="widget-title">Blockers</span>
+                  <div id="widgetBody">
+                    <span id="widgetValue" class="widget-number widget-bad">2</span>
+                  </div>  
+                  <div>
+                    <span id="widgetTitle" class="widget-title">Blockers</span>
+                  </div>  
                 </div>
                 <div class="widget">
-                  <div style="width: 100%; display: inline-block; box-sizing: border-box">
-                    <div id="progress5" style="width: 100%; height: 148px; text-align: center">
-                    </div>
-                    <div style="width: 100%; text-align: center; margin-top: 10px">
-                      Progress
-                    </div>  
+                  <div id="progress5" style="width: 100%; height: 148px; text-align: center">
                   </div>
+                  <div  style="width: 100%; text-align: center; margin-top: 10px">
+                    <span  class="widget-title">Progress</span>
+                  </div>  
                 </div>
                 <div class="widget">
-                  <div style="width: 100%; height: 100%; display: inline-block; box-sizing: border-box">
-                    <div id="burndown5" style="width: 100%; height: 148px; text-align: center">
-                    </div>
-                    <div style="width: 100%; text-align: center; margin-top: 10px">
-                      Burn Down
-                    </div>  
+                  <div id="burndown5" style="width: 100%; height: 148px; text-align: center">
                   </div>
+                  <div  style="width: 100%; text-align: center; margin-top: 10px">
+                    <span  class="widget-title">Burn Down</span>
+                  </div>  
                 </div>
               </div>
             </div>
@@ -421,6 +421,8 @@
     <script src="./lib/shared/dataSource.js"></script>
     <script src="./lib/client/dataSourceManager.js"></script>
     <script src="./lib/client/dataSourceDialog.js"></script>
+    <script src="./lib/shared/widget.js"></script>
+    <script src="./lib/client/widgetManager.js"></script>
     <script src="./lib/client/widgetDialog.js"></script>
     <script src="./lib/client/main.js"></script>
   <script> 
