@@ -163,58 +163,109 @@ ul.dropdown-menu-form {
 
 }
 .widget-container {
-  height: 100%;
+  height: 200px;
   width: 100%;
-  display: inline-block;
-  vertical-align: bottom;
-  box-sizing: border-box;
-  padding: 5px;
-  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+/*  padding: 5px;*/
 }
 
 .widget {
   display: inline-block; 
-  box-sizing: border-box
   height: 100%;
-/*
   position: relative;
-  float: left;
-*/
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
   vertical-align: bottom;
-  /* padding: 2px; */
   width: 24%;
-/*  height: 100%;*/
   text-align: center;
+}
+
+.widget-body {
+  width: 100%; 
+  height: 85%;
+  position: relative;
+}
+
+.widget-title {
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  height: 15%;
+  width: 100%; 
+  
+  font-size: .9em;
+  font-weight: bold;
+  color: #cccccc;
+}
+
+.widget-content {
+    display: -ms-flexbox;
+    display: -moz-box;
+    display: -webkit-box;
+    display: box;
+    
+  -ms-flex-pack: center;
+  -moz-box-pack:center;
+  -webkit-box-pack: center;
+  box-pack: center;
+    
+  -ms-flex-align: center;
+  -moz-box-align: center;
+  -webkit-box-align: center;
+  box-align: center;
+    
+  text-align: center;
+  vertical-align: middle;
+  height: 100%;
+  
+  font-size: 8em;
+  font-weight: bold;
+}
+
+.widget-controls {
+  z-index: 999;
+  width: 100%;
+  position: absolute;
+}
+
+.btn-left {
+  display: block;
+  position: absolute;
+  left: 0px;
+}
+
+.btn-right {
+  display: block;
+  position: absolute;
+  right: 0px;
+}
+
+.widget-controls-top {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  text-align: right;
+  padding-right: 5%;
+}
+
+.widget-controls-bottom {
+  bottom: 0px;
+  right: 0px;
+  width: 100%;
+  text-align: right;
+  padding-left: 5%;
 }
 
 .widget-bad {
   color: #aa0000;
 }
 
-.widget-number {
-  box-sizing: border-box;
-  display: block;
-  font-size: 8em;
-  height: auto;
-  font-weight: bold;
-  line-height: 1;
-/*
-  float: none;
-  vertical-align: top;
-  position: relative;
-  text-align: center;
-*/
-}
-
-.widget-title {
-  box-sizing: border-box;
-  display: block;
-  font-size: .9em;
-  font-weight: bold;
-  color: #cccccc;
-  text-align: center;
-  padding: 0;
-}
 
 .selected-label {
   color: #555;
@@ -266,107 +317,106 @@ ul.dropdown-menu-form {
 */
 }
 
-.configButtonActive {
+.config-button-active {
   background-color: black;
 }
 
-.configButtonActive:hover {
+.config-button-active:hover {
   background-color: transparent;
   border-color: white;
   color: white;
 }
 
-.configButtonActive:focus {
+.config-button-active:focus {
   background-color: black;
   border-color: white;
   color: white;
-  
 }
 
-.configButtonInactive {
+.config-button-inactive {
   background-color: transparent;
 }
 
-.configButtonInactive:focus {
+.config-button-inactive:focus {
   background-color: transparent;
   border-color: transparent;
   color: white;
 }
 
-.configButtons {
+.config-buttons {
   display: none;
   border-color: transparent;
   color: white;
 }
 
-.configButtons.btn-sml:hover {
+.config-buttons.btn-sml:hover {
   background-color: transparent;
   border-color: white;
   color: white;
 }
 
-.configButtons.btn-sml {
+.config-buttons.btn-sml {
   line-height: 1;
   background-color: transparent;
 }
 
-.configButtons.btn-sml:active {
+.config-buttons.btn-sml:active {
   line-height: 1;
   background-color: gray;
   border-color: #555;
 }
 
-.configButtonInactive:hover {
+.config-button-inactive:hover {
   background-color: transparent;
   border-color: white;
   color: white;
 }
 
-.configButtons:active {
+.config-buttons:active {
   background-color: black;
   border-color: blue;
   color: white;
 }
 
-.configToggleButton {
+.config-toggle-button {
   background-color: transparent;
   border-color: transparent;
   color: white;
 }
 
-.configToggleButton:hover {
+.config-toggle-button:hover {
   background-color: transparent;
   border-color: white;
   color: white;
 }
 
-.configToggleButton.active {
+.config-toggle-button.active {
   background-color: black;
   border-color: black;
   color: white;
 }
 
-.configToggleButton.focus {
+.config-toggle-button.focus {
   border-color: black;
 }
 
-.configToggleButton.active:hover {
+.config-toggle-button.active:hover {
   border-color: white;
 }
 
-.gridRowButtons {
+.grid-row-buttons {
   border-color: transparent;
   background-color: transparent;
   color: #333;
 }
 
-.gridRowButtonInactive:hover {
+.grid-row-button-inactive:hover {
   background-color: transparent;
   border-color: white;
   color: white;
 }
 
-.gridRowButtons:active {
+.grid-row-buttons:active {
   background-color: black;
   border-color: blue;
   color: #333;

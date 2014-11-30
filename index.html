@@ -114,49 +114,49 @@
           </div>
           <div class="navbar-brand navbar-right">
             <div>
-              <button id="addPanel" type="button" class="btn btn-default configButtons configButtonInactive">
+              <button id="addPanel" type="button" class="btn btn-default config-buttons config-button-inactive">
                 <i class="fa fa-plus fa-lg"></i>
 <!--
                 <br/>
                 <span class="btn-text">Add Panel</span>
 -->
               </button>
-              <button id="viewDataSources" type="button" class="btn btn-default configButtons configButtonInactive">
+              <button id="viewDataSources" type="button" class="btn btn-default config-buttons config-button-inactive">
                 <i class="fa fa-database fa-lg"></i>
 <!--
                 <br/>
                 <span class="btn-text">Data Source</span>
 -->
               </button>
-              <button id="viewContent" type="button" class="btn btn-default configButtons configButtonInactive">
+              <button id="viewContent" type="button" class="btn btn-default config-buttons config-button-inactive">
                 <i class="fa fa-newspaper-o fa-lg"></i>
 <!--
                 <br/>
                 <span class="btn-text">Content</span>
 -->
               </button>
-              <button id="viewThemes" type="button" class="btn btn-default configButtons configButtonInactive">
+              <button id="viewThemes" type="button" class="btn btn-default config-buttons config-button-inactive">
                 <i class="fa fa-paint-brush fa-lg"></i>
 <!--
                 <br/>
                 <span class="btn-text">Theme</span>
 -->
               </button>
-              <button id="viewNetwork" type="button" class="btn btn-default configButtons configButtonInactive">
+              <button id="viewNetwork" type="button" class="btn btn-default config-buttons config-button-inactive">
                 <i class="fa fa-sitemap fa-lg"></i>
 <!--
                 <br/>
                 <span class="btn-text">Network</span>
 -->
               </button>
-              <button id="viewSettings" type="button" class="btn btn-default configButtons configButtonInactive">
+              <button id="viewSettings" type="button" class="btn btn-default config-buttons config-button-inactive">
                 <i class="fa fa-sliders fa-lg"></i>
 <!--
                 <br/>
                 <span class="btn-text">Settings</span>
 -->
               </button>
-              <button id="viewHome" type="button" class="btn btn-default configButtons configButtonActive">
+              <button id="viewHome" type="button" class="btn btn-default config-buttons config-button-active">
                 <i class="fa fa-home fa-lg"></i>
 <!--
                 <br/>
@@ -164,7 +164,7 @@
 -->
               </button>
               <div class="btn-group" data-toggle="buttons">
-                  <label class="btn btn-default configToggleButton">
+                  <label class="btn btn-default config-toggle-button">
                     <input id="toggleConfigMode" type="checkbox">
                     <i class="fa fa-cogs fa-lg"></i>
                   </label>
@@ -187,58 +187,130 @@
             <div  id="panel2" class="panel">
               <div class="panel-heading">
                   <div class="btn-group pull-right">
-                    <button type="button" class="btn btn-default btn-sml configButtons">
+                    <button type="button" class="btn btn-default btn-sml config-buttons">
                       <i class="fa fa-plus "></i>
                     </button>
-                    <button type="button" class="btn btn-default btn-sml configButtons">
+                    <button type="button" class="btn btn-default btn-sml config-buttons">
                       <i class="fa fa-minus"></i>
                     </button>
-                    <button type="button" class="btn btn-default btn-sml configButtons">
+                    <button type="button" class="btn btn-default btn-sml config-buttons">
                       <i class="fa fa-trash"></i>
                     </button>
-                    <button type="button" class="btn btn-default btn-sml configButtons">
+                    <button type="button" class="btn btn-default btn-sml config-buttons">
                       <i class="fa fa-arrow-down"></i>
                     </button>
-                    <button type="button" class="btn btn-default btn-sml configButtons">
+                    <button type="button" class="btn btn-default btn-sml config-buttons">
                       <i class="fa fa-caret-up"></i>
                     </button>
-                    <button type="button" class="btn btn-default btn-sml configButtons">
+                    <button type="button" class="btn btn-default btn-sml config-buttons">
                       <i class="fa fa-arrow-left"></i>
                     </button>
-                    <button type="button" class="btn btn-default btn-sml configButtons">
+                    <button type="button" class="btn btn-default btn-sml config-buttons">
                       <i class="fa fa-chevron-right"></i>
                     </button>
                   </div>
                 <i class="fa fa-users fa-lg"></i> Human Resources
               </div>
-              <div class="panel-body widget-container">
+              <div class="widget-container">
                 <div class="widget">
-                  <div id="progress5b" style="width: 100%; height: 148px; text-align: center; vertical-align: middle;">
+                  <div class="widget-body">
+                    <div id="widgetBodyControls" class="widget-controls widget-controls-top">
+                      <button type="button" class="btn btn-default btn-sml btn-left config-buttons">
+                        <i class="fa fa-trash"></i>
+                      </button>
+                      <button type="button" class="btn btn-default btn-sml btn-right config-buttons">
+                        <i class="fa fa-sliders"></i>
+                      </button>
+                    </div>
+                    <div id="widgetBodyControls" class="widget-controls widget-controls-bottom">
+                      <button type="button" class="btn btn-default btn-sml btn-left config-buttons">
+                        <i class="fa fa-chevron-left"></i>
+                      </button>
+                      <button type="button" class="btn btn-default btn-sml btn-right config-buttons">
+                        <i class="fa fa-chevron-right"></i>
+                      </button>
+                    </div>
+                    
+                    <div id="progress5b" class="widget-content">
+                    </div>
                   </div>
-                  <div style="width: 100%; text-align: center; margin-top: 10px">
-                    <span  class="widget-title">Work Complete</span>
+                  <div class="widget-title">
+                    <span class="widget-title-text">Work Complete</span>
                   </div>  
                 </div>
                 <div class="widget">
-                  <div id="widgetBody">
-                    <span id="widgetValue" class="widget-number widget-bad">2</span>
+                  <div id="widgetBody" class="widget-body">
+                    <div id="widgetBodyControls" class="widget-controls widget-controls-top">
+                      <button type="button" class="btn btn-default btn-sml btn-left config-buttons">
+                        <i class="fa fa-trash"></i>
+                      </button>
+                      <button type="button" class="btn btn-default btn-sml btn-right config-buttons">
+                        <i class="fa fa-sliders"></i>
+                      </button>
+                    </div>
+                    <div id="widgetBodyControls" class="widget-controls widget-controls-bottom">
+                      <button type="button" class="btn btn-default btn-sml btn-left config-buttons">
+                        <i class="fa fa-chevron-left"></i>
+                      </button>
+                      <button type="button" class="btn btn-default btn-sml btn-right config-buttons">
+                        <i class="fa fa-chevron-right"></i>
+                      </button>
+                    </div>
+                    <span id="widget-value" class="widget-content widget-bad">2</span>
                   </div>  
-                  <div>
-                    <span id="widgetTitle" class="widget-title">Blockers</span>
+                  <div class="widget-title">
+                    <span class="widget-title-text">Blockers</span>
+                  </div>
+                </div>
+                <div class="widget">
+                  <div class="widget-body">
+                    <div id="widgetBodyControls" class="widget-controls widget-controls-top">
+                      <button type="button" class="btn btn-default btn-sml btn-left config-buttons">
+                        <i class="fa fa-trash"></i>
+                      </button>
+                      <button type="button" class="btn btn-default btn-sml btn-right config-buttons">
+                        <i class="fa fa-sliders"></i>
+                      </button>
+                    </div>
+                    <div id="widgetBodyControls" class="widget-controls widget-controls-bottom">
+                      <button type="button" class="btn btn-default btn-sml btn-left config-buttons">
+                        <i class="fa fa-chevron-left"></i>
+                      </button>
+                      <button type="button" class="btn btn-default btn-sml btn-right config-buttons">
+                        <i class="fa fa-chevron-right"></i>
+                      </button>
+                    </div>
+                    <div id="progress5" class="widget-content">
+                    </div>
+                  </div>
+                  <div class="widget-title">
+                    <span class="widget-title-text">Progress</span>
                   </div>  
                 </div>
                 <div class="widget">
-                  <div id="progress5" style="width: 100%; height: 148px; text-align: center">
+                  <div class="widget-body">
+                    <div id="widgetBodyControls" class="widget-controls widget-controls-top">
+                      <button type="button" class="btn btn-default btn-sml btn-left config-buttons">
+                        <i class="fa fa-trash"></i>
+                      </button>
+                      <button type="button" class="btn btn-default btn-sml btn-right config-buttons">
+                        <i class="fa fa-sliders"></i>
+                      </button>
+                    </div>
+                    <div id="widgetBodyControls" class="widget-controls widget-controls-bottom">
+                      <button type="button" class="btn btn-default btn-sml btn-left config-buttons">
+                        <i class="fa fa-chevron-left"></i>
+                      </button>
+                      <button type="button" class="btn btn-default btn-sml btn-right config-buttons">
+                        <i class="fa fa-chevron-right"></i>
+                      </button>
+                    </div>
+
+                    <div id="burndown5" class="widget-content">
+                    </div>
                   </div>
-                  <div  style="width: 100%; text-align: center; margin-top: 10px">
-                    <span  class="widget-title">Progress</span>
-                  </div>  
-                </div>
-                <div class="widget">
-                  <div id="burndown5" style="width: 100%; height: 148px; text-align: center">
-                  </div>
-                  <div  style="width: 100%; text-align: center; margin-top: 10px">
-                    <span  class="widget-title">Burn Down</span>
+                  <div class="widget-title">
+                    <span class="widget-title-text">Burn Down</span>
                   </div>  
                 </div>
               </div>
