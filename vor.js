@@ -32,6 +32,7 @@ var MeltingPot = require('meltingpot');
 
 var PanelHandler = require('./lib/server/panelHandler.js');
 var DataSourceHandler = require('./lib/server/dataSourceHandler.js');
+var WidgetHandler = require('./lib/server/widgetHandler.js');
 
 //var VEHICLES_FILE = 'vehicles.json';
 
@@ -221,6 +222,7 @@ var clientComms = new MeltingPot.Comms({
   messageHandlers: [
     PanelHandler.messageHandler,
     DataSourceHandler.messageHandler,
+    WidgetHandler.messageHandler,
   ]
 });
 
@@ -234,6 +236,9 @@ panelHandler.setupCommsListeners(clientComms);
 
 var dataSourceHandler = new DataSourceHandler({dataDirectory: config.dataDirectory});
 dataSourceHandler.setupCommsListeners(clientComms);
+
+var widgetHandler = new WidgetHandler({dataDirectory: config.dataDirectory});
+widgetHandler.setupCommsListeners(clientComms);
 
 // start up the server for clients
 if (config.debug) {
