@@ -38,50 +38,86 @@
   </style>
   <script>
   $(function() {
-    var newColumnId;
+    /* 
+     * The following logic handles multiple columns/lists in the form of divs
+     * 
+     * Suppors drag and drop within a column, across columns or canceled by not 
+     * releasing the drag option on a valid column.
+     */
     $( ".column" ).sortable({
       connectWith: ".column",
       handle: ".panel-header",
       cancel: ".panel-toggle",
-      start: function(event, ui) {
-        console.log("start");
-//        console.log("\t" + this.id + " : " + ui.item.attr("id"));
-//        console.log("    Starting position: " + $(this).closest("div").attr("id") + " row: " + ui.item.index());
-      },
-      update: function(event, ui) {
-        console.log("update");
-//        console.log("Update:\t" + ui.item.attr("id") + ", new index: " + ui.item.index());
-//        console.log("    Ending positions: " + $(this).closest("div").attr("id"));
-      },
-      stop: function(event, ui) {
-        console.log("stop  id: " + ui.item.attr("id"));
-//        console.log("Stop:\t" + this.id + " : " + ui.item.attr("id") + ", new index: " + ui.item.index());
-//        console.log("    Ending positions: " + this.id);
-//        console.log("    Ending positions: " + $(this).closest("div").attr("id"));
-        if(true) {
-          var idx = ui.item.index();
-          $(this).sortable('cancel');
-          if(idx > 0) {
-            // determine appropriate entry
-            var rows = $("#" + newColumnId + ">div.panel");
-            // add after the correct position
-            $("#" + ui.item.attr("id")).insertAfter("#" + rows[idx - 1].id);
-          } else {
-            $("#" + ui.item.attr("id")).prependTo("#" + newColumnId);
-          }
+      placeholder: "panel-placeholder",
+      
+      beforeStop: beforeStopAction,
+      remove: removeAction,
+      update: updateAction,
+      stop: stopAction,
+    });
+    
+    function stopAction(event, ui) {
+      // no newIndex means drop was not sucessful
+      if(newIndex < 0) {
+        return;
+      }
+      
+      $(this).sortable('cancel');
+      /*
+       * generate backend call here
+       */
+
+      /*
+       * The following is what is to be done if the backend accepts the request
+       */
+      var column = movingColumns ? targetColumnId : sourceColumnId;
+      
+      if(newIndex > 0) {
+        // determine appropriate entry
+        var rows = $("#" + column + ">div.panel");
+        
+        if(movingColumns) {
+          // we want the panel before the drop point, for different row this requires adjustment 
+          newIndex--;
         }
         
-      }, 
-      receive: function(event, ui) {
-        console.log("receive");
-//        console.log("\t" + this.id + " : " + ui.item.attr("id") + ", new index: " + ui.item.index());
-//        console.log("    receive positions: " + this.id);
-//        console.log("    receive positions: " + $(this).closest("div").attr("id"));
-        newColumnId = this.id;
-      },
-      placeholder: "panel-placeholder"
-    });
+        // add after the correct position
+        $("#" + ui.item.attr("id")).insertAfter("#" + rows[newIndex].id);
+      } else {
+        $("#" + ui.item.attr("id")).prependTo("#" + column);
+      }
+      /*
+       * end backend accept logic
+       */
+    }
+    
+    var sourceColumnId;
+    var targetColumnId;
+    var newIndex = 0;
+    var movingColumns = false;
+    
+    function beforeStopAction(event, ui) {
+      // called irrespective of moving or not between div/lists
+      sourceColumnId = this.id;
+      movingColumns = false;
+      newIndex = -1;
+    }
+    
+    function removeAction(event, ui) {
+      // only occurs when moving between divs/lists, this.id is the column removing from
+      movingColumns = true;
+    }
+    
+    function updateAction(event, ui) {
+      // update action fires twice (presume from/to), but index always equals the drop location 
+      newIndex = ui.item.index();
+      
+      if(ui.sender !== undefined && ui.sender !== null) {
+        targetColumnId = this.id;
+      }
+    }
   });
+    
     
     /*
      * options:
