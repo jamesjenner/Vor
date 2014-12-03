@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI Sortable - Portlets</title>
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+  <style>
+  body {
+    min-width: 520px;
+  }
+  .column {
+    width: 33%;
+    float: left;
+    padding-bottom: 100px;
+  }
+  .panel {
+    margin: 0 1em 1em 0;
+    height: 200px;
+    border: solid black 1px;
+  }
+  .panel-header {
+    padding: 0.1em 0.1em;
+    margin: .2em .2em .2em .2em;
+    position: relative;
+    background-color: darkgrey;
+    color: white;
+    font-weight: bold;
+  }
+  .panel-content {
+    padding: 0.4em;
+  }
+  .panel-placeholder {
+    border: 1px dotted black;
+    margin: 0 1em 1em 0;
+    height: 200px;
+  }
+  </style>
+  <script>
+  $(function() {
+    var newColumnId;
+    $( ".column" ).sortable({
+      connectWith: ".column",
+      handle: ".panel-header",
+      cancel: ".panel-toggle",
+      start: function(event, ui) {
+        console.log("start");
+//        console.log("\t" + this.id + " : " + ui.item.attr("id"));
+//        console.log("    Starting position: " + $(this).closest("div").attr("id") + " row: " + ui.item.index());
+      },
+      update: function(event, ui) {
+        console.log("update");
+//        console.log("Update:\t" + ui.item.attr("id") + ", new index: " + ui.item.index());
+//        console.log("    Ending positions: " + $(this).closest("div").attr("id"));
+      },
+      stop: function(event, ui) {
+        console.log("stop  id: " + ui.item.attr("id"));
+//        console.log("Stop:\t" + this.id + " : " + ui.item.attr("id") + ", new index: " + ui.item.index());
+//        console.log("    Ending positions: " + this.id);
+//        console.log("    Ending positions: " + $(this).closest("div").attr("id"));
+        if(true) {
+          var idx = ui.item.index();
+          $(this).sortable('cancel');
+          if(idx > 0) {
+            // determine appropriate entry
+            var rows = $("#" + newColumnId + ">div.panel");
+            // add after the correct position
+            $("#" + ui.item.attr("id")).insertAfter("#" + rows[idx - 1].id);
+          } else {
+            $("#" + ui.item.attr("id")).prependTo("#" + newColumnId);
+          }
+        }
+        
+      }, 
+      receive: function(event, ui) {
+        console.log("receive");
+//        console.log("\t" + this.id + " : " + ui.item.attr("id") + ", new index: " + ui.item.index());
+//        console.log("    receive positions: " + this.id);
+//        console.log("    receive positions: " + $(this).closest("div").attr("id"));
+        newColumnId = this.id;
+      },
+      placeholder: "panel-placeholder"
+    });
+  });
+    
+    /*
+     * options:
+     * 
+     * disable()
+     * enable()
+     * refresh() - need to do after adding an item?
+     * refreshPositions() - need to do after accepting a move from the backend?
+     */
+  </script>
+</head>
+<body>
+  <div id="col1" class="column">
+
+    <div id="feeds" class="panel">
+      <div class="panel-header">Feeds</div>
+      <div class="panel-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+    </div>
+    <div id="News" class="panel">
+      <div class="panel-header">News</div>
+      <div class="panel-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+    </div>
+
+  </div>
+  <div id="col2" class="column">
+
+    <div id="Shopping" class="panel">
+      <div class="panel-header">Shopping</div>
+      <div class="panel-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+    </div>
+
+  </div>
+  <div id="col3" class="column">
+
+    <div id="Links" class="panel">
+      <div class="panel-header">Links</div>
+      <div class="panel-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+    </div>
+    <div id="Images" class="panel">
+      <div class="panel-header">Images</div>
+      <div class="panel-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+    </div>
+
+  </div>
+</body>
+</html>
