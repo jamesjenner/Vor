@@ -14,7 +14,7 @@ describe('#WidgetHandler', function() {
   before(function() {
     // backup the existing 
     if (fs.existsSync(dataDirectory + WidgetHandler.WIDGETS_FILE)) {
-      fs.retitleSync(dataDirectory + WidgetHandler.WIDGETS_FILE, dataDirectory + WidgetHandler.WIDGETS_FILE + ".tmp");
+      fs.renameSync(dataDirectory + WidgetHandler.WIDGETS_FILE, dataDirectory + WidgetHandler.WIDGETS_FILE + ".tmp");
     }
   });
   beforeEach(function() {
@@ -91,7 +91,7 @@ describe('#WidgetHandler', function() {
   after(function() {
     // restore the original 
     if (fs.existsSync(dataDirectory + WidgetHandler.WIDGETS_FILE + ".tmp")) {
-      fs.retitleSync(dataDirectory + WidgetHandler.WIDGETS_FILE + ".tmp", dataDirectory + WidgetHandler.WIDGETS_FILE);
+      fs.renameSync(dataDirectory + WidgetHandler.WIDGETS_FILE + ".tmp", dataDirectory + WidgetHandler.WIDGETS_FILE);
     }
 
   });
