@@ -55,6 +55,10 @@
   margin-left: 5px;
 }
 
+.draggable {
+  cursor: move;
+}
+
 .panel-placeholder {
   display: block;
   box-sizing: border-box;
