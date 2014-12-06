@@ -406,4 +406,590 @@ describe('#PanelHandler', function() {
 	panelHandler.panels[7].column.should.equal(2);
   });
 
+  it('moves between columns (to the left) and lower row correctly', function(done) {
+    var panelHandler = new PanelHandler({dataDirectory: dataDirectory});
+
+    // from column 2 to column 1, row 2
+    panelHandler.movePanel({ 
+      id: "bf5a7fe8-1111-4465-8629-80ec2fc04fa0", 
+      sourceColumn: 2, 
+      targetColumn: 1, 
+      row: 2
+    });
+    done();
+    
+    panelHandler.panels.length.should.equal(8);
+    panelHandler.panels[0].id.should.equal("40fa0bae-a79d-4ded-9cda-bfeb43feae1f");
+	panelHandler.panels[0].row.should.equal(0);
+	panelHandler.panels[0].column.should.equal(1);
+    panelHandler.panels[1].id.should.equal("bf5a7fe8-3f30-4465-8629-80ec2fc04fa0");
+	panelHandler.panels[1].row.should.equal(1);
+	panelHandler.panels[1].column.should.equal(1);
+    
+    panelHandler.panels[5].id.should.equal("bf5a7fe8-1111-4465-8629-80ec2fc04fa0");
+	panelHandler.panels[5].row.should.equal(2, "was row 1, now set to 2");
+	panelHandler.panels[5].column.should.equal(1, "was column 2, now column 1");
+    
+    panelHandler.panels[2].id.should.equal("64a0dd4a-0965-43e0-8016-3402662d467a");
+	panelHandler.panels[2].row.should.equal(3, "was row 2, now incremented to 3");
+	panelHandler.panels[2].column.should.equal(1);
+    
+    panelHandler.panels[3].id.should.equal("978f05e0-eae6-4ae9-933d-1e8e11651fe8");
+	panelHandler.panels[3].row.should.equal(4, "was row 3, now incremented to 4");
+	panelHandler.panels[3].column.should.equal(1);
+
+    panelHandler.panels[4].id.should.equal("40fa0bae-1111-4ded-9cda-bfeb43feae1f");
+	panelHandler.panels[4].row.should.equal(0);
+	panelHandler.panels[4].column.should.equal(2);
+    
+    
+    panelHandler.panels[6].id.should.equal("64a0dd4a-1111-43e0-8016-3402662d467a");
+	panelHandler.panels[6].row.should.equal(1, "was row 2, now decremented to 1");
+	panelHandler.panels[6].column.should.equal(2);
+    panelHandler.panels[7].id.should.equal("978f05e0-1111-4ae9-933d-1e8e11651fe8");
+	panelHandler.panels[7].row.should.equal(2, "was row 3, now decremented to 2");
+	panelHandler.panels[7].column.should.equal(2);
+  });
+  it('moves between columns (to the left) and higher row correctly', function(done) {
+    var panelHandler = new PanelHandler({dataDirectory: dataDirectory});
+
+    // from column 2 to column 1, row 1
+    panelHandler.movePanel({ 
+      id: "64a0dd4a-1111-43e0-8016-3402662d467a", 
+      sourceColumn: 2, 
+      targetColumn: 1, 
+      row: 1
+    });
+    done();
+    
+    panelHandler.panels.length.should.equal(8);
+    panelHandler.panels[0].id.should.equal("40fa0bae-a79d-4ded-9cda-bfeb43feae1f");
+	panelHandler.panels[0].row.should.equal(0);
+	panelHandler.panels[0].column.should.equal(1);
+    
+    panelHandler.panels[6].id.should.equal("64a0dd4a-1111-43e0-8016-3402662d467a");
+	panelHandler.panels[6].row.should.equal(1);
+	panelHandler.panels[6].column.should.equal(1);
+    
+    panelHandler.panels[1].id.should.equal("bf5a7fe8-3f30-4465-8629-80ec2fc04fa0");
+	panelHandler.panels[1].row.should.equal(2);
+	panelHandler.panels[1].column.should.equal(1);
+    panelHandler.panels[2].id.should.equal("64a0dd4a-0965-43e0-8016-3402662d467a");
+	panelHandler.panels[2].row.should.equal(3);
+	panelHandler.panels[2].column.should.equal(1);
+    panelHandler.panels[3].id.should.equal("978f05e0-eae6-4ae9-933d-1e8e11651fe8");
+	panelHandler.panels[3].row.should.equal(4);
+	panelHandler.panels[3].column.should.equal(1);
+
+    panelHandler.panels[4].id.should.equal("40fa0bae-1111-4ded-9cda-bfeb43feae1f");
+	panelHandler.panels[4].row.should.equal(0);
+	panelHandler.panels[4].column.should.equal(2);
+    panelHandler.panels[5].id.should.equal("bf5a7fe8-1111-4465-8629-80ec2fc04fa0");
+	panelHandler.panels[5].row.should.equal(1);
+	panelHandler.panels[5].column.should.equal(2);
+
+    panelHandler.panels[7].id.should.equal("978f05e0-1111-4ae9-933d-1e8e11651fe8");
+	panelHandler.panels[7].row.should.equal(2);
+	panelHandler.panels[7].column.should.equal(2);
+  });
+  
+  it('moves between columns (to the right) and lower row correctly', function(done) {
+    var panelHandler = new PanelHandler({dataDirectory: dataDirectory});
+
+    // from column 2 to column 1, row 2
+    panelHandler.movePanel({ 
+      id: "bf5a7fe8-3f30-4465-8629-80ec2fc04fa0", 
+      sourceColumn: 1, 
+      targetColumn: 2, 
+      row: 2
+    });
+    done();
+    
+    panelHandler.panels.length.should.equal(8);
+    panelHandler.panels[0].id.should.equal("40fa0bae-a79d-4ded-9cda-bfeb43feae1f");
+	panelHandler.panels[0].row.should.equal(0);
+	panelHandler.panels[0].column.should.equal(1);
+
+    panelHandler.panels[2].id.should.equal("64a0dd4a-0965-43e0-8016-3402662d467a");
+	panelHandler.panels[2].row.should.equal(1, "Row decremented from 3 to 2");
+	panelHandler.panels[2].column.should.equal(1);
+    panelHandler.panels[3].id.should.equal("978f05e0-eae6-4ae9-933d-1e8e11651fe8");
+	panelHandler.panels[3].row.should.equal(2, "Row decremented from 4 to 3");
+	panelHandler.panels[3].column.should.equal(1);
+
+    panelHandler.panels[4].id.should.equal("40fa0bae-1111-4ded-9cda-bfeb43feae1f");
+	panelHandler.panels[4].row.should.equal(0);
+	panelHandler.panels[4].column.should.equal(2);
+    panelHandler.panels[5].id.should.equal("bf5a7fe8-1111-4465-8629-80ec2fc04fa0");
+	panelHandler.panels[5].row.should.equal(1);
+	panelHandler.panels[5].column.should.equal(2);
+    
+    panelHandler.panels[1].id.should.equal("bf5a7fe8-3f30-4465-8629-80ec2fc04fa0");
+	panelHandler.panels[1].row.should.equal(2, "Row set to 2");
+	panelHandler.panels[1].column.should.equal(2, "Column set to 2");
+    
+    panelHandler.panels[6].id.should.equal("64a0dd4a-1111-43e0-8016-3402662d467a");
+	panelHandler.panels[6].row.should.equal(3);
+	panelHandler.panels[6].column.should.equal(2);
+    panelHandler.panels[7].id.should.equal("978f05e0-1111-4ae9-933d-1e8e11651fe8");
+	panelHandler.panels[7].row.should.equal(4);
+	panelHandler.panels[7].column.should.equal(2);
+  });
+  it('moves between columns (to the right) and higher row correctly', function(done) {
+    var panelHandler = new PanelHandler({dataDirectory: dataDirectory});
+
+    // from column 2 to column 1, row 1
+    panelHandler.movePanel({ 
+      id: "64a0dd4a-0965-43e0-8016-3402662d467a", 
+      sourceColumn: 1, 
+      targetColumn: 2, 
+      row: 1
+    });
+    done();
+    
+    panelHandler.panels.length.should.equal(8);
+    panelHandler.panels[0].id.should.equal("40fa0bae-a79d-4ded-9cda-bfeb43feae1f");
+	panelHandler.panels[0].row.should.equal(0);
+	panelHandler.panels[0].column.should.equal(1);
+    panelHandler.panels[1].id.should.equal("bf5a7fe8-3f30-4465-8629-80ec2fc04fa0");
+	panelHandler.panels[1].row.should.equal(1);
+	panelHandler.panels[1].column.should.equal(1);
+
+    panelHandler.panels[3].id.should.equal("978f05e0-eae6-4ae9-933d-1e8e11651fe8");
+	panelHandler.panels[3].row.should.equal(2, "Row decremented from 3 to 2");
+	panelHandler.panels[3].column.should.equal(1);
+
+    panelHandler.panels[4].id.should.equal("40fa0bae-1111-4ded-9cda-bfeb43feae1f");
+	panelHandler.panels[4].row.should.equal(0);
+	panelHandler.panels[4].column.should.equal(2);
+    
+    panelHandler.panels[2].id.should.equal("64a0dd4a-0965-43e0-8016-3402662d467a");
+	panelHandler.panels[2].row.should.equal(1);
+	panelHandler.panels[2].column.should.equal(2, "Column set to 2");
+    
+    panelHandler.panels[5].id.should.equal("bf5a7fe8-1111-4465-8629-80ec2fc04fa0");
+	panelHandler.panels[5].row.should.equal(2, "Row incremented from 1 to 2");
+	panelHandler.panels[5].column.should.equal(2);
+    panelHandler.panels[6].id.should.equal("64a0dd4a-1111-43e0-8016-3402662d467a");
+	panelHandler.panels[6].row.should.equal(3);
+	panelHandler.panels[6].column.should.equal(2);
+    panelHandler.panels[7].id.should.equal("978f05e0-1111-4ae9-933d-1e8e11651fe8");
+	panelHandler.panels[7].row.should.equal(4);
+	panelHandler.panels[7].column.should.equal(2);
+  });  
+
+  it('moves between columns (to the right) to 0 row', function(done) {
+    var panelHandler = new PanelHandler({dataDirectory: dataDirectory});
+
+    // from column 2 to column 1, row 1
+    panelHandler.movePanel({ 
+      id: "bf5a7fe8-3f30-4465-8629-80ec2fc04fa0", 
+      sourceColumn: 1, 
+      targetColumn: 2, 
+      row: 0
+    });
+    done();
+    
+    panelHandler.panels.length.should.equal(8);
+    panelHandler.panels[0].id.should.equal("40fa0bae-a79d-4ded-9cda-bfeb43feae1f");
+	panelHandler.panels[0].row.should.equal(0);
+	panelHandler.panels[0].column.should.equal(1);
+    
+    panelHandler.panels[2].id.should.equal("64a0dd4a-0965-43e0-8016-3402662d467a");
+	panelHandler.panels[2].row.should.equal(1);
+	panelHandler.panels[2].column.should.equal(1);
+    panelHandler.panels[3].id.should.equal("978f05e0-eae6-4ae9-933d-1e8e11651fe8");
+	panelHandler.panels[3].row.should.equal(2);
+	panelHandler.panels[3].column.should.equal(1);
+
+    panelHandler.panels[1].id.should.equal("bf5a7fe8-3f30-4465-8629-80ec2fc04fa0");
+	panelHandler.panels[1].row.should.equal(0);
+	panelHandler.panels[1].column.should.equal(2);
+    
+    panelHandler.panels[4].id.should.equal("40fa0bae-1111-4ded-9cda-bfeb43feae1f");
+	panelHandler.panels[4].row.should.equal(1);
+	panelHandler.panels[4].column.should.equal(2);
+    panelHandler.panels[5].id.should.equal("bf5a7fe8-1111-4465-8629-80ec2fc04fa0");
+	panelHandler.panels[5].row.should.equal(2);
+	panelHandler.panels[5].column.should.equal(2);
+    panelHandler.panels[6].id.should.equal("64a0dd4a-1111-43e0-8016-3402662d467a");
+	panelHandler.panels[6].row.should.equal(3);
+	panelHandler.panels[6].column.should.equal(2);
+    panelHandler.panels[7].id.should.equal("978f05e0-1111-4ae9-933d-1e8e11651fe8");
+	panelHandler.panels[7].row.should.equal(4);
+	panelHandler.panels[7].column.should.equal(2);
+  });  
+  it('moves between columns (to the right) to last row', function(done) {
+    var panelHandler = new PanelHandler({dataDirectory: dataDirectory});
+
+    // from column 2 to column 1, row 1
+    panelHandler.movePanel({ 
+      id: "bf5a7fe8-3f30-4465-8629-80ec2fc04fa0", 
+      sourceColumn: 1, 
+      targetColumn: 2, 
+      row: 4
+    });
+    done();
+    
+    panelHandler.panels.length.should.equal(8);
+    panelHandler.panels[0].id.should.equal("40fa0bae-a79d-4ded-9cda-bfeb43feae1f");
+	panelHandler.panels[0].row.should.equal(0);
+	panelHandler.panels[0].column.should.equal(1);
+    
+    panelHandler.panels[2].id.should.equal("64a0dd4a-0965-43e0-8016-3402662d467a");
+	panelHandler.panels[2].row.should.equal(1);
+	panelHandler.panels[2].column.should.equal(1);
+    panelHandler.panels[3].id.should.equal("978f05e0-eae6-4ae9-933d-1e8e11651fe8");
+	panelHandler.panels[3].row.should.equal(2);
+	panelHandler.panels[3].column.should.equal(1);
+
+    panelHandler.panels[4].id.should.equal("40fa0bae-1111-4ded-9cda-bfeb43feae1f");
+	panelHandler.panels[4].row.should.equal(0);
+	panelHandler.panels[4].column.should.equal(2);
+    panelHandler.panels[5].id.should.equal("bf5a7fe8-1111-4465-8629-80ec2fc04fa0");
+	panelHandler.panels[5].row.should.equal(1);
+	panelHandler.panels[5].column.should.equal(2);
+    panelHandler.panels[6].id.should.equal("64a0dd4a-1111-43e0-8016-3402662d467a");
+	panelHandler.panels[6].row.should.equal(2);
+	panelHandler.panels[6].column.should.equal(2);
+    panelHandler.panels[7].id.should.equal("978f05e0-1111-4ae9-933d-1e8e11651fe8");
+	panelHandler.panels[7].row.should.equal(3);
+	panelHandler.panels[7].column.should.equal(2);
+    
+    panelHandler.panels[1].id.should.equal("bf5a7fe8-3f30-4465-8629-80ec2fc04fa0");
+	panelHandler.panels[1].row.should.equal(4);
+	panelHandler.panels[1].column.should.equal(2);
+  });  
+  it('moves between columns (to the left) to 0 row', function(done) {
+    var panelHandler = new PanelHandler({dataDirectory: dataDirectory});
+
+    // from column 2 to column 1, row 1
+    panelHandler.movePanel({ 
+      id: "bf5a7fe8-1111-4465-8629-80ec2fc04fa0", 
+      sourceColumn: 2, 
+      targetColumn: 1, 
+      row: 0
+    });
+    done();
+    
+    panelHandler.panels.length.should.equal(8);
+    
+    panelHandler.panels[5].id.should.equal("bf5a7fe8-1111-4465-8629-80ec2fc04fa0");
+	panelHandler.panels[5].row.should.equal(0);
+	panelHandler.panels[5].column.should.equal(1);
+    
+    panelHandler.panels[0].id.should.equal("40fa0bae-a79d-4ded-9cda-bfeb43feae1f");
+	panelHandler.panels[0].row.should.equal(1);
+	panelHandler.panels[0].column.should.equal(1);
+    panelHandler.panels[1].id.should.equal("bf5a7fe8-3f30-4465-8629-80ec2fc04fa0");
+	panelHandler.panels[1].row.should.equal(2);
+	panelHandler.panels[1].column.should.equal(1);
+    panelHandler.panels[2].id.should.equal("64a0dd4a-0965-43e0-8016-3402662d467a");
+	panelHandler.panels[2].row.should.equal(3);
+	panelHandler.panels[2].column.should.equal(1);
+    panelHandler.panels[3].id.should.equal("978f05e0-eae6-4ae9-933d-1e8e11651fe8");
+	panelHandler.panels[3].row.should.equal(4);
+	panelHandler.panels[3].column.should.equal(1);
+
+    panelHandler.panels[4].id.should.equal("40fa0bae-1111-4ded-9cda-bfeb43feae1f");
+	panelHandler.panels[4].row.should.equal(0);
+	panelHandler.panels[4].column.should.equal(2);
+    
+    panelHandler.panels[6].id.should.equal("64a0dd4a-1111-43e0-8016-3402662d467a");
+	panelHandler.panels[6].row.should.equal(1);
+	panelHandler.panels[6].column.should.equal(2);
+    panelHandler.panels[7].id.should.equal("978f05e0-1111-4ae9-933d-1e8e11651fe8");
+	panelHandler.panels[7].row.should.equal(2);
+	panelHandler.panels[7].column.should.equal(2);
+  });  
+  it('moves between columns (to the left) to last row', function(done) {
+    var panelHandler = new PanelHandler({dataDirectory: dataDirectory});
+
+    // from column 2 to column 1, row 1
+    panelHandler.movePanel({ 
+      id: "bf5a7fe8-1111-4465-8629-80ec2fc04fa0", 
+      sourceColumn: 2, 
+      targetColumn: 1, 
+      row: 4
+    });
+    done();
+    
+    panelHandler.panels.length.should.equal(8);
+    panelHandler.panels[0].id.should.equal("40fa0bae-a79d-4ded-9cda-bfeb43feae1f");
+	panelHandler.panels[0].row.should.equal(0);
+	panelHandler.panels[0].column.should.equal(1);
+    panelHandler.panels[1].id.should.equal("bf5a7fe8-3f30-4465-8629-80ec2fc04fa0");
+	panelHandler.panels[1].row.should.equal(1);
+	panelHandler.panels[1].column.should.equal(1);
+    panelHandler.panels[2].id.should.equal("64a0dd4a-0965-43e0-8016-3402662d467a");
+	panelHandler.panels[2].row.should.equal(2);
+	panelHandler.panels[2].column.should.equal(1);
+    panelHandler.panels[3].id.should.equal("978f05e0-eae6-4ae9-933d-1e8e11651fe8");
+	panelHandler.panels[3].row.should.equal(3);
+	panelHandler.panels[3].column.should.equal(1);
+
+    panelHandler.panels[5].id.should.equal("bf5a7fe8-1111-4465-8629-80ec2fc04fa0");
+	panelHandler.panels[5].row.should.equal(4, "row set to 4");
+	panelHandler.panels[5].column.should.equal(1, "column set to 1");
+    
+    panelHandler.panels[4].id.should.equal("40fa0bae-1111-4ded-9cda-bfeb43feae1f");
+	panelHandler.panels[4].row.should.equal(0);
+	panelHandler.panels[4].column.should.equal(2);
+
+    panelHandler.panels[6].id.should.equal("64a0dd4a-1111-43e0-8016-3402662d467a");
+	panelHandler.panels[6].row.should.equal(1, "row decremented from 2");
+	panelHandler.panels[6].column.should.equal(2);
+    panelHandler.panels[7].id.should.equal("978f05e0-1111-4ae9-933d-1e8e11651fe8");
+	panelHandler.panels[7].row.should.equal(2, "row decremented from 3");
+	panelHandler.panels[7].column.should.equal(2);
+  });  
+  it('move within column to a lower row', function(done) {
+    var panelHandler = new PanelHandler({dataDirectory: dataDirectory});
+
+    // from column 2 to column 1, row 1
+    panelHandler.movePanel({ 
+      id: "64a0dd4a-0965-43e0-8016-3402662d467a", 
+      sourceColumn: 1, 
+      targetColumn: 1, 
+      row: 1
+    });
+    done();
+    
+    panelHandler.panels.length.should.equal(8);
+    panelHandler.panels[0].id.should.equal("40fa0bae-a79d-4ded-9cda-bfeb43feae1f");
+	panelHandler.panels[0].row.should.equal(0);
+	panelHandler.panels[0].column.should.equal(1);
+    
+    panelHandler.panels[2].id.should.equal("64a0dd4a-0965-43e0-8016-3402662d467a");
+	panelHandler.panels[2].row.should.equal(1);
+	panelHandler.panels[2].column.should.equal(1);
+    
+    panelHandler.panels[1].id.should.equal("bf5a7fe8-3f30-4465-8629-80ec2fc04fa0");
+	panelHandler.panels[1].row.should.equal(2);
+	panelHandler.panels[1].column.should.equal(1);
+
+    panelHandler.panels[3].id.should.equal("978f05e0-eae6-4ae9-933d-1e8e11651fe8");
+	panelHandler.panels[3].row.should.equal(3);
+	panelHandler.panels[3].column.should.equal(1);
+
+    panelHandler.panels[4].id.should.equal("40fa0bae-1111-4ded-9cda-bfeb43feae1f");
+	panelHandler.panels[4].row.should.equal(0);
+	panelHandler.panels[4].column.should.equal(2);
+    panelHandler.panels[5].id.should.equal("bf5a7fe8-1111-4465-8629-80ec2fc04fa0");
+	panelHandler.panels[5].row.should.equal(1);
+	panelHandler.panels[5].column.should.equal(2);
+    panelHandler.panels[6].id.should.equal("64a0dd4a-1111-43e0-8016-3402662d467a");
+	panelHandler.panels[6].row.should.equal(2);
+	panelHandler.panels[6].column.should.equal(2);
+    panelHandler.panels[7].id.should.equal("978f05e0-1111-4ae9-933d-1e8e11651fe8");
+	panelHandler.panels[7].row.should.equal(3);
+	panelHandler.panels[7].column.should.equal(2);
+  });
+  it('move within column to a higher row', function(done) {
+    var panelHandler = new PanelHandler({dataDirectory: dataDirectory});
+
+    // from column 2 to column 1, row 1
+    panelHandler.movePanel({ 
+      id: "bf5a7fe8-3f30-4465-8629-80ec2fc04fa0", 
+      sourceColumn: 1, 
+      targetColumn: 1, 
+      row: 2
+    });
+    done();
+
+    panelHandler.panels.length.should.equal(8);
+    panelHandler.panels[0].id.should.equal("40fa0bae-a79d-4ded-9cda-bfeb43feae1f");
+	panelHandler.panels[0].row.should.equal(0);
+	panelHandler.panels[0].column.should.equal(1);
+
+    panelHandler.panels[2].id.should.equal("64a0dd4a-0965-43e0-8016-3402662d467a");
+	panelHandler.panels[2].row.should.equal(1, "decremented from 2");
+	panelHandler.panels[2].column.should.equal(1);
+
+    panelHandler.panels[1].id.should.equal("bf5a7fe8-3f30-4465-8629-80ec2fc04fa0");
+	panelHandler.panels[1].row.should.equal(2, "set to 2");
+	panelHandler.panels[1].column.should.equal(1);
+    
+    panelHandler.panels[3].id.should.equal("978f05e0-eae6-4ae9-933d-1e8e11651fe8");
+	panelHandler.panels[3].row.should.equal(3);
+	panelHandler.panels[3].column.should.equal(1);
+
+    panelHandler.panels[4].id.should.equal("40fa0bae-1111-4ded-9cda-bfeb43feae1f");
+	panelHandler.panels[4].row.should.equal(0);
+	panelHandler.panels[4].column.should.equal(2);
+    panelHandler.panels[5].id.should.equal("bf5a7fe8-1111-4465-8629-80ec2fc04fa0");
+	panelHandler.panels[5].row.should.equal(1);
+	panelHandler.panels[5].column.should.equal(2);
+    panelHandler.panels[6].id.should.equal("64a0dd4a-1111-43e0-8016-3402662d467a");
+	panelHandler.panels[6].row.should.equal(2);
+	panelHandler.panels[6].column.should.equal(2);
+    panelHandler.panels[7].id.should.equal("978f05e0-1111-4ae9-933d-1e8e11651fe8");
+	panelHandler.panels[7].row.should.equal(3);
+	panelHandler.panels[7].column.should.equal(2);
+  });
+  it('move within column to first row', function(done) {
+    var panelHandler = new PanelHandler({dataDirectory: dataDirectory});
+
+    // from column 2 to column 1, row 1
+    panelHandler.movePanel({ 
+      id: "64a0dd4a-0965-43e0-8016-3402662d467a",
+      sourceColumn: 1, 
+      targetColumn: 1, 
+      row: 0
+    });
+    done();
+
+    panelHandler.panels.length.should.equal(8);
+    
+    panelHandler.panels[2].id.should.equal("64a0dd4a-0965-43e0-8016-3402662d467a");
+	panelHandler.panels[2].row.should.equal(0);
+	panelHandler.panels[2].column.should.equal(1);
+    
+    panelHandler.panels[0].id.should.equal("40fa0bae-a79d-4ded-9cda-bfeb43feae1f");
+	panelHandler.panels[0].row.should.equal(1);
+	panelHandler.panels[0].column.should.equal(1);
+    panelHandler.panels[1].id.should.equal("bf5a7fe8-3f30-4465-8629-80ec2fc04fa0");
+	panelHandler.panels[1].row.should.equal(2);
+	panelHandler.panels[1].column.should.equal(1);
+
+    panelHandler.panels[3].id.should.equal("978f05e0-eae6-4ae9-933d-1e8e11651fe8");
+	panelHandler.panels[3].row.should.equal(3);
+	panelHandler.panels[3].column.should.equal(1);
+
+    panelHandler.panels[4].id.should.equal("40fa0bae-1111-4ded-9cda-bfeb43feae1f");
+	panelHandler.panels[4].row.should.equal(0);
+	panelHandler.panels[4].column.should.equal(2);
+    panelHandler.panels[5].id.should.equal("bf5a7fe8-1111-4465-8629-80ec2fc04fa0");
+	panelHandler.panels[5].row.should.equal(1);
+	panelHandler.panels[5].column.should.equal(2);
+    panelHandler.panels[6].id.should.equal("64a0dd4a-1111-43e0-8016-3402662d467a");
+	panelHandler.panels[6].row.should.equal(2);
+	panelHandler.panels[6].column.should.equal(2);
+    panelHandler.panels[7].id.should.equal("978f05e0-1111-4ae9-933d-1e8e11651fe8");
+	panelHandler.panels[7].row.should.equal(3);
+	panelHandler.panels[7].column.should.equal(2);
+  });
+  it('move within column to last row', function(done) {
+    var panelHandler = new PanelHandler({dataDirectory: dataDirectory});
+
+    // from column 2 to column 1, row 1
+    panelHandler.movePanel({ 
+      id: "bf5a7fe8-3f30-4465-8629-80ec2fc04fa0", 
+      sourceColumn: 1, 
+      targetColumn: 1, 
+      row: 3
+    });
+    done();
+    
+    panelHandler.panels.length.should.equal(8);
+    panelHandler.panels[0].id.should.equal("40fa0bae-a79d-4ded-9cda-bfeb43feae1f");
+	panelHandler.panels[0].row.should.equal(0);
+	panelHandler.panels[0].column.should.equal(1);
+
+    panelHandler.panels[2].id.should.equal("64a0dd4a-0965-43e0-8016-3402662d467a");
+	panelHandler.panels[2].row.should.equal(1);
+	panelHandler.panels[2].column.should.equal(1);
+    panelHandler.panels[3].id.should.equal("978f05e0-eae6-4ae9-933d-1e8e11651fe8");
+	panelHandler.panels[3].row.should.equal(2);
+	panelHandler.panels[3].column.should.equal(1);
+
+    panelHandler.panels[1].id.should.equal("bf5a7fe8-3f30-4465-8629-80ec2fc04fa0");
+	panelHandler.panels[1].row.should.equal(3);
+	panelHandler.panels[1].column.should.equal(1);
+    
+    panelHandler.panels[4].id.should.equal("40fa0bae-1111-4ded-9cda-bfeb43feae1f");
+	panelHandler.panels[4].row.should.equal(0);
+	panelHandler.panels[4].column.should.equal(2);
+    panelHandler.panels[5].id.should.equal("bf5a7fe8-1111-4465-8629-80ec2fc04fa0");
+	panelHandler.panels[5].row.should.equal(1);
+	panelHandler.panels[5].column.should.equal(2);
+    panelHandler.panels[6].id.should.equal("64a0dd4a-1111-43e0-8016-3402662d467a");
+	panelHandler.panels[6].row.should.equal(2);
+	panelHandler.panels[6].column.should.equal(2);
+    panelHandler.panels[7].id.should.equal("978f05e0-1111-4ae9-933d-1e8e11651fe8");
+	panelHandler.panels[7].row.should.equal(3);
+	panelHandler.panels[7].column.should.equal(2);
+  });
+  it('move within column first row to higher row', function(done) {
+    var panelHandler = new PanelHandler({dataDirectory: dataDirectory});
+
+    // from column 2 to column 1, row 1
+    panelHandler.movePanel({ 
+      id: "40fa0bae-a79d-4ded-9cda-bfeb43feae1f", 
+      sourceColumn: 1, 
+      targetColumn: 1, 
+      row: 2
+    });
+    done();
+    
+    panelHandler.panels[1].id.should.equal("bf5a7fe8-3f30-4465-8629-80ec2fc04fa0");
+	panelHandler.panels[1].row.should.equal(0);
+	panelHandler.panels[1].column.should.equal(1);
+    panelHandler.panels[2].id.should.equal("64a0dd4a-0965-43e0-8016-3402662d467a");
+	panelHandler.panels[2].row.should.equal(1);
+	panelHandler.panels[2].column.should.equal(1);
+    
+    panelHandler.panels.length.should.equal(8);
+    panelHandler.panels[0].id.should.equal("40fa0bae-a79d-4ded-9cda-bfeb43feae1f");
+	panelHandler.panels[0].row.should.equal(2);
+	panelHandler.panels[0].column.should.equal(1);
+    
+    panelHandler.panels[3].id.should.equal("978f05e0-eae6-4ae9-933d-1e8e11651fe8");
+	panelHandler.panels[3].row.should.equal(3);
+	panelHandler.panels[3].column.should.equal(1);
+
+    panelHandler.panels[4].id.should.equal("40fa0bae-1111-4ded-9cda-bfeb43feae1f");
+	panelHandler.panels[4].row.should.equal(0);
+	panelHandler.panels[4].column.should.equal(2);
+    panelHandler.panels[5].id.should.equal("bf5a7fe8-1111-4465-8629-80ec2fc04fa0");
+	panelHandler.panels[5].row.should.equal(1);
+	panelHandler.panels[5].column.should.equal(2);
+    panelHandler.panels[6].id.should.equal("64a0dd4a-1111-43e0-8016-3402662d467a");
+	panelHandler.panels[6].row.should.equal(2);
+	panelHandler.panels[6].column.should.equal(2);
+    panelHandler.panels[7].id.should.equal("978f05e0-1111-4ae9-933d-1e8e11651fe8");
+	panelHandler.panels[7].row.should.equal(3);
+	panelHandler.panels[7].column.should.equal(2);
+  });
+  it('move within column last row to lower row', function(done) {
+    var panelHandler = new PanelHandler({dataDirectory: dataDirectory});
+
+    // from column 2 to column 1, row 1
+    panelHandler.movePanel({ 
+      id: "978f05e0-eae6-4ae9-933d-1e8e11651fe8", 
+      sourceColumn: 1, 
+      targetColumn: 1, 
+      row: 1
+    });
+    done();
+
+    panelHandler.panels.length.should.equal(8);
+    panelHandler.panels[0].id.should.equal("40fa0bae-a79d-4ded-9cda-bfeb43feae1f");
+	panelHandler.panels[0].row.should.equal(0);
+	panelHandler.panels[0].column.should.equal(1);
+
+    panelHandler.panels[3].id.should.equal("978f05e0-eae6-4ae9-933d-1e8e11651fe8");
+	panelHandler.panels[3].row.should.equal(1);
+	panelHandler.panels[3].column.should.equal(1);
+    
+    panelHandler.panels[1].id.should.equal("bf5a7fe8-3f30-4465-8629-80ec2fc04fa0");
+	panelHandler.panels[1].row.should.equal(2);
+	panelHandler.panels[1].column.should.equal(1);
+    panelHandler.panels[2].id.should.equal("64a0dd4a-0965-43e0-8016-3402662d467a");
+	panelHandler.panels[2].row.should.equal(3);
+	panelHandler.panels[2].column.should.equal(1);
+
+    panelHandler.panels[4].id.should.equal("40fa0bae-1111-4ded-9cda-bfeb43feae1f");
+	panelHandler.panels[4].row.should.equal(0);
+	panelHandler.panels[4].column.should.equal(2);
+    panelHandler.panels[5].id.should.equal("bf5a7fe8-1111-4465-8629-80ec2fc04fa0");
+	panelHandler.panels[5].row.should.equal(1);
+	panelHandler.panels[5].column.should.equal(2);
+    panelHandler.panels[6].id.should.equal("64a0dd4a-1111-43e0-8016-3402662d467a");
+	panelHandler.panels[6].row.should.equal(2);
+	panelHandler.panels[6].column.should.equal(2);
+    panelHandler.panels[7].id.should.equal("978f05e0-1111-4ae9-933d-1e8e11651fe8");
+	panelHandler.panels[7].row.should.equal(3);
+	panelHandler.panels[7].column.should.equal(2);
+  });
 });
