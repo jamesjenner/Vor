@@ -177,13 +177,14 @@
     </div>
     <div id="mainBody" class="container no-width">
       <div id="homePane" class="activePane row no-pad">
-        <div id="column1" class="col-sm-6">
-          <div id="columnContainer1" class="col-sm-12">
+        <div id="column1" class="column col-sm-6">
+<!--
+          <div id="columnContainer1" class="column col-sm-12">
           </div>
+-->
         </div>
-        <div id="column2" class="col-sm-6">
-          <div id="columnContainer2" class="col-sm-12">
-<!--            <div class="panel panel-default">-->
+        <div id="column2" class="column col-sm-6">
+<!--          <div id="columnContainer2" class="column col-sm-12">-->
             <div  id="panel2" class="panel">
               <div class="panel-heading">
                   <div class="btn-group pull-right">
@@ -315,7 +316,7 @@
                 </div>
               </div>
             </div>
-          </div>
+<!--          </div>-->
 <!--
           panel example, to be used later
           <div class="col-sm-12">
@@ -484,11 +485,18 @@
 
     <script src="./bower_components/jasny-bootstrap/dist/js/jasny-bootstrap.min.js"></script>
     
+    <!-- either include all the following or just the jquery ui min -->
+    <script src="./bower_components/jquery-ui/ui/core.js"></script>
+    <script src="./bower_components/jquery-ui/ui/widget.js"></script>
+    <script src="./bower_components/jquery-ui/ui/mouse.js"></script>
+    <script src="./bower_components/jquery-ui/ui/sortable.js"></script>
+    
     <script src="./node_modules/node-uuid/uuid.js"></script>    
     <script src="./bower_components/meltingpot/shared/message.js"></script>
     <script src="./bower_components/meltingpot/server.js"></script>
     <script src="./lib/shared/panel.js"></script>
     <script src="./lib/client/panelManager.js"></script>
+    <script src="./lib/client/panelDragDrop.js"></script>
     <script src="./lib/client/panelDialog.js"></script>
     <script src="./lib/shared/dataSource.js"></script>
     <script src="./lib/client/dataSourceManager.js"></script>
