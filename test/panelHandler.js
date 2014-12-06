@@ -992,4 +992,22 @@ describe('#PanelHandler', function() {
 	panelHandler.panels[7].row.should.equal(3);
 	panelHandler.panels[7].column.should.equal(2);
   });
+  
+  it('movePanel returns results of operation', function(done) {
+    var panelHandler = new PanelHandler({dataDirectory: dataDirectory});
+
+    // from column 2 to column 1, row 1
+    var result = panelHandler.movePanel({ 
+      id: "978f05e0-eae6-4ae9-933d-1e8e11651fe8", 
+      sourceColumn: 1, 
+      targetColumn: 1, 
+      row: 1
+    });
+    done();
+
+    result.id.should.equal("978f05e0-eae6-4ae9-933d-1e8e11651fe8");
+    result.sourceColumn.should.equal(1);
+    result.targetColumn.should.equal(1);
+    result.row.should.equal(1);
+  });  
 });
