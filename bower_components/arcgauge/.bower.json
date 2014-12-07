@@ -1,0 +1,38 @@
+{
+  "name": "arcGuage",
+  "version": "0.0.1",
+  "homepage": "https://github.com/jamesjenner/arcGuage",
+  "authors": [
+    "James Jenner <james.g.jenner@gmail.com>"
+  ],
+  "description": "A HTML and SVG based arc gauge",
+  "main": "arcGauge.js",
+  "keywords": [
+    "Arc",
+    "Gauge",
+    "HTMl",
+    "SVG",
+    "d3"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "d3": "~3.5.0"
+  },
+  "_release": "0.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.0.1",
+    "commit": "a498c73e2175618748700edc23134449ce556636"
+  },
+  "_source": "git://github.com/jamesjenner/arcGauge.git",
+  "_target": "~0.0.1",
+  "_originalSource": "arcgauge",
+  "_direct": true
+}
