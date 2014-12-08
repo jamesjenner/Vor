@@ -17,6 +17,28 @@ Add data source
 Data sources:
 
 
+Change add widget wizard from choosing display type of widget to driven based on data.
+
+For example: Choose Version One data set, then presented options are what makes sense for Version One:
+* overall progress
+* progress by state
+* number of blockers
+* burn down
+* burn up
+* etc
+
+Then the presentation mode can be decided. Some may not have any options. E.g. progress could be a value, bar graph, progress gauge, etc. But burn down/up can only be a graph (possibly).
+
+Also need to factor in data mapping. Should it be restricted to a selection of data retreived from V1, e.g. team selection, or manualy code?
+
+Should default data source to last data source utilised for the panel? So if a v1 data source was previously added then keep defaulting until changed?
+
+The above approach avoids the problem of a user having to understand how best to setup an agile panel. 
+
+--------------
+
+Look at adding default panel types. E.g. choose add panel, choose templates, choose data source and then possibly one more type.
+
 Add
 List 
   -> Modify
