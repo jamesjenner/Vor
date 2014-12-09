@@ -1,6 +1,7 @@
 {
   "name": "bootboxwiz",
   "main": "bootboxwiz.js",
+  "version": "0.0.2",
   "homepage": "https://github.com/jamesjenner/bootboxwiz",
   "authors": [
     "James Jenner <james.g.jenner@gmail.com>"
@@ -23,13 +24,14 @@
     "bootbox": "~4.3.0",
     "jquery-serialize-object": "git://github.com/macek/jquery-serialize-object.git#~2.4.3"
   },
-  "_release": "346655ddf5",
+  "_release": "0.0.2",
   "_resolution": {
-    "type": "branch",
-    "branch": "master",
-    "commit": "346655ddf57f6fedaa737acd9e3f2e5936d8a88c"
+    "type": "version",
+    "tag": "0.0.2",
+    "commit": "fcd39e125fe9ef8ed1f0811db07263d189d8eff7"
   },
   "_source": "git://github.com/jamesjenner/bootboxwiz.git",
-  "_target": "*",
-  "_originalSource": "bootboxwiz"
+  "_target": "~0.0.2",
+  "_originalSource": "bootboxwiz",
+  "_direct": true
 }
