@@ -29,7 +29,7 @@
     "meltingpot": "~0.0.1",
     "jquery-ui": "~1.11.2",
     "arcgauge": "~0.0.1",
-    "bootboxwiz": "~0.0.2"
+    "bootboxwiz": "~0.0.3"
   },
   "resolutions": {
     "d3": "~3.4.13"
