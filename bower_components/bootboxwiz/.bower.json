@@ -31,6 +31,6 @@
     "commit": "feeb0661f5eff609bb3c50b2ef0b9b836844bff8"
   },
   "_source": "git://github.com/jamesjenner/bootboxwiz.git",
-  "_target": "~0.0.2",
+  "_target": "~0.0.3",
   "_originalSource": "bootboxwiz"
 }

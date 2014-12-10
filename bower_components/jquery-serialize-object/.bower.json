@@ -30,6 +30,5 @@
   },
   "_source": "git://github.com/macek/jquery-serialize-object.git",
   "_target": "~2.4.3",
-  "_originalSource": "jquery-serialize-object",
-  "_direct": true
+  "_originalSource": "git://github.com/macek/jquery-serialize-object.git"
 }
