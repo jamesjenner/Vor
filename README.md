@@ -35,6 +35,7 @@ Presumption is that grunt is installed. To test run `grunt`. This will perform a
 
 ###TODO
 
+* Fix modify of data source, currently it's not refreshing when editing after previously editing
 * Update meltingpot so that it has the same data directory option
 * Change meltingpot so that users.json is seperated out from the comms handler
 * Implement encryption for persisted data, specifically any credential information for third party data sources
