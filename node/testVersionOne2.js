@@ -561,6 +561,7 @@ var now = moment();
   
 // can add a time zone, etc. see: http://momentjs.com/timezone/docs/#/data-loading/
   
+  /*
 console.log("Denver:      " + now.tz('America/Denver').format('ha z'));  // 5am PDT
 console.log("Atlantas:      " + now.tz('America/Atlantas').format('ha z'));  // 5am PDT
 console.log("Los Angeles: " + now.tz('America/Los_Angeles').format('ha z'));  // 5am PDT
@@ -584,3 +585,4 @@ console.log("New York:     " + newYork.format('llll') + " : " + newYork.format('
 console.log("Los Angeles:  " + losAngeles.format('llll') + " : " + losAngeles.format('LT') + " " + losAngeles.format('ddd'));
 console.log("London:       " + london.format('llll') + " : " + london.format('LT') + " " + london.format('ddd'));
 console.log("Kuala Lumpur: " + kualaLumpur.format('llll') + " : " + kualaLumpur.format('LT') + " " + kualaLumpur.format('ddd'));
+  */
