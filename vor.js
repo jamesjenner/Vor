@@ -238,8 +238,8 @@ panelHandler.setupCommsListeners(clientComms);
 var dataSourceHandler = new DataSourceHandler({dataDirectory: config.dataDirectory});
 dataSourceHandler.setupCommsListeners(clientComms);
     
-var dataSourceManager = new DataSourceManager({dataSourceHandler: dataSourceHandler});
-dataSourceManager.start();
+var dataSourceManager = new DataSourceManager({clientComms: clientComms, dataSourceHandler: dataSourceHandler});
+dataSourceManager.setupCommsListeners(clientComms);
 
 var widgetHandler = new WidgetHandler({dataDirectory: config.dataDirectory});
 widgetHandler.setupCommsListeners(clientComms);
@@ -250,6 +250,7 @@ if (config.debug) {
 }
 
 clientComms.startClientServer();
+dataSourceManager.start();
 
     
 /* 
