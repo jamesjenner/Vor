@@ -618,4 +618,12 @@ kualaLumpur.locale('ms_MY');
 //console.log("London:       " + london.format('llll') + " : " + london.format('LT') + " " + london.format('ddd'));
 //console.log("Kuala Lumpur: " + kualaLumpur.format('llll') + " : " + kualaLumpur.format('LT') + " " + kualaLumpur.format('ddd'));
 
+console.log("\n\nMoment current date\n");
+
+console.log(moment().format());
+console.log(moment().format('YYYY MM DD'));
+console.log(moment().format('YYYY-MM-DD'));
+console.log(moment().tz("America/Denver").format('YYYY-MM-DD'));
+console.log(moment().tz("").format('YYYY-MM-DD'));
+
 console.log("\n\nMoment testing complete\n");
