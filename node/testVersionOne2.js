@@ -624,6 +624,5 @@ console.log(moment().format());
 console.log(moment().format('YYYY MM DD'));
 console.log(moment().format('YYYY-MM-DD'));
 console.log(moment().tz("America/Denver").format('YYYY-MM-DD'));
-console.log(moment().tz("").format('YYYY-MM-DD'));
 
 console.log("\n\nMoment testing complete\n");
