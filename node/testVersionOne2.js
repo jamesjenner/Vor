@@ -465,17 +465,17 @@ VersionOne.__getForTeamAndCurrentSprint = function(callback, source, teamName, e
 var myVersionOne = new VersionOne();
 console.log("get stats");
 
-var effectiveDate = '2014-08-29';
+var effectiveDate = '2014-12-14';
 
 var teams = [
-  {name: 'Ellipse - Automation',            effectiveDate: effectiveDate, },
+//  {name: 'Ellipse - Automation',            effectiveDate: effectiveDate, },
   {name: 'Ellipse - Finance Development',   effectiveDate: effectiveDate, },
   {name: 'Ellipse - Finance Team',          effectiveDate: effectiveDate, },
   {name: 'Ellipse - HR Payroll & Gen',      effectiveDate: effectiveDate, },
-  {name: 'Ellipse - Integration',           effectiveDate: effectiveDate, },
+//  {name: 'Ellipse - Integration',           effectiveDate: effectiveDate, },
   {name: 'Ellipse - Materials 1',           effectiveDate: effectiveDate, },
-  {name: 'Ellipse - Materials 2',           effectiveDate: effectiveDate, },
-  {name: 'Ellipse - Materials Development', effectiveDate: effectiveDate, },
+//  {name: 'Ellipse - Materials 2',           effectiveDate: effectiveDate, },
+//  {name: 'Ellipse - Materials Development', effectiveDate: effectiveDate, },
   {name: 'Ellipse - MITWIP',                effectiveDate: effectiveDate, },
   {name: 'Ellipse -Maintenance',            effectiveDate: effectiveDate, },
   {name: 'Ellipse Tests Automation',        effectiveDate: effectiveDate, },
@@ -490,13 +490,17 @@ for(idx = 0; idx < teams.length; idx++) {
         console.log(err);
       } else {
         console.log(
-          team.name + "\n\t" + 
-          " Backlog: " + data.backlogStoryPoints + 
-          " Wip: " + data.wipStoryPoints + 
-          " Done: " + data.doneStoryPoints + " -> " + data.percentageDone + "% " + 
-          " Start: " + data.sprintStartDate + 
-          " End: " + data.sprintEndDate + 
-          " Dur: " + data.sprintDuration);
+        "Start: " + data.sprintStartDate +
+          "\tEnd: " + data.sprintEndDate 
+//        console.log(
+//          team.name + "\n\t\t\t" + 
+//          "Backlog: " + data.backlogStoryPoints + 
+//          "\tWip: " + data.wipStoryPoints + 
+//          "\tDone: " + data.doneStoryPoints + " -> " + data.percentageDone + "% " + 
+//          "\tDur: " + data.sprintDuration 
+//        + "\nStart: " + data.sprintStartDate +
+//          "\tEnd: " + data.sprintEndDate 
+  );
       }
     });
   })(teams[idx]);
@@ -517,15 +521,22 @@ console.log(tz(utc, '%c', 'en_AU', 'Australia/Brisbane'));
 console.log(tz(utc, '%c', 'en_US', 'America/Denver'));
 console.log(tz(utc, '%c', 'en_US', 'America/Atlanta')); // no go, not supported... :(
   
-//var tz = require('timezone');
-//var us = tz(require("timezone/America"));
-//var eu = tz(require("timezone/Europe"));
-//var as = tz(require("timezone/Asia"));
-//var au = tz(require("timezone/Australia"));
+var tz = require('timezone');
+var us = tz(require("timezone/America"));
+var eu = tz(require("timezone/Europe"));
+var as = tz(require("timezone/Asia"));
+var au = tz(require("timezone/Australia"));
 
 // var moonwalk = us("1969-07-21 02:56");
   var moonwalk = tz("1969-07-21 02:56");
-  
+  var sprintStart = tz("2014-12-03 00:00");
+console.log("Detroit shown as Detroit:   " + us(us("2014-12-03 00:00", "America/Detroit"), "%F %T", "American/Detroit"));
+console.log("Brisbane shown as Brisbane: " + as(as("2014-12-03 00:00", "Asia/Brisbane"), "%F %T", "Asia/Brisbane"));
+
+console.log("Sprint Start @ Brisbane: " + au(sprintStart, "%F %T", "Australia/Brisbane"));
+console.log("Sprint Start @ Detroit:  " + us(sprintStart, "%F %T", "American/Detroit"));
+
+
 //console.log("Detroit shown as Detroit:   " + us(us("2014-07-27 00:00", "America/Detroit"), "%F %T", "American/Detroit"));
 //console.log("Brisbane shown as Brisbane: " + as(as("2014-07-27 00:00", "Asia/Brisbane"), "%F %T", "Asia/Brisbane"));
 //console.log("Moonwalk @ Brisbane: " + au(moonwalk, "%F %T", "Australia/Brisbane"));
@@ -560,15 +571,36 @@ var now = moment();
    */
   
 // can add a time zone, etc. see: http://momentjs.com/timezone/docs/#/data-loading/
+
+console.log("\n\nMoment testing, now at different regions\n");
+
+console.log("Denver:      " + now.tz('America/Denver').format('ddd ha'));  // 5am PDT
+//console.log("Atlantas:      " + now.tz('America/Atlantas').format('ddd ha'));  // 5am PDT
+console.log("Los Angeles: " + now.tz('America/Los_Angeles').format('ddd ha'));  // 5am PDT
+console.log("New York:    " + now.tz('America/New_York').format('ddd ha'));     // 8am EDT
+console.log("Tokyo:       " + now.tz('Asia/Tokyo').format('ddd ha'));           // 9pm JST
+console.log("Brisbane:    " + now.tz('Australia/Brisbane').format('ddd ha'));     // 10pm EST
   
-  /*
-console.log("Denver:      " + now.tz('America/Denver').format('ha z'));  // 5am PDT
-console.log("Atlantas:      " + now.tz('America/Atlantas').format('ha z'));  // 5am PDT
-console.log("Los Angeles: " + now.tz('America/Los_Angeles').format('ha z'));  // 5am PDT
-console.log("New York:    " + now.tz('America/New_York').format('ha z'));     // 8am EDT
-console.log("Tokyo:       " + now.tz('Asia/Tokyo').format('ha z'));           // 9pm JST
-console.log("Brisbane:    " + now.tz('Australia/Brisbane').format('ha z'));     // 10pm EST
-  
+console.log("\n\nMoment testing, sprint start presuming value is for denver timezone\n");
+
+var startSprintM = moment.tz("2014-12-03 00:00", "America/Denver");
+var startSprintMBrisbane   = startSprintM.clone().tz('Australia/Brisbane')
+var startSprintMLosAngeles = startSprintM.clone().tz('America/Los_Angeles')
+var startSprintMNewYork    = startSprintM.clone().tz('America/New_York')
+var startSprintMSingapore  = startSprintM.clone().tz('Singapore')
+
+// console.log("start sprint, brissy: " + startSprintM.clone('Australia/Brisbane').format('ha z'));
+console.log("Denver      " + momentToString(startSprintM));
+console.log("Brisbane    " + momentToString(startSprintMBrisbane));
+console.log("Los Angeles " + momentToString(startSprintMLosAngeles));
+console.log("New York    " + momentToString(startSprintMNewYork));
+startSprintMSingapore.locale('sg');
+console.log("Singapore   " + momentToString(startSprintMSingapore));
+
+function momentToString(mValue) {
+  // return mValue.format('llll') + " : " + mValue.format('LT') + " - " + mValue.format('ddd');
+  return mValue.format('ddd LT');
+}
 
 var brisbane = moment();
 var paris     = brisbane.clone().tz("Europe/Paris");
@@ -579,10 +611,11 @@ var london      = brisbane.clone().tz("Europe/London");
 var kualaLumpur = brisbane.clone().tz("Asia/Kuala_Lumpur");
 kualaLumpur.locale('ms_MY');
 
-console.log("Brisbane:     " + brisbane.format('llll') + " : " + brisbane.format('LT') + " " + brisbane.format('ddd'));
-console.log("Paris:        " + paris.format('llll') + " : " + paris.format('LT') + " " + paris.format('ddd'));
-console.log("New York:     " + newYork.format('llll') + " : " + newYork.format('LT') + " " + newYork.format('ddd'));
-console.log("Los Angeles:  " + losAngeles.format('llll') + " : " + losAngeles.format('LT') + " " + losAngeles.format('ddd'));
-console.log("London:       " + london.format('llll') + " : " + london.format('LT') + " " + london.format('ddd'));
-console.log("Kuala Lumpur: " + kualaLumpur.format('llll') + " : " + kualaLumpur.format('LT') + " " + kualaLumpur.format('ddd'));
-  */
+//console.log("Brisbane:     " + brisbane.format('llll') + " : " + brisbane.format('LT') + " " + brisbane.format('ddd'));
+//console.log("Paris:        " + paris.format('llll') + " : " + paris.format('LT') + " " + paris.format('ddd'));
+//console.log("New York:     " + newYork.format('llll') + " : " + newYork.format('LT') + " " + newYork.format('ddd'));
+//console.log("Los Angeles:  " + losAngeles.format('llll') + " : " + losAngeles.format('LT') + " " + losAngeles.format('ddd'));
+//console.log("London:       " + london.format('llll') + " : " + london.format('LT') + " " + london.format('ddd'));
+//console.log("Kuala Lumpur: " + kualaLumpur.format('llll') + " : " + kualaLumpur.format('LT') + " " + kualaLumpur.format('ddd'));
+
+console.log("\n\nMoment testing complete\n");
