@@ -33,6 +33,7 @@ var MeltingPot = require('meltingpot');
 var PanelHandler = require('./lib/server/panelHandler.js');
 var DataSourceHandler = require('./lib/server/dataSourceHandler.js');
 var WidgetHandler = require('./lib/server/widgetHandler.js');
+var DataSourceManager = require('./lib/server/dataSourceManager.js');
 
 //var VEHICLES_FILE = 'vehicles.json';
 
@@ -236,6 +237,9 @@ panelHandler.setupCommsListeners(clientComms);
 
 var dataSourceHandler = new DataSourceHandler({dataDirectory: config.dataDirectory});
 dataSourceHandler.setupCommsListeners(clientComms);
+    
+var dataSourceManager = new DataSourceManager({dataSourceHandler: dataSourceHandler});
+dataSourceManager.start();
 
 var widgetHandler = new WidgetHandler({dataDirectory: config.dataDirectory});
 widgetHandler.setupCommsListeners(clientComms);
