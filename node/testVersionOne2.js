@@ -594,7 +594,7 @@ console.log("Denver      " + momentToString(startSprintM));
 console.log("Brisbane    " + momentToString(startSprintMBrisbane));
 console.log("Los Angeles " + momentToString(startSprintMLosAngeles));
 console.log("New York    " + momentToString(startSprintMNewYork));
-startSprintMSingapore.locale('sg');
+// startSprintMSingapore.locale('sg');
 console.log("Singapore   " + momentToString(startSprintMSingapore));
 
 function momentToString(mValue) {
