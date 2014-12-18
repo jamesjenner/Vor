@@ -65,6 +65,8 @@ Spring is refered to as an Interation and the system name is Timebox
 
 var  V1Meta = require('./v1/v1meta').V1Meta;
 var  V1Server = require('./v1/client').V1Server;
+var moment = require('moment-timezone');
+  
   
 var fs = require('fs');
 var file = __dirname + '/settings.json';
@@ -105,6 +107,34 @@ var server = new V1Server(settings.hostname, settings.instance, settings.usernam
 
 var v1 = new V1Meta(server);
 
+
+//v1.query({
+//  from: "Team",
+//
+//  select: [
+//    'ID',
+//    'Name',
+//    'Description',
+//    'Now',
+//  ],
+//
+//  where: {
+//    // "Name": 'Ellipse 8.5'
+//    // "Name": 'Ellipse'
+//  },
+//
+//  success: function(result) {
+//    // console.log(result.Name + " : " + result.Description + " : " + " : "  + result);
+//    // console.log(result.Name + " : " + result.Description);
+//    console.log(result.ID + " : " + result.Name);
+//  },
+//
+//  error: function(err) { 
+//    console.log("ERROR: " + err);
+//  }
+//});
+
+
 //v1.query({
 //  from: "Scope",
 //
@@ -125,7 +155,8 @@ var v1 = new V1Meta(server);
 //  ],
 //
 //  where: {
-//    "Name": 'Ellipse 8.5'
+//    // "Name": 'Ellipse 8.5'
+//    "Name": 'Ellipse'
 //  },
 //
 //  success: function(result) {
@@ -465,7 +496,7 @@ VersionOne.__getForTeamAndCurrentSprint = function(callback, source, teamName, e
 var myVersionOne = new VersionOne();
 console.log("get stats");
 
-var effectiveDate = '2014-12-14';
+var effectiveDate = '2014-12-18';
 
 var teams = [
 //  {name: 'Ellipse - Automation',            effectiveDate: effectiveDate, },
@@ -489,15 +520,35 @@ for(idx = 0; idx < teams.length; idx++) {
       if(err) {
         console.log(err);
       } else {
-        console.log(
-        "Start: " + data.sprintStartDate +
-          "\tEnd: " + data.sprintEndDate 
+        var startString = data.sprintStartDate.getFullYear() + "-" + (data.sprintStartDate.getMonth() + 1) + "-" + data.sprintStartDate.getDate()
+        var endString = data.sprintEndDate.getFullYear() + "-" + (data.sprintEndDate.getMonth() + 1) + "-" + data.sprintEndDate.getDate()
+        var startSprintM = moment(startString, "YYYY-MM-DD");
+        var endSprintM = moment(endString, "YYYY-MM-DD");
+        var currentM = moment();
+        var sprintDuration = moment.duration(endSprintM - startSprintM);
+        var currentDuration = moment.duration(currentM - startSprintM);
+        var targetPercentage =  
+                Math.round(currentDuration.asDays() / sprintDuration.asDays() * 100);
+
+        console.log("sprint: " + sprintDuration.asDays() + " current: " + currentDuration.asDays() + " target: " + targetPercentage);
 //        console.log(
-//          team.name + "\n\t\t\t" + 
-//          "Backlog: " + data.backlogStoryPoints + 
-//          "\tWip: " + data.wipStoryPoints + 
-//          "\tDone: " + data.doneStoryPoints + " -> " + data.percentageDone + "% " + 
-//          "\tDur: " + data.sprintDuration 
+//        "Start: " + data.sprintStartDate +
+//          "\tEnd: " + data.sprintEndDate 
+//        var startSprintM = moment.tz(data.sprintStartDate.valueOf(), "America/Denver");
+//        var endSprintM = moment.tz(data.sprintEndDate.valueOf(), "America/Denver");
+        // var startSprintM = moment(data.sprintStartDate);
+        // var endSprintM = moment.tz(data.sprintEndDate, "America/Denver");
+        var startSprintMBrisbane   = startSprintM.clone().tz('Australia/Brisbane');
+        var startSprintMDenver   = startSprintM.clone().tz('America/Denver');
+        console.log(
+          startSprintM.format('ll')
+           + " -> "  +
+          endSprintM.format('ll') + ' ' +
+          team.name + "\t" + 
+          "Backlog: " + data.backlogStoryPoints + 
+          "\tWip: " + data.wipStoryPoints + 
+          "\tDone: " + data.doneStoryPoints + " -> " + data.percentageDone + "% " + 
+          "\tDur: " + data.sprintDuration 
 //        + "\nStart: " + data.sprintStartDate +
 //          "\tEnd: " + data.sprintEndDate 
   );
@@ -547,8 +598,6 @@ console.log("Sprint Start @ Detroit:  " + us(sprintStart, "%F %T", "American/Det
 
   
 // ----- moment
-  
-var moment = require('moment-timezone');
   
 var now = moment();
 
