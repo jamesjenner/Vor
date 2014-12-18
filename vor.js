@@ -235,14 +235,14 @@ if(!validateDataDirectory(config.dataDirectory)) {
 var panelHandler = new PanelHandler({dataDirectory: config.dataDirectory});
 panelHandler.setupCommsListeners(clientComms);
 
+var widgetHandler = new WidgetHandler({dataDirectory: config.dataDirectory});
+widgetHandler.setupCommsListeners(clientComms);
+
 var dataSourceHandler = new DataSourceHandler({dataDirectory: config.dataDirectory});
 dataSourceHandler.setupCommsListeners(clientComms);
     
-var dataSourceManager = new DataSourceManager({clientComms: clientComms, dataSourceHandler: dataSourceHandler});
+var dataSourceManager = new DataSourceManager({clientComms: clientComms, dataSourceHandler: dataSourceHandler, widgetHandler: widgetHandler});
 dataSourceManager.setupCommsListeners(clientComms);
-
-var widgetHandler = new WidgetHandler({dataDirectory: config.dataDirectory});
-widgetHandler.setupCommsListeners(clientComms);
 
 // start up the server for clients
 if (config.debug) {
