@@ -272,6 +272,17 @@ ul.dropdown-menu-form {
   position: absolute;
 }
 
+.widget-drag-overlay {
+  z-index: 999;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.widget-drag-overlay-hidden {
+  display: none;
+}
+
 .btn-left {
   display: block;
   position: absolute;
