@@ -1,4 +1,5 @@
 
+
 .navbar {
   background: none;
   border-color: transparent;
@@ -22,6 +23,7 @@
   background-color: white;
 }
 
+
 .ventyxVerticalLine {
   /* border-left: medium solid #11a7e6; */
    border-left: medium solid white;
@@ -35,6 +37,17 @@
   padding-right: 15px;
   max-width: 140%;
   max-height: 140%;
+}
+
+@media (min-width: 768px) {
+  .container {
+    width: 100%;
+  }
+  
+  .navbar-right {
+    margin-right: 0;
+    padding-right: 0;
+  }
 }
 
 .column {
@@ -90,15 +103,15 @@
 }
 
 html {
-  background: url(../private_images/mySrc/abstract1.jpg);
-  background: url(../private_images/mySrc/abstract2.jpg);
-  background: url(../private_images/mySrc/abstract3.jpg);
-  background: url(../private_images/ThinkStock-108797705.jpg);
   background: url(../private_images/mySrc/tree3.jpg);
   background: url(../private_images/mySrc/tree1.jpg);
   background: url(../private_images/mySrc/tree2.jpg);
   background: url(../private_images/mySrc/tree4.jpeg);
+  background: url(../private_images/mySrc/abstract1.jpg);
+  background: url(../private_images/mySrc/abstract2.jpg);
   background: url(../private_images/mySrc/spiderweb1.jpg);
+  background: url(../private_images/ThinkStock-108797705.jpg);
+  background: url(../private_images/mySrc/abstract3.jpg);
   -mox-background-size: cover;
   background-size: cover;
   
