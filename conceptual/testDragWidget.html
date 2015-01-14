@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI Sortable - Portlets</title>
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+  <style>
+  body {
+    min-width: 520px;
+  }
+  .column {
+    width: 33%;
+    float: left;
+    padding-bottom: 100px;
+  }
+  .panel {
+    margin: 0 1em 1em 0;
+    height: 200px;
+    border: solid black 1px;
+    display: block;
+  }
+  .panel-header {
+    padding: 0.1em 0.1em;
+    margin: .2em .2em .2em .2em;
+    position: relative;
+    background-color: darkgrey;
+    color: white;
+    font-weight: bold;
+  }
+  .panel-content {
+    padding: 0.0em;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+    height: 170px;
+  }
+  .panel-placeholder {
+    border: 1px dotted black;
+    margin: 0 1em 1em 0;
+    height: 200px;
+  }
+    
+  .widget-placeholder {
+    border: 1px dotted black;
+
+    display: inline-block;
+    position: relative;
+    margin: 0 0 0 0;
+    height: 100%;
+    width: 30%;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+  }
+    
+  .widget {
+    display: inline-block;
+    position: relative;
+    border: 1px solid lightgrey;
+    margin: 0 0 0 0;
+    height: 100%;
+    width: 30%;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+  }
+
+  .widget-title {
+    color: grey;
+    height: 10%;
+    width: 100%;
+  }
+
+  .widget-body {
+    height: 85%;
+    width:  98%;
+    border: solid white 2px;
+    background-color: rgba( 100, 100, 100, 0.3);
+  }
+  
+  .widget-body > span {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    width: 100%; 
+    height: 100%;
+
+    font-size: 5em;
+    font-weight: bold;
+    color: #fff;
+  }
+    
+  .widget-title > span {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    width:  98%;
+    border: solid white 2px;
+
+    background-color: rgba( 100, 100, 100, 0.3);
+    font-size: .8em;
+    font-weight: bold;
+    color: #777;
+  }
+    
+  </style>
+  <script>
+  $(function() {
+    /* 
+     * The following logic handles multiple columns/lists in the form of divs
+     * 
+     * Suppors drag and drop within a column, across columns or canceled by not 
+     * releasing the drag option on a valid column.
+     */
+    $( ".column" ).sortable({
+      connectWith: ".column",
+      handle: ".panel-header",
+//      cancel: ".panel-toggle",
+      placeholder: "panel-placeholder",
+      
+      beforeStop: beforePanelDragStopAction,
+      remove: removeDragPanelAction,
+      update: updateDragPanelAction,
+      stop: stopDragPanelAction,
+    });
+    
+    function stopDragPanelAction(event, ui) {
+      // no newIndex means drop was not sucessful
+      if(newIndex < 0) {
+        return;
+      }
+      
+      $(this).sortable('cancel');
+      /*
+       * generate backend call here
+       */
+
+      /*
+       * The following is what is to be done if the backend accepts the request
+       */
+      var column = movingColumns ? targetColumnId : sourceColumnId;
+      
+      if(newIndex > 0) {
+        // determine appropriate entry
+        var rows = $("#" + column + ">div.panel");
+        
+        if(movingColumns) {
+          // we want the panel before the drop point, for different row this requires adjustment 
+          newIndex--;
+        }
+        
+        // add after the correct position
+        $("#" + ui.item.attr("id")).insertAfter("#" + rows[newIndex].id);
+      } else {
+        $("#" + ui.item.attr("id")).prependTo("#" + column);
+      }
+      /*
+       * end backend accept logic
+       */
+    }
+    
+    var sourceColumnId;
+    var targetColumnId;
+    var newIndex = 0;
+    var movingColumns = false;
+    
+    function beforePanelDragStopAction(event, ui) {
+      // called irrespective of moving or not between div/lists
+      sourceColumnId = this.id;
+      movingColumns = false;
+      newIndex = -1;
+    }
+    
+    function removeDragPanelAction(event, ui) {
+      // only occurs when moving between divs/lists, this.id is the column removing from
+      movingColumns = true;
+    }
+    
+    function updateDragPanelAction(event, ui) {
+      // update action fires twice (presume from/to), but index always equals the drop location 
+      newIndex = ui.item.index();
+      
+      if(ui.sender !== undefined && ui.sender !== null) {
+        targetColumnId = this.id;
+      }
+    }
+    // ********************************************************************** //
+  
+    /* 
+     * The following logic handles multiple widgets/lists in the form of divs
+     * 
+     * Suppors drag and drop within a panel content
+     */
+    $( ".panel-content" ).sortable({
+//      connectWith: ".panel-content",
+      handle: ".widget-title",
+      placeholder: "widget-placeholder",
+      
+      beforeStop: beforeWidgetDragStopAction,
+//       remove: removeDragWidgetAction,
+      update: updateDragWidgetAction,
+      stop: stopDragWidgetAction,
+    });
+    
+    function stopDragWidgetAction(event, ui) {
+      // no newIndex means drop was not sucessful
+      if(newIndex < 0) {
+        return;
+      }
+      
+      $(this).sortable('cancel');
+      /*
+       * generate backend call here
+       */
+
+      /*
+       * The following is what is to be done if the backend accepts the request
+       */
+      // determine appropriate entry
+      var rows = $("#" + panelId + ">div.widget");
+
+      var oldIndex = ui.item.index();
+      // add after the correct position
+      if(newIndex > oldIndex) {
+        $("#" + ui.item.attr("id")).insertAfter("#" + rows[newIndex].id);
+      } else {
+        $("#" + ui.item.attr("id")).insertBefore("#" + rows[newIndex].id);
+      }
+      
+      /*
+       * end backend accept logic
+       */
+    }
+    
+    var panelId;
+    // var newIndex = 0;
+    
+    function beforeWidgetDragStopAction(event, ui) {
+      // called irrespective of moving or not between div/lists
+      panelId = this.id;
+      newIndex = -1;
+    }
+    
+    function updateDragWidgetAction(event, ui) {
+      // update action fires twice (presume from/to), but index always equals the drop location 
+      newIndex = ui.item.index();
+    }
+  
+  });
+    
+    
+    /*
+     * options:
+     * 
+     * disable()
+     * enable()
+     * refresh() - need to do after adding an item?
+     * refreshPositions() - need to do after accepting a move from the backend?
+     */
+  </script>
+</head>
+<body>
+  <div id="col1" class="column">
+
+    <div id="feeds" class="panel">
+      <div class="panel-header">Feeds</div>
+      <div id="feedsContent" class="panel-content">
+        <div id="A1" class="widget">
+          <div class="widget-body"><span>2</span></div>
+          <div class="widget-title"><span>A1</span></div>
+        </div>
+        <div id="A2" class="widget">
+          <div class="widget-body"><span>4</span></div>
+          <div class="widget-title"><span>A2</span></div>
+        </div>
+        <div id="A3" class="widget">
+          <div class="widget-body"><span>3</span></div>
+          <div class="widget-title"><span>A3</span></div>
+        </div>
+      </div>
+    </div>
+    <div id="News" class="panel">
+      <div class="panel-header">News</div>
+      <div id="newsContent" class="panel-content">
+        <div id="B1" class="widget">
+          <div class="widget-body"><span>12</span></div>
+          <div class="widget-title"><span>B1</span></div>
+        </div>
+        <div id="B2" class="widget">
+          <div class="widget-body"><span>14</span></div>
+          <div class="widget-title"><span>B2</span></div>
+        </div>
+        <div id="B3" class="widget">
+          <div class="widget-body"><span>13</span></div>
+          <div class="widget-title"><span>B3</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div id="col2" class="column">
+
+    <div id="Shopping" class="panel">
+      <div class="panel-header">Shopping</div>
+      <div id="shoppingContent" class="panel-content">
+        <div id="C1" class="widget">
+          <div class="widget-body"><span>22</span></div>
+          <div class="widget-title"><span>C1</span></div>
+        </div>
+        <div id="C2" class="widget">
+          <div class="widget-body"><span>24</span></div>
+          <div class="widget-title"><span>C2</span></div>
+        </div>
+        <div id="C3" class="widget">
+          <div class="widget-body"><span>23</span></div>
+          <div class="widget-title"><span>C3</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div id="col3" class="column">
+
+    <div id="Links" class="panel">
+      <div class="panel-header">Links</div>
+      <div id="LinksContent" class="panel-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+    </div>
+    <div id="Images" class="panel">
+      <div class="panel-header">Images</div>
+      <div id="imagesContent" class="panel-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+    </div>
+
+  </div>
+</body>
+</html>
