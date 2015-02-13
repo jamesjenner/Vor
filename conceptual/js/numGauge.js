@@ -68,7 +68,7 @@ function NumGauge(options) {
       .attr("font-family", this.textFontName)
       .style("font-weight", this.textFontWeight)
       .style("font-size", this.textSize + "em")
-      .attr("fill", this.textColor);
+      .attr("fill", this._determineForegroundColor());
 
 /*
       <text 
@@ -130,33 +130,33 @@ NumGauge.prototype._determineForegroundColor = function() {
 
 NumGauge.prototype.setValue = function(newValue, redrawGauge) {
   var oldValue = this.value;
-  var repalcementValue = newValue;
+  var replacementValue = newValue;
   this.value = ((newValue !== null && newValue !== undefined) ? newValue : 0);
   
   redrawGauge = ((redrawGauge !== null && redrawGauge !== undefined) ? redrawGauge : true);
   
-  var format = d3.format("0");
+  var format = d3.format("f");
       
   if(this.valueType == NumGauge.VALUES_PERCENTAGE) {
     oldValue = this.valuePercentage;
-    repalcementValue = (this.value - this.minValue) / (this.maxValue - this.minValue);
+    replacementValue = (this.value - this.minValue) / (this.maxValue - this.minValue);
     format = d3.format(".0%");
   }
   
   if(redrawGauge) {
-    (function(repalcementValue, arcGaugeInst) {
-      arcGaugeInst.text.transition()
+    (function(replacementValue, gaugeInst) {
+      gaugeInst.text.transition()
         .duration(750)
         .ease('linear')
+        .style("fill", gaugeInst._determineForegroundColor())
         .tween('text', function() {
-          var ip = d3.interpolate(oldValue, repalcementValue);
+          var ip = d3.interpolate(oldValue, replacementValue);
           return function(t) {
             var v = ip(t);
-            // this.textContent = Math.round(v * 100);
             this.textContent = format(v);
           };
       });
-    })(this.valuePercentage, this);
+    })(replacementValue, this);
   }
   
   // note: cannot bind this to the tween function, as this points to the selection of the tween
@@ -168,10 +168,10 @@ NumGauge.prototype.demo = function() {
   // tweening the arc in a separate function below.
   
   setInterval(function() {
-    if(this.valueType == NumGauge.VALUES_ACTUAL) {
-      this.setValue(Math.random() * 100);
-    } else {
-      this.setValue(Math.random());
-    }
+    var min = 0;
+    var max = 8;
+    // calc a int random value between min and max
+    var value = Math.floor(Math.random() * (max - min)) + min;
+    this.setValue(value);
   }.bind(this), 1500);
 };
