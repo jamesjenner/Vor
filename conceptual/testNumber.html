@@ -8,20 +8,17 @@
         width: 100%;
         height: 100%;
       }
-      #mainDiv {
+      .mainDiv {
         width: 100%;
-        height: 100%;
+        height: 25%;
         display: block; 
-        overflow: hidden
+        overflow: hidden;
       }
-      #widgetDiv {
-        width: 100%;
+      .widget {
+        width: 25%;
         height: 100%;
-        display: block; 
-        position: relative; 
-        padding: 5px;
+        float: left;
       }
-      
       #numWidget {
         width: 100%;
         height: 100%;
@@ -29,49 +26,204 @@
   	</style>    
 </head>
 <body>
-  <div id="mainDiv" width="100px" height="350px" >
-    <div id="widgetDiv" width="100%" height="100%">
-<!--  
-    <svg id="numSVG" 
-         viewBox="0 0 100 100"
-         preserveAspectRatio="meet"
-         >
-      <!-- 3.5em for tripple figures, --
-      <!-- 5em for double figures, --
-      <!-- 7em for single figures, --
-      <text 
-          id="value"
-          dx="50%" 
-          dy="50%" 
-          text-anchor="middle" 
-          font-family="sans-serif"
-          font-weight="bold"
-          font-size="5em"
-          dominant-baseline="central"
-          fill="red">
-          9
-      </text>
-    </svg> 
-  -->
+  <div class="mainDiv">
+    <div id="widgetDiv1" class="widget">
+    </div>
+    <div id="widgetDiv2" class="widget">
+    </div>
+    <div id="widgetDiv3" class="widget">
+    </div>
+    <div id="widgetDiv4" class="widget">
+    </div>
+  </div>
+  <div class="mainDiv">
+    <div id="widgetDiv5" class="widget">
+    </div>
+    <div id="widgetDiv6" class="widget">
+    </div>
+    <div id="widgetDiv7" class="widget">
+    </div>
+    <div id="widgetDiv8" class="widget">
+    </div>
+  </div>
+  <div class="mainDiv">
+    <div id="widgetDiv9" class="widget">
+    </div>
+    <div id="widgetDiv10" class="widget">
+    </div>
+    <div id="widgetDiv11" class="widget">
+    </div>
+    <div id="widgetDiv12" class="widget">
     </div>
   </div>
   
   <script type="text/javascript" src="js/d3.min.js"></script>
   <script type="text/javascript" src="js/numGauge.js"></script>
   <script>
+    // line 1
+    var v = new NumGauge({
+      value: 3, 
+      goodMargin: 2,
+      dangerMargin: 5,
+      valueType: NumGauge.VALUES_ACTUAL,
+      goodColor: "rgb(100,100,100)",
+      warningColor: "rgb(200,200,50)",
+      dangerColor: "rgb(200,50,50)",
+      appendTo: "widgetDiv1"
+    }).demo(0, 8);
 
-  var v = new NumGauge({
-    value: 3, 
-    goodMargin: 2,
-    dangerMargin: 5,
-    valueType: NumGauge.VALUES_ACTUAL,
-    width: "100%",
-    height: "100%",
-    goodColor: "rgb(100,100,100)",
-    warningColor: "rgb(200,200,50)",
-    dangerColor: "rgb(200,50,50)",
-    appendTo: "widgetDiv"
-  }).demo();
+    // celcius
+    var v = new NumGauge({
+      value: 3, 
+      goodMargin: 2,
+      dangerMargin: 5,
+      valueType: NumGauge.VALUES_ACTUAL,
+      goodColor: "rgb(100,100,100)",
+      warningColor: "rgb(200,200,50)",
+      dangerColor: "rgb(200,50,50)",
+      appendTo: "widgetDiv2"
+    }).demo(0, 8);
+
+    // farenheight
+    var v = new NumGauge({
+      value: 3, 
+      goodMargin: 2,
+      dangerMargin: 5,
+      valueType: NumGauge.VALUES_ACTUAL,
+      goodColor: "rgb(100,100,100)",
+      warningColor: "rgb(200,200,50)",
+      dangerColor: "rgb(200,50,50)",
+      appendTo: "widgetDiv3"
+    }).demo(0, 8);
+
+    var v = new NumGauge({
+      value: 3, 
+      goodMargin: 2,
+      dangerMargin: 5,
+      valueType: NumGauge.VALUES_ACTUAL,
+      goodColor: "rgb(100,100,100)",
+      warningColor: "rgb(200,200,50)",
+      dangerColor: "rgb(200,50,50)",
+      appendTo: "widgetDiv4"
+    }).demo(0, 8);
+
+    // line 2
+    var v = new NumGauge({
+      symbol: "C",
+      displaySymbol: true,
+      value: 3, 
+      goodMargin: 2,
+      dangerMargin: 5,
+      valueType: NumGauge.VALUES_ACTUAL,
+      goodColor: "rgb(100,100,100)",
+      warningColor: "rgb(200,200,50)",
+      dangerColor: "rgb(200,50,50)",
+      appendTo: "widgetDiv5"
+    }).demo(0, 8);
+
+    // celcius
+    var v = new NumGauge({
+      symbol: "\u2103",
+      displaySymbol: true,
+      value: 3, 
+      goodMargin: 2,
+      dangerMargin: 5,
+      valueType: NumGauge.VALUES_ACTUAL,
+      goodColor: "rgb(100,100,100)",
+      warningColor: "rgb(200,200,50)",
+      dangerColor: "rgb(200,50,50)",
+      appendTo: "widgetDiv6"
+    }).demo(0, 8);
+
+    // farenheight
+    var v = new NumGauge({
+      symbol: "\u2109",
+      displaySymbol: true,
+      value: 3, 
+      goodMargin: 2,
+      dangerMargin: 5,
+      valueType: NumGauge.VALUES_ACTUAL,
+      goodColor: "rgb(100,100,100)",
+      warningColor: "rgb(200,200,50)",
+      dangerColor: "rgb(200,50,50)",
+      appendTo: "widgetDiv7"
+    }).demo(0, 8);
+
+    var v = new NumGauge({
+      symbol: "%",
+      displaySymbol: true,
+      value: 3, 
+      goodMargin: 2,
+      dangerMargin: 5,
+      valueType: NumGauge.VALUES_ACTUAL,
+      goodColor: "rgb(100,100,100)",
+      warningColor: "rgb(200,200,50)",
+      dangerColor: "rgb(200,50,50)",
+      appendTo: "widgetDiv8"
+    }).demo(0, 8);
+
+    // line 3
+    var v = new NumGauge({
+      symbol: "C",
+      displaySymbol: true,
+      symbolAdjY: 5,
+      textSize: 4,
+      value: 3, 
+      goodMargin: 2,
+      dangerMargin: 5,
+      valueType: NumGauge.VALUES_ACTUAL,
+      goodColor: "rgb(100,100,100)",
+      warningColor: "rgb(200,200,50)",
+      dangerColor: "rgb(200,50,50)",
+      appendTo: "widgetDiv9"
+    }).demo(0, 99);
+
+    // celcius
+    var v = new NumGauge({
+      symbol: "\u2103",
+      displaySymbol: true,
+      symbolAdjY: 8,
+      textSize: 3.5,
+      value: 3, 
+      goodMargin: 2,
+      dangerMargin: 5,
+      valueType: NumGauge.VALUES_ACTUAL,
+      goodColor: "rgb(100,100,100)",
+      warningColor: "rgb(200,200,50)",
+      dangerColor: "rgb(200,50,50)",
+      appendTo: "widgetDiv10"
+    }).demo(-25, 25);
+
+    // farenheight
+    var v = new NumGauge({
+      symbol: "\u2109",
+      displaySymbol: true,
+      symbolAdjY: 5,
+      textSize: 4,
+      value: 3, 
+      goodMargin: 2,
+      dangerMargin: 5,
+      valueType: NumGauge.VALUES_ACTUAL,
+      goodColor: "rgb(100,100,100)",
+      warningColor: "rgb(200,200,50)",
+      dangerColor: "rgb(200,50,50)",
+      appendTo: "widgetDiv11"
+    }).demo(10, 99);
+
+    var v = new NumGauge({
+      symbol: "%",
+      displaySymbol: true,
+      symbolAdjY: 9,
+      textSize: 3,
+      value: 3, 
+      goodMargin: 2,
+      dangerMargin: 5,
+      valueType: NumGauge.VALUES_ACTUAL,
+      goodColor: "rgb(100,100,100)",
+      warningColor: "rgb(200,200,50)",
+      dangerColor: "rgb(200,50,50)",
+      appendTo: "widgetDiv12"
+    }).demo(80, 120);
     
   </script>  
 </body>

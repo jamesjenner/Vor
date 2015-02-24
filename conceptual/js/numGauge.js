@@ -23,6 +23,11 @@ function NumGauge(options) {
   this.goodColor = ((options.goodColor !== null && options.goodColor !== undefined) ? options.goodColor : "green");
   this.warningColor = ((options.warningColor !== null && options.warningColor !== undefined) ? options.warningColor : "orange");
   this.dangerColor = ((options.dangerColor !== null && options.dangerColor !== undefined) ? options.dangerColor : "red");
+  this.displaySymbol = ((options.displaySymbol !== null && options.displaySymbol !== undefined) ? options.displaySymbol : false);
+  this.symbol = ((options.symbol !== null && options.symbol !== undefined) ? options.symbol : "%");
+  
+  this.displayNegative = ((options.displayNegative !== null && options.displayNegative !== undefined) ? options.displayNegative : false);
+  this.symbolAdjY = ((options.symbolAdjY !== null && options.symbolAdjY !== undefined) ? options.symbolAdjY : 0);
   
   this.setValue(options.value, false);
   
@@ -33,10 +38,6 @@ function NumGauge(options) {
   
   this.appendTo = ((options.appendTo !== null && options.appendTo !== undefined) ? options.appendTo : "body");
     
-//  this.width = ((options.width !== null && options.width !== undefined) ? options.width : 300);
-//  this.height = ((options.height !== null && options.height !== undefined) ? options.height : 300);
-
-
   // Create the SVG container, and apply a transform such that the origin is the
   // center of the canvas. This way, we don't need to position arcs individually.
   // setup the viewbox so that the size changes automatically
@@ -45,23 +46,15 @@ function NumGauge(options) {
     .attr("id", "numWidget")
     .attr("width", this.width)
     .attr("height", this.height)
-    .attr("viewBox", "0 0 100 100")  // set viewBox to 200/200 so we can use 0 to 100 for sizing
+    .attr("viewBox", "0 0 100 100")
     .attr("perserveAspectRatio", "meet")
-    // .attr("perserveAspectRatio", "none")
     .append("g")
-    // .attr("transform", "translate(100, 100)")
-    ;  // do we need the translate? don't think so...
+    ;
 
-  // determin the true size of the svg element
-  //  var elem1 = document.getElementById(this.appendTo);
-  //  var style = window.getComputedStyle(elem1, null);
-  //  var svgBBox = svg.node().getBBox();
-  // svg = svg.append("g").attr("transform", "translate(" + parseFloat(style.width) / 2 + "," + parseFloat(style.height) / 2 + ")");
-
-  this.text = svg.append("text")
+  this.textValue = svg.append("text")
       .attr("id", "numValue")
-      .attr("dx", "50%")
-      .attr("dy", "50%")
+      .attr("dx", 50)
+      .attr("dy", 50)
       .text(this._getTextValue())
       .attr("text-anchor", "middle")
       .attr("dominant-baseline", "central")
@@ -69,6 +62,20 @@ function NumGauge(options) {
       .style("font-weight", this.textFontWeight)
       .style("font-size", this.textSize + "em")
       .attr("fill", this._determineForegroundColor());
+
+  if(this.displaySymbol) {
+    this.textSymbol = svg.append("text")
+      .attr("id", "numSymbol")
+      .attr("dx", 107)   // do not understand why 105, but it works...
+      .attr("dy", 30 + this.symbolAdjY)
+      .text(this.symbol)
+      .attr("text-anchor", "end")
+      .attr("dominant-baseline", "central")
+      .attr("font-family", this.textFontName)
+      .style("font-weight", this.textFontWeight)
+      .style("font-size", (this.textSize / 3) + "em")
+      .attr("fill", this._determineForegroundColor());
+  }
 
 /*
       <text 
@@ -145,7 +152,7 @@ NumGauge.prototype.setValue = function(newValue, redrawGauge) {
   
   if(redrawGauge) {
     (function(replacementValue, gaugeInst) {
-      gaugeInst.text.transition()
+      gaugeInst.textValue.transition()
         .duration(750)
         .ease('linear')
         .style("fill", gaugeInst._determineForegroundColor())
@@ -156,22 +163,30 @@ NumGauge.prototype.setValue = function(newValue, redrawGauge) {
             this.textContent = format(v);
           };
       });
+      
+      if(gaugeInst.displaySymbol) {
+        gaugeInst.textSymbol.transition()
+          .duration(750)
+          .ease('linear')
+          .style("fill", gaugeInst._determineForegroundColor());
+      }
+      
     })(replacementValue, this);
   }
   
   // note: cannot bind this to the tween function, as this points to the selection of the tween
 };
 
-NumGauge.prototype.demo = function() {
+NumGauge.prototype.demo = function(min, max) {
   // Every so often, start a transition to a new random angle. Use transition.call
   // (identical to selection.call) so that we can encapsulate the logic for
   // tweening the arc in a separate function below.
   
-  setInterval(function() {
-    var min = 0;
-    var max = 8;
+  setInterval(function(min, max) {
+//    var min = 0;
+//    var max = 8;
     // calc a int random value between min and max
     var value = Math.floor(Math.random() * (max - min)) + min;
     this.setValue(value);
-  }.bind(this), 1500);
+  }.bind(this, min, max), 1500);
 };
