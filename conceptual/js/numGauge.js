@@ -39,10 +39,6 @@ function NumGauge(options) {
   
   this.appendTo = ((options.appendTo !== null && options.appendTo !== undefined) ? options.appendTo : "body");
     
-  // Create the SVG container, and apply a transform such that the origin is the
-  // center of the canvas. This way, we don't need to position arcs individually.
-  // setup the viewbox so that the size changes automatically
-
   var svg = d3.select("#" + this.appendTo).append("svg")
     .attr("id", "numWidget")
     .attr("width", this.width)
@@ -179,42 +175,25 @@ NumGauge.prototype.setValue = function(newValue, redrawGauge) {
           return function(t) {
             var v = ip(t);
             this.textContent = format(v);
-          };
-        })
-      .each(function() {
-          if(gaugeInst.alignSymbolOnEdge) {
-            d3.select(this);
-            var textValueBBox = gaugeInst.textValue.node().getBBox();
-            var textValueWidth = textValueBBox.width;
+            if(gaugeInst.alignSymbolOnEdge) {
+              var textValueBBox = gaugeInst.textValue.node().getBBox();
 
-            gaugeInst.textSymbol
-              .style("fill", gaugeInst._determineForegroundColor())
-              .attr("dx", 51 + ( textValueBBox.width / 2));
-          }
-      });
+              gaugeInst.textSymbol
+                .style("fill", gaugeInst.textValue.style("fill"))
+                .attr("dx", 51 + ( textValueBBox.width / 2));
+            }
+          };
+        });
       
       if(gaugeInst.displaySymbol) {
-        if(gaugeInst.alignSymbolOnEdge) {
-          var textValueBBox = gaugeInst.textValue.node().getBBox();
-          var textValueWidth = textValueBBox.width;
-          
-//          gaugeInst.textSymbol.transition()
-//            .duration(750)
-//            .ease('linear')
-//            .style("fill", gaugeInst._determineForegroundColor())
-//            .attr("dx", 51 + ( textValueBBox.width / 2));
-        } else {
-          gaugeInst.textSymbol.transition()
-            .duration(750)
-            .ease('linear')
-            .style("fill", gaugeInst._determineForegroundColor());
-        }
+        gaugeInst.textSymbol.transition()
+          .duration(750)
+          .ease('linear')
+          .style("fill", gaugeInst._determineForegroundColor());
       }
       
     })(replacementValue, this);
   }
-  
-  // note: cannot bind this to the tween function, as this points to the selection of the tween
 };
 
 NumGauge.prototype.demo = function(min, max) {
@@ -223,8 +202,6 @@ NumGauge.prototype.demo = function(min, max) {
   // tweening the arc in a separate function below.
   
   setInterval(function(min, max) {
-//    var min = 0;
-//    var max = 8;
     // calc a int random value between min and max
     var value = Math.floor(Math.random() * (max - min)) + min;
     this.setValue(value);
