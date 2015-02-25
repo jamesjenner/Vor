@@ -25,10 +25,11 @@ function NumGauge(options) {
   this.dangerColor = ((options.dangerColor !== null && options.dangerColor !== undefined) ? options.dangerColor : "red");
   this.displaySymbol = ((options.displaySymbol !== null && options.displaySymbol !== undefined) ? options.displaySymbol : false);
   this.symbol = ((options.symbol !== null && options.symbol !== undefined) ? options.symbol : "%");
+  this.alignSymbolOnEdge = ((options.alignSymbolOnEdge !== null && options.alignSymbolOnEdge !== undefined) ? options.alignSymbolOnEdge : false);
   
   this.displayNegative = ((options.displayNegative !== null && options.displayNegative !== undefined) ? options.displayNegative : false);
   this.symbolAdjY = ((options.symbolAdjY !== null && options.symbolAdjY !== undefined) ? options.symbolAdjY : 0);
-  
+
   this.setValue(options.value, false);
   
   this.textDisplayMode = ((options.textDisplayMode !== null && options.textDisplayMode !== undefined) ? options.textDisplayMode : NumGauge.DISPLAY_VALUE);
@@ -64,18 +65,35 @@ function NumGauge(options) {
       .attr("fill", this._determineForegroundColor());
 
   if(this.displaySymbol) {
-    this.textSymbol = svg.append("text")
-      .attr("id", "numSymbol")
-      .attr("dx", 107)   // do not understand why 105, but it works...
-      .attr("dy", 30 + this.symbolAdjY)
-      .text(this.symbol)
-      .attr("text-anchor", "end")
-      .attr("dominant-baseline", "central")
-      .attr("font-family", this.textFontName)
-      .style("font-weight", this.textFontWeight)
-      .style("font-size", (this.textSize / 3) + "em")
-      .attr("fill", this._determineForegroundColor());
+    if(this.alignSymbolOnEdge) {
+      var textValueBBox = this.textValue.node().getBBox();
+      var textValueWidth = textValueBBox.width;
+      this.textSymbol = svg.append("text")
+        .attr("id", "numSymbol")
+        .attr("dx", 51 + ( textValueBBox.width / 2))
+        .attr("dy", 53)
+        .text(this.symbol)
+        .attr("text-anchor", "begin")
+        .attr("baseline-shift", "super")
+        .attr("font-family", this.textFontName)
+        .style("font-weight", this.textFontWeight)
+        .style("font-size", (this.textSize / 3) + "em")
+        .attr("fill", this._determineForegroundColor());
+    } else {
+      this.textSymbol = svg.append("text")
+        .attr("id", "numSymbol")
+        .attr("dx", 107)   // do not understand why 105, but it works...
+        .attr("dy", 30 + this.symbolAdjY)
+        .text(this.symbol)
+        .attr("text-anchor", "end")
+        .attr("dominant-baseline", "central")
+        .attr("font-family", this.textFontName)
+        .style("font-weight", this.textFontWeight)
+        .style("font-size", (this.textSize / 3) + "em")
+        .attr("fill", this._determineForegroundColor());
+    }
   }
+    
 
 /*
       <text 
@@ -162,13 +180,35 @@ NumGauge.prototype.setValue = function(newValue, redrawGauge) {
             var v = ip(t);
             this.textContent = format(v);
           };
+        })
+      .each(function() {
+          if(gaugeInst.alignSymbolOnEdge) {
+            d3.select(this);
+            var textValueBBox = gaugeInst.textValue.node().getBBox();
+            var textValueWidth = textValueBBox.width;
+
+            gaugeInst.textSymbol
+              .style("fill", gaugeInst._determineForegroundColor())
+              .attr("dx", 51 + ( textValueBBox.width / 2));
+          }
       });
       
       if(gaugeInst.displaySymbol) {
-        gaugeInst.textSymbol.transition()
-          .duration(750)
-          .ease('linear')
-          .style("fill", gaugeInst._determineForegroundColor());
+        if(gaugeInst.alignSymbolOnEdge) {
+          var textValueBBox = gaugeInst.textValue.node().getBBox();
+          var textValueWidth = textValueBBox.width;
+          
+//          gaugeInst.textSymbol.transition()
+//            .duration(750)
+//            .ease('linear')
+//            .style("fill", gaugeInst._determineForegroundColor())
+//            .attr("dx", 51 + ( textValueBBox.width / 2));
+        } else {
+          gaugeInst.textSymbol.transition()
+            .duration(750)
+            .ease('linear')
+            .style("fill", gaugeInst._determineForegroundColor());
+        }
       }
       
     })(replacementValue, this);

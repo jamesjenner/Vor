@@ -56,6 +56,16 @@
     <div id="widgetDiv12" class="widget">
     </div>
   </div>
+  <div class="mainDiv">
+    <div id="widgetDiv13" class="widget">
+    </div>
+    <div id="widgetDiv14" class="widget">
+    </div>
+    <div id="widgetDiv15" class="widget">
+    </div>
+    <div id="widgetDiv16" class="widget">
+    </div>
+  </div>
   
   <script type="text/javascript" src="js/d3.min.js"></script>
   <script type="text/javascript" src="js/numGauge.js"></script>
@@ -224,7 +234,74 @@
       dangerColor: "rgb(200,50,50)",
       appendTo: "widgetDiv12"
     }).demo(80, 120);
-    
+
+    // line 4
+    var v = new NumGauge({
+      symbol: "C",
+      displaySymbol: true,
+      alignSymbolOnEdge: true,
+      symbolAdjY: 5,
+      textSize: 4,
+      value: 3, 
+      goodMargin: 2,
+      dangerMargin: 5,
+      valueType: NumGauge.VALUES_ACTUAL,
+      goodColor: "rgb(100,100,100)",
+      warningColor: "rgb(200,200,50)",
+      dangerColor: "rgb(200,50,50)",
+      appendTo: "widgetDiv13"
+    }).demo(-15, 15);
+
+    // celcius
+    var v = new NumGauge({
+      symbol: "\u2103",
+      displaySymbol: true,
+      alignSymbolOnEdge: true,
+      symbolAdjY: 8,
+      textSize: 3.5,
+      value: 3, 
+      goodMargin: 2,
+      dangerMargin: 5,
+      valueType: NumGauge.VALUES_ACTUAL,
+      goodColor: "rgb(100,100,100)",
+      warningColor: "rgb(200,200,50)",
+      dangerColor: "rgb(200,50,50)",
+      appendTo: "widgetDiv14"
+    }).demo(-25, 25);
+
+    // farenheight
+    var v = new NumGauge({
+      symbol: "C",
+      displaySymbol: true,
+      alignSymbolOnEdge: true,
+      symbolAdjY: 5,
+      textSize: 4,
+      value: 3, 
+      goodMargin: 2,
+      dangerMargin: 5,
+      valueType: NumGauge.VALUES_ACTUAL,
+      goodColor: "rgb(100,100,100)",
+      warningColor: "rgb(200,200,50)",
+      dangerColor: "rgb(200,50,50)",
+      appendTo: "widgetDiv15"
+    }).demo(10, 99);
+
+    var v = new NumGauge({
+      symbol: "%",
+      displaySymbol: true,
+      alignSymbolOnEdge: true,
+      symbolAdjY: 9,
+      textSize: 3,
+      value: 3, 
+      goodMargin: 2,
+      dangerMargin: 5,
+      valueType: NumGauge.VALUES_ACTUAL,
+      goodColor: "rgb(100,100,100)",
+      warningColor: "rgb(200,200,50)",
+      dangerColor: "rgb(200,50,50)",
+      appendTo: "widgetDiv16"
+    }).demo(-120, 120);
+        
   </script>  
 </body>
 </html>
