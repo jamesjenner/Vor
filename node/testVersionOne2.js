@@ -548,15 +548,15 @@ var effectiveDate = '2015-2-26';
 
 var teams = [
   {name: 'Ellipse - Automation',                        effectiveDate: effectiveDate, },
-  {name: 'Ellipse - Code Maintenance and Support',      effectiveDate: effectiveDate, },
   {name: 'Ellipse - Finance Development',               effectiveDate: effectiveDate, },
   {name: 'Ellipse - Integration',                       effectiveDate: effectiveDate, },
+  {name: 'Finance Product Owner',                    effectiveDate: effectiveDate, },
   {name: 'Ellipse - MITWIP',                            effectiveDate: effectiveDate, },
+  {name: 'Ellipse - Code Maintenance and Support',      effectiveDate: effectiveDate, },
   {name: 'Ellipse Development 8.6 - Field Length and ERP integration',  effectiveDate: effectiveDate, },
   {name: 'Ellipse Development 8.6 - Maintenance',                       effectiveDate: effectiveDate, },
   {name: 'Ellipse Development 8.6 - Materials',                         effectiveDate: effectiveDate, },
   {name: 'Ellipse Tests Automation',                    effectiveDate: effectiveDate, },
-  {name: 'Finance Product Owner',                    effectiveDate: effectiveDate, },
   {name: 'JI Core',                                     effectiveDate: effectiveDate, },
 ];
 var idx;
@@ -587,7 +587,7 @@ for(idx = 0; idx < teams.length; idx++) {
           var targetPercentage =  
                   Math.round(currentDuration.asDays() / sprintDuration.asDays() * 100);
 
-          console.log("duration: " + sprintDuration.asDays() + " so far: " + currentDuration.asDays().toFixed(1) + " target: " + targetPercentage + "%");
+          // console.log("duration: " + sprintDuration.asDays() + " so far: " + currentDuration.asDays().toFixed(1) + " target: " + targetPercentage + "%");
   //        console.log(
   //        "Start: " + data.sprintStartDate +
   //          "\tEnd: " + data.sprintEndDate 
@@ -733,3 +733,51 @@ kualaLumpur.locale('ms_MY');
 //console.log(moment().tz("America/Denver").format('YYYY-MM-DD'));
 //
 //console.log("\n\nMoment testing complete\n");
+
+// burn down - project/release
+
+// burn down - sprint
+v1.query({
+  from: "Timebox",
+
+  select: [
+    'Name',
+    'Description',
+//    'Owner',
+    'Schedule',
+    'TargetEstimate',
+    'State.Code',
+    // 'Actuals.Team',
+    // 'Workitems',
+    
+    // "Workitems[Team.Name]",
+    // "Workitems[Team]",
+    "Workitems.Name",
+    // "Workitems.ToDo[AssetState!='Dead'].@Sum"
+  ],
+
+  where: {
+    "State.Code": 'ACTV', 
+    'Name': 'SprintFeb2515',
+    'Schedule.Name': 'Ellipse - 2 weeks iteration',
+//    "BeginDate": 
+  },
+  asof: '2015-02-26',
+  // wherestr: "EndDate>='2014-08-28'&BeginDate<='2014-08-28'",
+
+  success: function(result) {
+    console.log(JSON.stringify(result, null, ' '));
+//    console.log(result.Name + "\t " + 
+//      result.BeginDate + " -> " + 
+//      result.EndDate + " " + 
+//      result.Duration + " " + 
+//      result._v1_current_data['Owner.Username'] + "\t" +
+//      "Team: " + result._v1_current_data["Team.Name"] + 
+//      " Team: " + result._v1_current_data["Workitems[Team.Name]"] + 
+//      "ToDo: " + result._v1_current_data["Workitems.ToDo[AssetState!='Dead'].@Sum"]);
+  },
+
+  error: function(err) { 
+    console.log("ERROR: " + err);
+  }
+});
