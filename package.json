@@ -16,6 +16,7 @@
     "moment-timezone": "^0.2.5",
     "node-uuid": "^1.4.1",
     "opt": "^0.1.14",
+    "request": "^2.53.0",
     "websocket": "^1.0.10"
   },
   "description": "Vor\r ===",
