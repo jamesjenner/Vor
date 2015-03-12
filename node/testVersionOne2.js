@@ -108,6 +108,86 @@ var server = new V1Server(settings.hostname, settings.instance, settings.usernam
 var v1 = new V1Meta(server);
 
 
+
+v1.query({
+  from: "Story",
+
+  select: [
+    'Name',
+    'Owners.Name',
+    'Estimate',
+    '',
+    '',
+    '',
+  ],
+  where: {
+    'Owners.Name': 'James Jenner',
+  },
+  success: function(result) {
+    console.log(JSON.stringify(result, null, ' '));
+  },
+    
+  error: function(err) {
+    console.log("ERROR: " + err);
+  },
+});
+
+return;
+
+// burn down - project/release
+
+// burn down - sprint
+v1.query({
+  from: "Timebox",
+
+  select: [
+    'Name',
+    'Description',
+//    'Owner',
+    'Schedule',
+    'TargetEstimate',
+    'State.Code',
+    // 'Actuals.Team',
+    // 'Workitems',
+    
+    // "Workitems[Team.Name]",
+    // "Workitems[Team]",
+    //"Workitems.ToDo",
+//    "Actuals.Value.@Sum",
+    "Workitems.ToDo[Team.Name='Ellipse Development 8.6 - Materials';AssetState!='Dead'].@Sum",
+    "Workitems.ToDo[AssetState!='Dead'].@Sum",
+    "Workitems.ToDo.@Sum"
+//    "Workitems.DetailEstimate[AssetState!='Dead'].@Sum"
+  ],
+
+  where: {
+    "State.Code": 'ACTV', 
+    'Name': 'SprintFeb2515',
+    'Schedule.Name': 'Ellipse - 2 weeks iteration',
+//    "BeginDate": 
+  },
+  asof: '2015-02-26',
+  // wherestr: "EndDate>='2014-08-28'&BeginDate<='2014-08-28'",
+
+  success: function(result) {
+    console.log(JSON.stringify(result, null, ' '));
+//    console.log(result.Name + "\t " + 
+//      result.BeginDate + " -> " + 
+//      result.EndDate + " " + 
+//      result.Duration + " " + 
+//      result._v1_current_data['Owner.Username'] + "\t" +
+//      "Team: " + result._v1_current_data["Team.Name"] + 
+//      " Team: " + result._v1_current_data["Workitems[Team.Name]"] + 
+//      "ToDo: " + result._v1_current_data["Workitems.ToDo[AssetState!='Dead'].@Sum"]);
+  },
+
+  error: function(err) { 
+    console.log("ERROR: " + err);
+  }
+});
+
+return;
+
 //v1.query({
 //  from: "Team",
 //
@@ -734,50 +814,3 @@ kualaLumpur.locale('ms_MY');
 //
 //console.log("\n\nMoment testing complete\n");
 
-// burn down - project/release
-
-// burn down - sprint
-v1.query({
-  from: "Timebox",
-
-  select: [
-    'Name',
-    'Description',
-//    'Owner',
-    'Schedule',
-    'TargetEstimate',
-    'State.Code',
-    // 'Actuals.Team',
-    // 'Workitems',
-    
-    // "Workitems[Team.Name]",
-    // "Workitems[Team]",
-    "Workitems.Name",
-    // "Workitems.ToDo[AssetState!='Dead'].@Sum"
-  ],
-
-  where: {
-    "State.Code": 'ACTV', 
-    'Name': 'SprintFeb2515',
-    'Schedule.Name': 'Ellipse - 2 weeks iteration',
-//    "BeginDate": 
-  },
-  asof: '2015-02-26',
-  // wherestr: "EndDate>='2014-08-28'&BeginDate<='2014-08-28'",
-
-  success: function(result) {
-    console.log(JSON.stringify(result, null, ' '));
-//    console.log(result.Name + "\t " + 
-//      result.BeginDate + " -> " + 
-//      result.EndDate + " " + 
-//      result.Duration + " " + 
-//      result._v1_current_data['Owner.Username'] + "\t" +
-//      "Team: " + result._v1_current_data["Team.Name"] + 
-//      " Team: " + result._v1_current_data["Workitems[Team.Name]"] + 
-//      "ToDo: " + result._v1_current_data["Workitems.ToDo[AssetState!='Dead'].@Sum"]);
-  },
-
-  error: function(err) { 
-    console.log("ERROR: " + err);
-  }
-});
