@@ -1,0 +1,13 @@
+Defect -> defect
+Scope -> project
+ScopeLabel -> program
+Story -> backlog item
+Timebox -> sprint
+Theme -> feature group
+
+
+Task
+Test
+TestSet
+
+Workitem, Story and Defect derive from Workitem
