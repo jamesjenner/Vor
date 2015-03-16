@@ -2,6 +2,7 @@ this['arcGauge'] = {};
     
 ArcGauge.COLOR_MODE_RANGE = "colorModeRange";
 ArcGauge.COLOR_MODE_VALUE = "colorModeValue";
+ArcGauge.COLOR_MODE_MANUAL = "colorModeManual";
 
 // http://tauday.com/tau-manifesto -> TAU == 2PI
 ArcGauge.τ = 2 * Math.PI; 
@@ -22,6 +23,7 @@ function ArcGauge(options) {
   this.goodMargin = ((options.goodMargin !== null && options.goodMargin !== undefined) ? options.goodMargin : 2);
   this.dangerMargin = ((options.dangerMargin !== null && options.dangerMargin !== undefined) ? options.dangerMargin : 10);
   this.colorMode = ((options.colorMode !== null && options.colorMode !== undefined) ? options.colorMode : ArcGauge.COLOR_MODE_VALUE);
+  this.displayTarget = ((options.displayTarget !== null && options.displayTarget !== undefined) ? options.displayTarget : true);
 
   this.valueType = ((options.valueType !== null && options.valueType !== undefined) ? options.valueType : ArcGauge.VALUES_ACTUAL);
   
@@ -34,6 +36,7 @@ function ArcGauge(options) {
   this.markColor = ((options.markColor !== null && options.markColor !== undefined) ? options.markColor : "gray");
   this.textColor = ((options.textColor !== null && options.textColor !== undefined) ? options.textColor : "black");
   this.backgroundColor = ((options.backgroundColor !== null && options.backgroundColor !== undefined) ? options.backgroundColor : "lightgray");
+  this.barColor = ((options.barColor !== null && options.barColor !== undefined) ? options.barColor : "blue");
   
   this.value = ((options.value !== null && options.value !== undefined) ? options.value : 0);
   this.setValue(this.value, false);
@@ -83,16 +86,9 @@ function ArcGauge(options) {
   var svg = d3.select("#" + this.appendTo).append("svg")
     .attr("width", this.width)
     .attr("height", this.height)
+    .attr("class", "arcGauge")
     .attr("viewBox", "0 0 200 200")  // set viewBox to 200/200 so we can use 0 to 100 for sizing
-    // .attr("perserveAspectRatio", "xMidYMid meet");
-    // .attr("perserveAspectRatio", "none")
     .append("g").attr("transform", "translate(100, 100)");
-
-  // determin the true size of the svg element
-  //  var elem1 = document.getElementById(this.appendTo);
-  //  var style = window.getComputedStyle(elem1, null);
-  //  var svgBBox = svg.node().getBBox();
-  // svg = svg.append("g").attr("transform", "translate(" + parseFloat(style.width) / 2 + "," + parseFloat(style.height) / 2 + ")");
 
   // Add the background arc, from 0 to 100% (τ).
   var background = svg.append("path")
@@ -102,10 +98,12 @@ function ArcGauge(options) {
 
   var foregroundColor = this._determineForegroundColor();
   
-  this.targetMark = svg.append("path")
-      .datum({endAngle: this.startAngle + (this.arcAngle * this.targetPercentage)})
-      .style("fill", this.markColor)
-      .attr("d", this.markArc);
+  if(this.displayTarget) {
+    this.targetMark = svg.append("path")
+        .datum({endAngle: this.startAngle + (this.arcAngle * this.targetPercentage)})
+        .style("fill", this.markColor)
+        .attr("d", this.markArc);
+  }
 
   this.foreground = svg.append("path")
       .attr("id", "targetValue")
@@ -122,11 +120,6 @@ function ArcGauge(options) {
       .style("font-weight", this.textFontWeight)
       .style("font-size", this.textSize)
       .attr("fill", this.textColor);
-  
-  console.log("##font-size: " + this.textSize);
-
-  // newText.setAttributeNS(null,"fill-opacity",Math.random());		
-  // newText.setAttributeNS(null,"fill","rgb("+ red +","+ green+","+blue+")");
 }
 
     
@@ -170,15 +163,27 @@ ArcGauge.prototype._determineForegroundColor = function() {
     }
   }
   
+  if(this.colorMode === ArcGauge.COLOR_MODE_MANUAL) {
+    foregroundColor = this.barColor;
+  }
+  
   return foregroundColor;
 };
 
 ArcGauge.prototype.setTarget = function(newValue, redrawGauge) {
   redrawGauge = ((redrawGauge !== null && redrawGauge !== undefined) ? redrawGauge : true);
   
+  if(newValue > this.maxValue) {
+    newValue = this.maxValue;
+  }
+  
+  if(newValue < this.minValue) {
+    newValue = this.minValue;
+  }
+  
   this.target = newValue;
   
-  if(this.valueType == ArcGauge.VALUES_ACTUAL) {
+  if(this.valueType === ArcGauge.VALUES_ACTUAL) {
     this.targetPercentage = (this.target - this.minValue) / (this.maxValue - this.minValue);
   } else {
     this.targetPercentage = newValue;
@@ -189,19 +194,11 @@ ArcGauge.prototype.setTarget = function(newValue, redrawGauge) {
 
     (function(percentageValue, arcGaugeInst) {
 
-//  var markArc = d3.svg.arc()
-//      .innerRadius(122)
-//      .outerRadius(126)
-//      .startAngle(this.startAngle);
-//      
-//  this.targetMark = svg.append("path")
-//      .datum({endAngle: this.startAngle + (this.arcAngle * this.targetPercentage)})
-//      .style("fill", "rgba(150, 150, 150, .8)")
-//      .attr("d", markArc);
-      
-      arcGaugeInst.targetMark.transition()
-        .duration(750)
-        .call(arcTween, arcGaugeInst.startAngle + (arcGaugeInst.arcAngle * arcGaugeInst.targetPercentage), arcGaugeInst.markArc);
+      if(arcGaugeInst.displayTarget) {
+        arcGaugeInst.targetMark.transition()
+          .duration(750)
+          .call(arcTween, arcGaugeInst.startAngle + (arcGaugeInst.arcAngle * arcGaugeInst.targetPercentage), arcGaugeInst.markArc);
+      }
       
       arcGaugeInst.foreground.transition()
         .duration(750)
@@ -213,12 +210,20 @@ ArcGauge.prototype.setTarget = function(newValue, redrawGauge) {
 ArcGauge.prototype.setValue = function(newValue, redrawGauge) {
   redrawGauge = ((redrawGauge !== null && redrawGauge !== undefined) ? redrawGauge : true);
   var formatPercent = d3.format(".0%");
+  var formatNumber = d3.format("f");
+  
+  if(newValue > this.maxValue) {
+    newValue = this.maxValue;
+  }
+  
+  if(newValue < this.minValue) {
+    newValue = this.minValue;
+  }
+  
+  var oldValue = this.value;
   this.value = newValue;
-  var oldValue = 0;
       
-  // TODO: sort out actual value, currently not working in tween function for text
   if(this.valueType == ArcGauge.VALUES_ACTUAL) {
-    oldValue = this.valuePercentage;
     this.valuePercentage = (this.value - this.minValue) / (this.maxValue - this.minValue);
   } else {
     oldValue = this.valuePercentage;
@@ -228,24 +233,28 @@ ArcGauge.prototype.setValue = function(newValue, redrawGauge) {
   if(redrawGauge) {
     var percentageValue = this.valuePercentage;
 
-    (function(percentageValue, arcGaugeInst) {
+    (function(arcGaugeInst) {
       arcGaugeInst.foreground.transition()
         .duration(750)
         .style("fill", arcGaugeInst._determineForegroundColor())
         .call(arcTween, arcGaugeInst.startAngle + (arcGaugeInst.arcAngle * arcGaugeInst.valuePercentage), arcGaugeInst.innerArc);
-
+      
       arcGaugeInst.text.transition()
         .duration(750)
         .ease('linear')
         .tween('text', function() {
-          var ip = d3.interpolate(oldValue, percentageValue);
+          var ip = d3.interpolate(oldValue, newValue);
           return function(t) {
             var v = ip(t);
             // this.textContent = Math.round(v * 100);
-            this.textContent = formatPercent(v);
+            if(arcGaugeInst.textDisplayMode === ArcGauge.DISPLAY_PERCENTAGE) {
+              this.textContent = formatPercent(v / 100);
+            } else {
+              this.textContent = formatNumber(v);
+            }
           };
       });
-    })(this.valuePercentage, this);
+    })(this);
   }
   
   // note: cannot bind this to the tween function, as this points to the selection of the tween
@@ -256,15 +265,12 @@ ArcGauge.prototype.demo = function() {
   // (identical to selection.call) so that we can encapsulate the logic for
   // tweening the arc in a separate function below.
   
-  setInterval(function() {
-    if(this.valueType == ArcGauge.VALUES_ACTUAL) {
-      this.setTarget(Math.random() * 100);
-      this.setValue(Math.random() * 100);
-    } else {
-      this.setTarget(Math.random());
-      this.setValue(Math.random());
-    }
-  }.bind(this), 1500);
+  setInterval(function(min, max) {
+    var target = Math.floor(Math.random() * (max - min)) + min;
+    var value = Math.floor(Math.random() * (max - min)) + min;
+    this.setTarget(target);
+    this.setValue(value);
+  }.bind(this, this.minValue, this.maxValue), 1500);
 };
 
 // Creates a tween on the specified transition's "d" attribute, transitioning

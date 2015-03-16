@@ -3,14 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <title>Test Arc Graph</title>
+    <style>
+      body {
+        width: 100%;
+        height: 100%;
+      }
+      .mainDiv {
+        width: 100%;
+        height: 25%;
+        display: block; 
+        overflow: hidden;
+      }
+      .widget {
+        width: 25%;
+        height: 100%;
+        float: left;
+      }
+      .arcGauge {
+        width: 100%;
+        height: 100%;
+      }
+  	</style>    
 </head>
 <body style="height: 100%">
-  <div id="myGauge" style="height: 100%">
+  <div class="mainDiv">
+    <div id="widgetDiv1" class="widget">
+    </div>
+    <div id="widgetDiv2" class="widget">
+    </div>
+    <div id="widgetDiv3" class="widget">
+    </div>
+    <div id="widgetDiv4" class="widget">
+    </div>
   </div>
+  <div class="mainDiv">
+    <div id="widgetDiv5" class="widget">
+    </div>
+    <div id="widgetDiv6" class="widget">
+    </div>
+    <div id="widgetDiv7" class="widget">
+    </div>
+    <div id="widgetDiv8" class="widget">
+    </div>
+  </div>
+  <div class="mainDiv">
+    <div id="widgetDiv9" class="widget">
+    </div>
+    <div id="widgetDiv10" class="widget">
+    </div>
+    <div id="widgetDiv11" class="widget">
+    </div>
+    <div id="widgetDiv12" class="widget">
+    </div>
+  </div>
+  <div class="mainDiv">
+    <div id="widgetDiv13" class="widget">
+    </div>
+    <div id="widgetDiv14" class="widget">
+    </div>
+    <div id="widgetDiv15" class="widget">
+    </div>
+    <div id="widgetDiv16" class="widget">
+    </div>
+  </div>
+  
   <script type="text/javascript" src="bower_components/d3/d3.min.js"></script>
   <script type="text/javascript" src="arcGauge.js"></script>
   <script>
 
+  var v = new ArcGauge({
+    value: -10, 
+    minValue: 0,
+    maxValue: 100,
+    goodMargin: 5,
+    dangerMargin: 20,
+    valueType: ArcGauge.VALUES_ACTUAL,
+    target: 50,
+    width: "100%",
+    height: "100%",
+    innerRadius: 60,
+    outerRadius: 93,
+    markerInnerRadius: 95,
+    markerOuterRadius: 100,
+    goodColor: "rgb(50,200,50)",
+    warningColor: "rgb(200,200,50)",
+    dangerColor: "rgb(200,50,50)",
+    markColor: "rgba(150, 150, 150, .8)",
+    backgroundColor: "#eee",
+    appendTo: "widgetDiv1"
+  }).demo();
+    
   var v = new ArcGauge({
     value: 40, 
     minValue: 0,
@@ -21,22 +103,164 @@
     target: 50,
     width: "100%",
     height: "100%",
-
     innerRadius: 60,
     outerRadius: 93,
     markerInnerRadius: 95,
     markerOuterRadius: 100,
-    
-//    innerRadius: 80,
-//    outerRadius: 120,
-//    markerInnerRadius: 122,
-//    markerOuterRadius: 126,
     goodColor: "rgb(50,200,50)",
     warningColor: "rgb(200,200,50)",
     dangerColor: "rgb(200,50,50)",
     markColor: "rgba(150, 150, 150, .8)",
     backgroundColor: "#eee",
-    appendTo: "myGauge"
+    appendTo: "widgetDiv2"
+  }).demo();
+    
+  var v = new ArcGauge({
+    value: 40, 
+    minValue: 0,
+    maxValue: 100,
+    goodMargin: 5,
+    dangerMargin: 20,
+    valueType: ArcGauge.VALUES_ACTUAL,
+    target: 50,
+    width: "100%",
+    height: "100%",
+    innerRadius: 60,
+    outerRadius: 80,
+    markerInnerRadius: 55,
+    markerOuterRadius: 85,
+    goodColor: "rgb(50,200,50)",
+    warningColor: "rgb(200,200,50)",
+    dangerColor: "rgb(200,50,50)",
+    markColor: "rgba(150, 150, 150, .8)",
+    backgroundColor: "#eee",
+    appendTo: "widgetDiv3"
+  }).demo();
+
+  var v = new ArcGauge({
+    value: 0, 
+    innerRadius: 60,
+    outerRadius: 93,
+    markerInnerRadius: 95,
+    markerOuterRadius: 100,
+    appendTo: "widgetDiv4"
+  }).demo();
+    
+
+  var v = new ArcGauge({
+    value: 0, 
+    minValue: -10,
+    maxValue: 50,
+    valueType: ArcGauge.VALUES_ACTUAL,
+    textDisplayMode: ArcGauge.DISPLAY_VALUE,
+    innerRadius: 60,
+    outerRadius: 93,
+    markerInnerRadius: 95,
+    markerOuterRadius: 100,
+    appendTo: "widgetDiv5"
+  }).demo();
+    
+  var v = new ArcGauge({
+    value: 0, 
+    minValue: -5,
+    maxValue: 25,
+    valueType: ArcGauge.VALUES_ACTUAL,
+    textDisplayMode: ArcGauge.DISPLAY_VALUE,
+    innerRadius: 60,
+    outerRadius: 93,
+    markerInnerRadius: 95,
+    markerOuterRadius: 100,
+    appendTo: "widgetDiv6"
+  }).demo();
+    
+  var v = new ArcGauge({
+    value: 0, 
+    minValue: -20,
+    maxValue: 20,
+    valueType: ArcGauge.VALUES_ACTUAL,
+    textDisplayMode: ArcGauge.DISPLAY_VALUE,
+    innerRadius: 60,
+    outerRadius: 80,
+    markerInnerRadius: 55,
+    markerOuterRadius: 85,
+    appendTo: "widgetDiv7"
+  }).demo();
+    
+  var v = new ArcGauge({
+    value: 0, 
+    minValue: -50,
+    maxValue: 50,
+    valueType: ArcGauge.VALUES_ACTUAL,
+    textDisplayMode: ArcGauge.DISPLAY_VALUE,
+    innerRadius: 60,
+    outerRadius: 93,
+    markerInnerRadius: 95,
+    markerOuterRadius: 100,
+    appendTo: "widgetDiv8"
+  }).demo();
+    
+  var v = new ArcGauge({
+    value: 0, 
+    minValue: -10,
+    maxValue: 50,
+    valueType: ArcGauge.VALUES_ACTUAL,
+    textDisplayMode: ArcGauge.DISPLAY_VALUE,
+    colorMode: ArcGauge.COLOR_MODE_MANUAL,
+    barColor: 'blue',
+    displayTarget: false,
+    innerRadius: 60,
+    outerRadius: 93,
+    markerInnerRadius: 95,
+    markerOuterRadius: 100,
+    appendTo: "widgetDiv9"
+  }).demo();
+    
+  var v = new ArcGauge({
+    value: 0, 
+    minValue: -5,
+    maxValue: 25,
+    valueType: ArcGauge.VALUES_ACTUAL,
+    textDisplayMode: ArcGauge.DISPLAY_VALUE,
+    colorMode: ArcGauge.COLOR_MODE_MANUAL,
+    barColor: 'purple',
+    displayTarget: false,
+    innerRadius: 60,
+    outerRadius: 93,
+    markerInnerRadius: 95,
+    markerOuterRadius: 100,
+    appendTo: "widgetDiv10"
+  }).demo();
+    
+  var v = new ArcGauge({
+    value: 0, 
+    minValue: -20,
+    maxValue: 20,
+    valueType: ArcGauge.VALUES_ACTUAL,
+    textDisplayMode: ArcGauge.DISPLAY_VALUE,
+    colorMode: ArcGauge.COLOR_MODE_MANUAL,
+    barColor: 'cyan',
+    displayTarget: false,
+    innerRadius: 60,
+    outerRadius: 80,
+    markerInnerRadius: 55,
+    markerOuterRadius: 85,
+    appendTo: "widgetDiv11"
+  }).demo();
+    
+  var v = new ArcGauge({
+    value: 0, 
+    minValue: -50,
+    maxValue: 50,
+    valueType: ArcGauge.VALUES_ACTUAL,
+    textDisplayMode: ArcGauge.DISPLAY_VALUE,
+    colorMode: ArcGauge.COLOR_MODE_MANUAL,
+    barColor: 'black',
+    displayTarget: false,
+    innerRadius: 60,
+    outerRadius: 93,
+    markerInnerRadius: 95,
+    markerOuterRadius: 100,
+    appendTo: "widgetDiv12"
   }).demo();
     
   </script>  
