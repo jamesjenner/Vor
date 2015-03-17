@@ -1,6 +1,6 @@
 {
   "name": "arcGuage",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "homepage": "https://github.com/jamesjenner/arcGuage",
   "authors": [
     "James Jenner <james.g.jenner@gmail.com>"
@@ -25,13 +25,13 @@
   "dependencies": {
     "d3": "~3.5.0"
   },
-  "_release": "0.0.2",
+  "_release": "0.0.3",
   "_resolution": {
     "type": "version",
-    "tag": "0.0.2",
-    "commit": "89c2e333910fa9161b40f798c7cee2310f3909af"
+    "tag": "0.0.3",
+    "commit": "4caacbec7a3037c20d07db6342546c9c75fd28be"
   },
   "_source": "git://github.com/jamesjenner/arcGauge.git",
-  "_target": "~0.0.1",
+  "_target": "~0.0.2",
   "_originalSource": "arcgauge"
 }

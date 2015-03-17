@@ -71,7 +71,7 @@
   <script type="text/javascript" src="arcGauge.js"></script>
   <script>
 
-  var v = new ArcGauge({
+  var v1 = new ArcGauge({
     value: -10, 
     minValue: 0,
     maxValue: 100,
@@ -93,7 +93,7 @@
     appendTo: "widgetDiv1"
   }).demo();
     
-  var v = new ArcGauge({
+  var v2 = new ArcGauge({
     value: 40, 
     minValue: 0,
     maxValue: 100,
@@ -115,7 +115,7 @@
     appendTo: "widgetDiv2"
   }).demo();
     
-  var v = new ArcGauge({
+  var v3 = new ArcGauge({
     value: 40, 
     minValue: 0,
     maxValue: 100,
@@ -137,7 +137,7 @@
     appendTo: "widgetDiv3"
   }).demo();
 
-  var v = new ArcGauge({
+  var v4 = new ArcGauge({
     value: 0, 
     innerRadius: 60,
     outerRadius: 93,
@@ -147,7 +147,7 @@
   }).demo();
     
 
-  var v = new ArcGauge({
+  var v5 = new ArcGauge({
     value: 0, 
     minValue: -10,
     maxValue: 50,
@@ -160,7 +160,7 @@
     appendTo: "widgetDiv5"
   }).demo();
     
-  var v = new ArcGauge({
+  var v6 = new ArcGauge({
     value: 0, 
     minValue: -5,
     maxValue: 25,
@@ -173,7 +173,7 @@
     appendTo: "widgetDiv6"
   }).demo();
     
-  var v = new ArcGauge({
+  var v7 = new ArcGauge({
     value: 0, 
     minValue: -20,
     maxValue: 20,
@@ -186,7 +186,7 @@
     appendTo: "widgetDiv7"
   }).demo();
     
-  var v = new ArcGauge({
+  var v8 = new ArcGauge({
     value: 0, 
     minValue: -50,
     maxValue: 50,
@@ -199,7 +199,7 @@
     appendTo: "widgetDiv8"
   }).demo();
     
-  var v = new ArcGauge({
+  var v9 = new ArcGauge({
     value: 0, 
     minValue: -10,
     maxValue: 50,
@@ -207,6 +207,7 @@
     textDisplayMode: ArcGauge.DISPLAY_VALUE,
     colorMode: ArcGauge.COLOR_MODE_MANUAL,
     barColor: 'blue',
+    textSize: 20,
     displayTarget: false,
     innerRadius: 60,
     outerRadius: 93,
@@ -215,7 +216,7 @@
     appendTo: "widgetDiv9"
   }).demo();
     
-  var v = new ArcGauge({
+  var v10 = new ArcGauge({
     value: 0, 
     minValue: -5,
     maxValue: 25,
@@ -231,7 +232,7 @@
     appendTo: "widgetDiv10"
   }).demo();
     
-  var v = new ArcGauge({
+  var v11 = new ArcGauge({
     value: 0, 
     minValue: -20,
     maxValue: 20,
@@ -247,7 +248,7 @@
     appendTo: "widgetDiv11"
   }).demo();
     
-  var v = new ArcGauge({
+  var v12 = new ArcGauge({
     value: 0, 
     minValue: -50,
     maxValue: 50,
@@ -262,6 +263,10 @@
     markerOuterRadius: 100,
     appendTo: "widgetDiv12"
   }).demo();
+    
+    
+  v9.setIndicatorColor('pink');
+  v9.setText('Arc Gauge');
     
   </script>  
 </body>

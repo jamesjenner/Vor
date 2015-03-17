@@ -10,6 +10,7 @@ ArcGauge.TAU = 2 * Math.PI;
 
 ArcGauge.DISPLAY_PERCENTAGE = "displayAsPercentage";
 ArcGauge.DISPLAY_VALUE = "displayAsValue";
+ArcGauge.DISPLAY_TEXT = "displayText";
 ArcGauge.VALUES_PERCENTAGE = "valuesPercentage";
 ArcGauge.VALUES_ACTUAL = "valuesActual";
 
@@ -48,6 +49,7 @@ function ArcGauge(options) {
   this.textSize = ((options.textSize !== null && options.textSize !== undefined) ? options.textSize : 40);
   this.textFontName = ((options.textFontName !== null && options.textFontName !== undefined) ? options.textFontName : "sans-serif");
   this.textFontWeight = ((options.textFontWeight !== null && options.textFontWeight !== undefined) ? options.textFontWeight : "bold");
+  this.textValue = ((options.textValue !== null && options.textValue !== undefined) ? options.textValue : "");
   
   this.appendTo = ((options.appendTo !== null && options.appendTo !== undefined) ? options.appendTo : "body");
     
@@ -129,6 +131,10 @@ ArcGauge.prototype._getTextValue = function() {
   switch(this.textDisplayMode) {
     case ArcGauge.DISPLAY_PERCENTAGE:
       displayText = this.valuePercentage * 100;
+      break;
+   
+    case ArcGauge.DISPLAY_TEXT:
+      displayText = this.textValue;
       break;
       
     case ArcGauge.DISPLAY_VALUE:
@@ -239,25 +245,41 @@ ArcGauge.prototype.setValue = function(newValue, redrawGauge) {
         .style("fill", arcGaugeInst._determineForegroundColor())
         .call(arcTween, arcGaugeInst.startAngle + (arcGaugeInst.arcAngle * arcGaugeInst.valuePercentage), arcGaugeInst.innerArc);
       
-      arcGaugeInst.text.transition()
-        .duration(750)
-        .ease('linear')
-        .tween('text', function() {
-          var ip = d3.interpolate(oldValue, newValue);
-          return function(t) {
-            var v = ip(t);
-            // this.textContent = Math.round(v * 100);
-            if(arcGaugeInst.textDisplayMode === ArcGauge.DISPLAY_PERCENTAGE) {
-              this.textContent = formatPercent(v / 100);
-            } else {
-              this.textContent = formatNumber(v);
-            }
-          };
-      });
+      if(arcGaugeInst.textDisplayMode !== ArcGauge.DISPLAY_TEXT) {
+        arcGaugeInst.text.transition()
+          .duration(750)
+          .ease('linear')
+          .tween('text', function() {
+            var ip = d3.interpolate(oldValue, newValue);
+            return function(t) {
+              var v = ip(t);
+              // this.textContent = Math.round(v * 100);
+              if(arcGaugeInst.textDisplayMode === ArcGauge.DISPLAY_PERCENTAGE) {
+                this.textContent = formatPercent(v / 100);
+              } else {
+                this.textContent = formatNumber(v);
+              }
+            };
+        });
+      }
     })(this);
   }
   
   // note: cannot bind this to the tween function, as this points to the selection of the tween
+};
+
+ArcGauge.prototype.setIndicatorColor = function(newColor) {
+  this.colorMode = ArcGauge.COLOR_MODE_MANUAL;
+  this.barColor = newColor;
+  this.foreground.transition()
+    .duration(750)
+    .style("fill", this._determineForegroundColor());
+};
+
+ArcGauge.prototype.setText = function(newText) {
+  this.textValue = newText;
+  this.textDisplayMode = ArcGauge.DISPLAY_TEXT;
+  this.text.text(this.textValue);
 };
 
 ArcGauge.prototype.demo = function() {
@@ -271,6 +293,8 @@ ArcGauge.prototype.demo = function() {
     this.setTarget(target);
     this.setValue(value);
   }.bind(this, this.minValue, this.maxValue), 1500);
+  
+  return this;
 };
 
 // Creates a tween on the specified transition's "d" attribute, transitioning
