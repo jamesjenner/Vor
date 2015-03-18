@@ -109,30 +109,30 @@ var v1 = new V1Meta(server);
 
 
 
-v1.query({
-  from: "Story",
-
-  select: [
-    'Name',
-    'Owners.Name',
-    'Estimate',
-    '',
-    '',
-    '',
-  ],
-  where: {
-    'Owners.Name': 'James Jenner',
-  },
-  success: function(result) {
-    console.log(JSON.stringify(result, null, ' '));
-  },
-    
-  error: function(err) {
-    console.log("ERROR: " + err);
-  },
-});
-
-return;
+//v1.query({
+//  from: "Story",
+//
+//  select: [
+//    'Name',
+//    'Owners.Name',
+//    'Estimate',
+//    '',
+//    '',
+//    '',
+//  ],
+//  where: {
+//    'Owners.Name': 'James Jenner',
+//  },
+//  success: function(result) {
+//    console.log(JSON.stringify(result, null, ' '));
+//  },
+//    
+//  error: function(err) {
+//    console.log("ERROR: " + err);
+//  },
+//});
+//
+//return;
 
 // burn down - project/release
 
@@ -186,7 +186,7 @@ v1.query({
   }
 });
 
-return;
+//return;
 
 //v1.query({
 //  from: "Team",
@@ -483,6 +483,7 @@ VersionOne.prototype.getSprintStats = function(teamName, effectiveDate, callback
         }
         
         // set the sprint info
+        data.blockedItems += results[_grpIdx][_wrkItmIdx].BlockingIssues === "0" ? 0 : 1;
         data.sprintStartDate = new Date(results[_grpIdx][_wrkItmIdx].SprintStartDate);
         data.sprintEndDate = new Date(results[_grpIdx][_wrkItmIdx].SprintEndDate);
         data.sprintDuration = results[_grpIdx][_wrkItmIdx].SprintDuration;
@@ -534,7 +535,7 @@ VersionOne.__getForTeamAndCurrentSprint = function(callback, source, teamName, e
 
       'Status.Name',
       'Estimate',
-      'BlockingIssues.@Sum',
+      'BlockingIssues.@Count',
 
       'Timebox.Name',
       'Timebox.State.Code',
@@ -602,7 +603,7 @@ VersionOne.__getForTeamAndCurrentSprint = function(callback, source, teamName, e
           Team: result.query_results[i]._v1_current_data["Team.Name"],
           Sprint: result.query_results[i]._v1_current_data["Timebox.Name"],
           Status: result.query_results[i]._v1_current_data["Status.Name"],
-          BlockingIssues: result.query_results[i]._v1_current_data["BlockingIssues.@Sum"],
+          BlockingIssues: result.query_results[i]._v1_current_data["BlockingIssues.@Count"],
           SprintStartDate: result.query_results[i]._v1_current_data["Timebox.BeginDate"],
           SprintEndDate: result.query_results[i]._v1_current_data["Timebox.EndDate"],
           SprintDuration: result.query_results[i]._v1_current_data["Timebox.Duration"],
@@ -624,7 +625,7 @@ VersionOne.__getForTeamAndCurrentSprint = function(callback, source, teamName, e
 var myVersionOne = new VersionOne();
 console.log("get stats");
 
-var effectiveDate = '2015-2-26';
+var effectiveDate = '2015-3-18';
 
 var teams = [
   {name: 'Ellipse - Automation',                        effectiveDate: effectiveDate, },
@@ -681,6 +682,7 @@ for(idx = 0; idx < teams.length; idx++) {
             startSprintM.format('ll')
              + " -> "  +
             endSprintM.format('ll') + ' ' +
+            "\tBlocked: " + data.blockedItems + 
             "\tBacklog: " + data.backlogStoryPoints + 
             "\tWip: " + data.wipStoryPoints + 
             "\t D: " + data.doneStoryPoints + "\t" + data.percentageDone + "%\tT: " + targetPercentage + "%" +
@@ -789,14 +791,14 @@ function momentToString(mValue) {
   return mValue.format('ddd LT');
 }
 
-var brisbane = moment();
-var paris     = brisbane.clone().tz("Europe/Paris");
-paris.locale('fr');
-var newYork     = brisbane.clone().tz("America/New_York");
-var losAngeles  = brisbane.clone().tz("America/Los_Angeles");
-var london      = brisbane.clone().tz("Europe/London");
-var kualaLumpur = brisbane.clone().tz("Asia/Kuala_Lumpur");
-kualaLumpur.locale('ms_MY');
+//var brisbane = moment();
+//var paris     = brisbane.clone().tz("Europe/Paris");
+//paris.locale('fr');
+//var newYork     = brisbane.clone().tz("America/New_York");
+//var losAngeles  = brisbane.clone().tz("America/Los_Angeles");
+//var london      = brisbane.clone().tz("Europe/London");
+//var kualaLumpur = brisbane.clone().tz("Asia/Kuala_Lumpur");
+//kualaLumpur.locale('ms_MY');
 
 //console.log("Brisbane:     " + brisbane.format('llll') + " : " + brisbane.format('LT') + " " + brisbane.format('ddd'));
 //console.log("Paris:        " + paris.format('llll') + " : " + paris.format('LT') + " " + paris.format('ddd'));
