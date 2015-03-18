@@ -40,7 +40,7 @@ function NumGauge(options) {
   this.appendTo = ((options.appendTo !== null && options.appendTo !== undefined) ? options.appendTo : "body");
     
   var svg = d3.select("#" + this.appendTo).append("svg")
-    .attr("id", "numWidget")
+    .attr("class", "numGauge")
     .attr("width", this.width)
     .attr("height", this.height)
     .attr("viewBox", "0 0 100 100")
@@ -49,7 +49,7 @@ function NumGauge(options) {
     ;
 
   this.textValue = svg.append("text")
-      .attr("id", "numValue")
+      .attr("class", "numGaugeValue")
       .attr("dx", 50)
       .attr("dy", 50)
       .text(this._getTextValue())
@@ -65,7 +65,7 @@ function NumGauge(options) {
       var textValueBBox = this.textValue.node().getBBox();
       var textValueWidth = textValueBBox.width;
       this.textSymbol = svg.append("text")
-        .attr("id", "numSymbol")
+        .attr("class", "numGaugeSymbol")
         .attr("dx", 51 + ( textValueBBox.width / 2))
         .attr("dy", 53)
         .text(this.symbol)
@@ -77,7 +77,7 @@ function NumGauge(options) {
         .attr("fill", this._determineForegroundColor());
     } else {
       this.textSymbol = svg.append("text")
-        .attr("id", "numSymbol")
+        .attr("class", "numGaugeSymbol")
         .attr("dx", 107)   // do not understand why 105, but it works...
         .attr("dy", 30 + this.symbolAdjY)
         .text(this.symbol)
