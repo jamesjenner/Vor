@@ -63,6 +63,20 @@ Spring is refered to as an Interation and the system name is Timebox
 
 */
 
+/* 
+ * 
+ * burn down
+ *   
+ *   line a: for each day: (sum of estimates / days in sprint) * day of sprint
+ *   line b: for each day: sum of estimates for work remaining less sum of work completed
+ * 
+ * burn up
+ * 
+ *   line a: for each day: sum of work done in day
+ *   line b: total sum of estimates for all work
+ * 
+ */
+
 var  V1Meta = require('./v1/v1meta').V1Meta;
 var  V1Server = require('./v1/client').V1Server;
 var moment = require('moment-timezone');
@@ -97,11 +111,11 @@ try {
   
 settings = JSON.parse(data);
 
-console.log("hostname: " + settings.hostname);
-console.log("instance: " + settings.instance);
-console.log("username: " + settings.username);
-console.log("port: " + settings.port);
-console.log("protocol: " + settings.protocol);
+//console.log("hostname: " + settings.hostname);
+//console.log("instance: " + settings.instance);
+//console.log("username: " + settings.username);
+//console.log("port: " + settings.port);
+//console.log("protocol: " + settings.protocol);
 
 var server = new V1Server(settings.hostname, settings.instance, settings.username, settings.password, settings.port, settings.protocol);
 
@@ -138,47 +152,96 @@ var v1 = new V1Meta(server);
 
 // burn down - sprint
 v1.query({
-  from: "Timebox",
+  // from: "Timebox",
+    from: "Story",
+//    from: "PrimaryWorkitem",
 
   select: [
-    'Name',
-    'Description',
-//    'Owner',
-    'Schedule',
-    'TargetEstimate',
-    'State.Code',
-    // 'Actuals.Team',
-    // 'Workitems',
-    
-    // "Workitems[Team.Name]",
-    // "Workitems[Team]",
-    //"Workitems.ToDo",
+//    'Name',
+//    'Description',
+//    'Schedule',
+//    'TargetEstimate',
+//    'State.Code',
+//     'Workitems.ToDo',
+//    'Workitems.Scope.Name',
+//    
 //    "Actuals.Value.@Sum",
-    "Workitems.ToDo[Team.Name='Ellipse Development 8.6 - Materials';AssetState!='Dead'].@Sum",
-    "Workitems.ToDo[AssetState!='Dead'].@Sum",
-    "Workitems.ToDo.@Sum"
-//    "Workitems.DetailEstimate[AssetState!='Dead'].@Sum"
-  ],
+//    "Workitems.ToDo[Team.Name='Ellipse Development 8.6 - Materials';AssetState!='Dead'].@Sum",
+//    "Workitems.ToDo[AssetState!='Dead'].@Sum",
+//    "Workitems.ToDo.@Sum",
+//    "Workitems.DetailEstimate[AssetState!='Dead'].@Sum",
+//    "Workitems.AllocatedDetailEstimate.@Sum",
+//    "Workitems.AllocatedToDo.@Sum"
+    
+//      'Team.Name',
+      'ID',
+      'Name',
+//      'IsClosed',
+//      'IsCompleted',
+//      'IsDead',
+//      'IsDeleted',
+//      'IsInactive',
 
+      'Status.Name',
+//      'ToDo',
+      'BlockingIssues.@Count',
+
+// PrimaryWorkitem    
+//      'ClosedEstimate',
+//      'CompleteEstimate',
+//      'EstimatedAllocatedDone',
+//      'EstimatedDone',
+//      'Children.Done',
+    
+      'IncompleteEstimate',
+      'OpenEstimate',
+      'Children.DetailEstimate.@Sum',
+      'Children.Actuals.Value.@Sum',
+      'Children.ToDo.@Sum',
+    
+// Story:    
+//      'ClosedEstimate',
+//      'CompleteEstimate',
+//      'DetailEstimate',
+//      'Estimate',
+//      'EstimatedDone',
+//      'IncompleteEstimate',
+//      'OpenEstimate',
+//      'OriginalEstimate',
+//      'Value',
+        'Team.Name',
+//      'Timebox.Name',
+//      'Timebox.State.Code',
+//      'Timebox.BeginDate',
+//      'Timebox.EndDate',
+//      'Timebox.Duration',
+//      'Timebox.Owner.Username',
+  ],
+  asof: '2015-03-18',
   where: {
-    "State.Code": 'ACTV', 
-    'Name': 'SprintFeb2515',
-    'Schedule.Name': 'Ellipse - 2 weeks iteration',
+//    "Team.Name": 'Ellipse Development 8.6 - Field Length and ERP integration',
+    "ID.Number": 'B-61620',
+//    "State.Code": 'ACTV', 
+//    'Name': 'SprintMar1115',
+//    'Schedule.Name': 'Ellipse - 2 weeks iteration',
 //    "BeginDate": 
   },
-  asof: '2015-02-26',
+//  wherestr: "Timebox.EndDate>='" + '2015-3-18' + "'&Timebox.BeginDate<='" + '2015-3-18' + "'",
   // wherestr: "EndDate>='2014-08-28'&BeginDate<='2014-08-28'",
 
   success: function(result) {
     console.log(JSON.stringify(result, null, ' '));
 //    console.log(result.Name + "\t " + 
-//      result.BeginDate + " -> " + 
-//      result.EndDate + " " + 
-//      result.Duration + " " + 
-//      result._v1_current_data['Owner.Username'] + "\t" +
-//      "Team: " + result._v1_current_data["Team.Name"] + 
-//      " Team: " + result._v1_current_data["Workitems[Team.Name]"] + 
-//      "ToDo: " + result._v1_current_data["Workitems.ToDo[AssetState!='Dead'].@Sum"]);
+//      result._v1_current_data.TargetEstimate + " -> " + 
+//      " Actuals " + result._v1_current_data["Actuals.Value.@Sum"] + " " + 
+//      " ToDo " + result._v1_current_data["Workitems.ToDo[Team.Name='Ellipse Development 8.6 - Materials';AssetState!='Dead'].@Sum"] + " " + 
+//      " " + result._v1_current_data["Workitems.ToDo[AssetState!='Dead'].@Sum"] + " " + 
+//      " " + result._v1_current_data["Workitems.ToDo.@Sum"] + " " + 
+//      " Detail Estimate " + result._v1_current_data["Workitems.DetailEstimate[AssetState!='Dead'].@Sum"] +
+//    
+//      " " + result._v1_current_data["Workitems.AllocatedDetailEstimate.@Sum"] + " " + 
+//      " " + result._v1_current_data["Workitems.AllocatedToDo.@Sum"]
+//    );
   },
 
   error: function(err) { 
@@ -186,7 +249,7 @@ v1.query({
   }
 });
 
-//return;
+return;
 
 //v1.query({
 //  from: "Team",
