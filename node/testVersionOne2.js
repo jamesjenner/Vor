@@ -42,6 +42,9 @@ example:
   How to query a backlog:
     http://community.versionone.com/Developers/Developer-Library/Recipes/Query_for_a_Backlog
 
+  Endpoints:
+    http://community.versionone.com/Developers/Developer-Library/Concepts/Endpoints  
+  
 Epic E-08002 - Ellipse MMS with integration capability to a 3rd party ERP
 
 Epic Path:
@@ -151,6 +154,105 @@ var v1 = new V1Meta(server);
 // burn down - project/release
 
 // burn down - sprint
+
+// list all stories in a sprint for a timebox
+// https://www11.v1host.com/VentyxProd/meta.v1?xsl=api.xsl#Workitem
+v1.query({
+  from: "Timebox",
+
+  select: [
+    'Name',
+    'State.Code',
+    'BeginDate',
+    'EndDate',
+    'Duration',
+    'Owner.Username',
+
+    'IsClosed',
+    'IsDead',
+    'IsInactive',
+//    'Now',
+    
+//    "Workitems[Team.Name='Ellipse Development 8.6 - Field Length and ERP integration'].BlockingIssues.@Count",
+//    "Workitems[Team.Name='Ellipse Development 8.6 - Field Length and ERP integration'].IncompleteEstimate",
+//    "Workitems[Team.Name='Ellipse Development 8.6 - Field Length and ERP integration'].OpenEstimate",
+    "Workitems[Team.Name='Ellipse Development 8.6 - Field Length and ERP integration'].Children.DetailEstimate.@Sum",
+    "Workitems[Team.Name='Ellipse Development 8.6 - Field Length and ERP integration'].Children.Actuals.Value.@Sum",
+    "Workitems[Team.Name='Ellipse Development 8.6 - Field Length and ERP integration'].Children.ToDo.@Sum",
+    
+    "Workitems[Team.Name='Ellipse Development 8.6 - Field Length and ERP integration'].ToDo[AssetState!='Dead'].@Sum"
+  ],
+
+  where: {
+    "Workitems.Team.Name": 'Ellipse Development 8.6 - Field Length and ERP integration',
+    "State.Code": 'ACTV', 
+//    "State.Code": 'ACTV', 
+//    "BeginDate": 
+  },
+  wherestr: "EndDate>='" + '2015-3-18' + "'&BeginDate<='" + '2015-3-18' + "'",
+
+  success: function(result) {
+    console.log(result);
+    console.log(result.Name + "\t " + 
+      result.BeginDate + " -> " + 
+      result.EndDate + " " + 
+      result.Duration + " " + 
+      result._v1_current_data['Owner.Username'] + "\t" +
+      "ToDo: " + result._v1_current_data["Workitems[Team.Name='Ellipse Development 8.6 - Field Length and ERP integration'].ToDo[AssetState!='Dead'].@Sum"]);
+  },
+
+  error: function(err) { 
+    console.log("ERROR: " + err);
+  }
+});
+
+
+return;
+
+
+// list all stories in a sprint
+v1.query({
+  from: "Story",
+  select: [
+      'ID',
+      'Name',
+      'Status.Name',
+      'BlockingIssues.@Count',
+      'IncompleteEstimate',
+      'OpenEstimate',
+      'Children.DetailEstimate.@Sum',
+      'Children.Actuals.Value.@Sum',
+      'Children.ToDo.@Sum',
+  ],
+//  asof: '2015-03-18',
+  where: {
+    "Team.Name": 'Ellipse Development 8.6 - Field Length and ERP integration',
+    "State.Code": 'ACTV', 
+  },
+  wherestr: "Timebox.EndDate>='" + '2015-3-18' + "'&Timebox.BeginDate<='" + '2015-3-18' + "'",
+  // wherestr: "EndDate>='2014-08-28'&BeginDate<='2014-08-28'",
+
+  success: function(result) {
+    console.log(
+      result._v1_current_data["ID.Number"] + 
+      "\t" + result._v1_current_data["Name"] + 
+      "\n\t" + result._v1_current_data["Status.Name"] + 
+      "\tBlocking Issues " + result._v1_current_data["BlockingIssues.@Count"] + 
+      "\tIncomp Est " + result._v1_current_data["IncompleteEstimate"] + 
+      "\tOpen Est " + result._v1_current_data["OpenEstimate"] + 
+      "\tDetail Est " + result._v1_current_data["Children.DetailEstimate.@Sum"] + 
+      "\tActuals Val " + result._v1_current_data["Children.Actuals.Value.@Sum"] + 
+      "\tToDo " + result._v1_current_data["Children.ToDo.@Sum"]
+    );
+  },
+
+  error: function(err) { 
+    console.log("ERROR: " + err);
+  }
+});
+
+
+// list single story as of a specific date
 v1.query({
   // from: "Timebox",
     from: "Story",
@@ -217,6 +319,7 @@ v1.query({
 //      'Timebox.Duration',
 //      'Timebox.Owner.Username',
   ],
+  // asof: '2015-03-18',
   asof: '2015-03-18',
   where: {
 //    "Team.Name": 'Ellipse Development 8.6 - Field Length and ERP integration',
