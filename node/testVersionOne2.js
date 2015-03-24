@@ -157,54 +157,120 @@ var v1 = new V1Meta(server);
 
 // list all stories in a sprint for a timebox
 // https://www11.v1host.com/VentyxProd/meta.v1?xsl=api.xsl#Workitem
-v1.query({
-  from: "Timebox",
 
-  select: [
-    'Name',
-    'State.Code',
-    'BeginDate',
-    'EndDate',
-    'Duration',
-    'Owner.Username',
+var team = 'Ellipse Development 8.6 - Field Length and ERP integration';
+var effectiveDate = '2015-3-18';
 
-    'IsClosed',
-    'IsDead',
-    'IsInactive',
-//    'Now',
-    
-//    "Workitems[Team.Name='Ellipse Development 8.6 - Field Length and ERP integration'].BlockingIssues.@Count",
-//    "Workitems[Team.Name='Ellipse Development 8.6 - Field Length and ERP integration'].IncompleteEstimate",
-//    "Workitems[Team.Name='Ellipse Development 8.6 - Field Length and ERP integration'].OpenEstimate",
-    "Workitems[Team.Name='Ellipse Development 8.6 - Field Length and ERP integration'].Children.DetailEstimate.@Sum",
-    "Workitems[Team.Name='Ellipse Development 8.6 - Field Length and ERP integration'].Children.Actuals.Value.@Sum",
-    "Workitems[Team.Name='Ellipse Development 8.6 - Field Length and ERP integration'].Children.ToDo.@Sum",
-    
-    "Workitems[Team.Name='Ellipse Development 8.6 - Field Length and ERP integration'].ToDo[AssetState!='Dead'].@Sum"
-  ],
+__getBurndownForTeam(team, effectiveDate, function(result) {
+  __displayResults(result, 'Ellipse Development 8.6 - Field Length and ERP integration');
 
-  where: {
-    "Workitems.Team.Name": 'Ellipse Development 8.6 - Field Length and ERP integration',
-    "State.Code": 'ACTV', 
-//    "State.Code": 'ACTV', 
-//    "BeginDate": 
-  },
-  wherestr: "EndDate>='" + '2015-3-18' + "'&BeginDate<='" + '2015-3-18' + "'",
+  // TODO: compare dates, iterate backwards to calculate burn down
+//  result.BeginDate
+//  result.EndDate
+//  result.Duration
+  
+  
+  console.log("result.BeginDate: " + new Date(result.BeginDate));
+  // refer http://stackoverflow.com/a/18362686/1125784, use logic at end on dates, check in lib to see what is used currently
+//  if(new Date(effectiveDate).getTime() < new Date(result.BeginDate)) {
+//    for(var i = 
+//  }
+  __getBurndownForTeam(team, effectiveDate, function(result) {
+    __displayResults(result, 'Ellipse Development 8.6 - Field Length and ERP integration');
 
-  success: function(result) {
-    console.log(result);
-    console.log(result.Name + "\t " + 
-      result.BeginDate + " -> " + 
-      result.EndDate + " " + 
-      result.Duration + " " + 
-      result._v1_current_data['Owner.Username'] + "\t" +
-      "ToDo: " + result._v1_current_data["Workitems[Team.Name='Ellipse Development 8.6 - Field Length and ERP integration'].ToDo[AssetState!='Dead'].@Sum"]);
-  },
+    __getBurndownForTeam(team, effectiveDate, function(result) {
+      __displayResults(result, 'Ellipse Development 8.6 - Field Length and ERP integration');
 
-  error: function(err) { 
-    console.log("ERROR: " + err);
-  }
+    }, '2015-03-19');
+  }, '2015-03-18');
 });
+
+function __displayResults(result, team) {
+  console.log(team + "\n\t\t" + result.Name + "\t " + 
+    result.BeginDate + " -> " + 
+    result.EndDate + " " + 
+    result.Duration + " " + 
+//      result._v1_current_data['Owner.Username'] + "\t" +
+    "Detail Est: " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Children.DetailEstimate.@Sum"] +
+    "\tActuals val: " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Children.Actuals.Value.@Sum"] +
+    "\t ToDo: " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Children.ToDo.@Sum"] +
+    " : " + result._v1_current_data["Workitems[Team.Name='" + team + "'].ToDo[AssetState!='Dead'].@Sum"]);
+}
+
+function __getBurndownForTeam(teamName, effectiveDate, callback, asofDate) {
+  if(asofDate !== undefined) {
+    v1.query({
+      from: "Timebox",
+
+      select: [
+        'Name',
+        'State.Code',
+        'BeginDate',
+        'EndDate',
+        'Duration',
+        'Owner.Username',
+
+        'IsClosed',
+        'IsDead',
+        'IsInactive',
+    //    'Now',
+
+    //  "Workitems[Team.Name='" + teamName + "'].BlockingIssues.@Count",
+    //  "Workitems[Team.Name='" + teamName + "'].IncompleteEstimate",
+    //  "Workitems[Team.Name='" + teamName + "'].OpenEstimate",
+        "Workitems[Team.Name='" + teamName + "'].Children.DetailEstimate.@Sum",
+        "Workitems[Team.Name='" + teamName + "'].Children.Actuals.Value.@Sum",
+        "Workitems[Team.Name='" + teamName + "'].Children.ToDo.@Sum",
+        "Workitems[Team.Name='" + teamName + "'].ToDo[AssetState!='Dead'].@Sum",
+      ],
+      asof: asofDate,
+      where: {
+        "Workitems.Team.Name": teamName,
+        "State.Code": 'ACTV', 
+      },
+      wherestr: "EndDate>='" + effectiveDate + "'&BeginDate<='" + effectiveDate + "'",
+      success: callback,
+      error: function(err) { 
+        console.log("ERROR: " + err);
+      }
+    });
+  } else {
+    v1.query({
+      from: "Timebox",
+
+      select: [
+        'Name',
+        'State.Code',
+        'BeginDate',
+        'EndDate',
+        'Duration',
+        'Owner.Username',
+
+        'IsClosed',
+        'IsDead',
+        'IsInactive',
+    //    'Now',
+
+    //  "Workitems[Team.Name='" + teamName + "'].BlockingIssues.@Count",
+    //  "Workitems[Team.Name='" + teamName + "'].IncompleteEstimate",
+    //  "Workitems[Team.Name='" + teamName + "'].OpenEstimate",
+        "Workitems[Team.Name='" + teamName + "'].Children.DetailEstimate.@Sum",
+        "Workitems[Team.Name='" + teamName + "'].Children.Actuals.Value.@Sum",
+        "Workitems[Team.Name='" + teamName + "'].Children.ToDo.@Sum",
+        "Workitems[Team.Name='" + teamName + "'].ToDo[AssetState!='Dead'].@Sum",
+      ],
+      where: {
+        "Workitems.Team.Name": teamName,
+        "State.Code": 'ACTV', 
+      },
+      wherestr: "EndDate>='" + effectiveDate + "'&BeginDate<='" + effectiveDate + "'",
+      success: callback,
+      error: function(err) { 
+        console.log("ERROR: " + err);
+      }
+    });
+  }
+}
 
 
 return;
