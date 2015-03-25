@@ -159,43 +159,123 @@ var v1 = new V1Meta(server);
 // https://www11.v1host.com/VentyxProd/meta.v1?xsl=api.xsl#Workitem
 
 var team = 'Ellipse Development 8.6 - Field Length and ERP integration';
-var effectiveDate = '2015-3-18';
+var effectiveDate = '2015-3-23';
+
+function getDaysFromSprintDuration(duration) {
+  var tokens = duration.split(' ');
+  
+  var baseValue = tokens[0];
+  
+  switch(tokens[1]) {
+    case "days": 
+      break;
+      
+    case "weeks":
+      baseValue *= 7;
+      break;
+      
+    case "hours": 
+      baseValue /= 6;
+      break;
+  }
+  
+  return baseValue;
+}
 
 __getBurndownForTeam(team, effectiveDate, function(result) {
-  __displayResults(result, 'Ellipse Development 8.6 - Field Length and ERP integration');
-
-  // TODO: compare dates, iterate backwards to calculate burn down
-//  result.BeginDate
-//  result.EndDate
-//  result.Duration
+  var start = moment(result.BeginDate);
+  var end = moment(result.EndDate);
+  var now = moment();
+  var diff = Math.abs(start.diff(now, 'days'));
   
+  if(diff > 14) {
+    diff = 14;
+  }
   
-  console.log("result.BeginDate: " + new Date(result.BeginDate));
-  // refer http://stackoverflow.com/a/18362686/1125784, use logic at end on dates, check in lib to see what is used currently
-//  if(new Date(effectiveDate).getTime() < new Date(result.BeginDate)) {
-//    for(var i = 
-//  }
-  __getBurndownForTeam(team, effectiveDate, function(result) {
-    __displayResults(result, 'Ellipse Development 8.6 - Field Length and ERP integration');
-
-    __getBurndownForTeam(team, effectiveDate, function(result) {
-      __displayResults(result, 'Ellipse Development 8.6 - Field Length and ERP integration');
-
-    }, '2015-03-19');
-  }, '2015-03-18');
+  __displayInitialResults(effectiveDate, result, 'Ellipse Development 8.6 - Field Length and ERP integration', now.format('YYYY-M-D'));
+  
+  console.log(" raw: " + result.BeginDate + " -> " + result.EndDate);
+  console.log("  now: " + now.format('YYYY-M-D'));
+  console.log("start: " + start.format('YYYY-M-D'));
+  console.log("  end: " + end.format('YYYY-M-D'));
+  console.log("  dur: " + getDaysFromSprintDuration(result.Duration));
+  console.log(" days: " + diff);
+  var dayOfWeek;
+  
+  for (var current = start; current.isBefore(end); current.add(1, 'days')) {
+    dayOfWeek = current.day();
+    
+    if(dayOfWeek !== 0 && dayOfWeek !== 6) {
+      (function(date) {
+        __getBurndownForTeam(team, effectiveDate, function(result) {
+          __displayDetailResults(date, result, 'Ellipse Development 8.6 - Field Length and ERP integration');
+        }, date);
+      })(current.format('YYYY-MM-DD'));
+    }
+  }  
 });
 
-function __displayResults(result, team) {
+function __displayInitialResults(effectiveDate, result, team, now) {
   console.log(team + "\n\t\t" + result.Name + "\t " + 
     result.BeginDate + " -> " + 
     result.EndDate + " " + 
-    result.Duration + " " + 
-//      result._v1_current_data['Owner.Username'] + "\t" +
-    "Detail Est: " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Children.DetailEstimate.@Sum"] +
-    "\tActuals val: " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Children.Actuals.Value.@Sum"] +
-    "\t ToDo: " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Children.ToDo.@Sum"] +
-    " : " + result._v1_current_data["Workitems[Team.Name='" + team + "'].ToDo[AssetState!='Dead'].@Sum"]);
+    result.Duration);
+  
+//        "Workitems[Team.Name='" + teamName + "'].ToDo[AssetState!='Dead'].@Sum",
+//        "Workitems[Team.Name='" + teamName + "'].DetailEstimate",
+////        "Workitems[Team.Name='" + teamName + "'].Actuals.Value.@Sum",
+//        "Workitems[Team.Name='" + teamName + "'].AllocatedDetailEstimate",
+//        "Workitems[Team.Name='" + teamName + "'].AllocatedToDo",
+//        "Workitems[Team.Name='" + teamName + "'].EstimatedAllocatedDone",
+//        "Workitems[Team.Name='" + teamName + "'].EstimatedDone",
+  console.log(JSON.stringify(result, null, ' '));
+  __displayDetailResults(now, result, team);
 }
+
+function __displayDetailResults(date, result, team) {
+
+//  console.log("\t\t" + 
+//  "a " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Children.ToDo.@Sum"] +
+//  "b " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Children.DetailEstimate.@Sum"] +
+//  "c " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Children.Actuals.Value.@Sum"] +
+//  "d " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Children.AllocatedDetailEstimate"] +
+//  "e " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Children.AllocatedToDo"] +
+//  "f " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Children.EstimatedAllocatedDone"] +
+//  "g " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Children.EstimatedDone"] +
+//  " ");
+
+  console.log(
+    "\t" + date + "\tDetail Est: " + result._v1_current_data["Workitems[Team.Name='" + team + "'].DetailEstimate.@Sum"] +
+    "\tActuals val: " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Actuals.Value.@Sum"] +
+    "\t ToDo: " + result._v1_current_data["Workitems[Team.Name='" + team + "'].ToDo.@Sum"]);
+  
+//  console.log(
+//    "\t" + date + "\tDetail Est: " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Children.DetailEstimate.@Sum"] +
+//    " : " + result._v1_current_data["Workitems[Team.Name='" + team + "'].DetailEstimate.@Sum"] +
+//    "\tActuals val: " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Children.Actuals.Value.@Sum"] +
+//    " : " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Actuals.Value.@Sum"] +
+//    "\t ToDo: " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Children.ToDo.@Sum"] +
+//    " : " + result._v1_current_data["Workitems[Team.Name='" + team + "'].ToDo[AssetState!='Dead'].@Sum"]);
+}
+
+/*
+ * current results:
+ * 
+	2015-03-11	Detail Est: 3		Actuals val: 2	 	 ToDo: 0     
+	2015-03-12	Detail Est: 50.5	Actuals val: 41.5	 ToDo: 15    
+	2015-03-13	Detail Est: 70.5	Actuals val: 61	 	 ToDo: 17.5  
+
+	2015-03-16	Detail Est: 108.75	Actuals val: 91.5	 ToDo: 31.25 
+	2015-03-17	Detail Est: 116.25	Actuals val: 101.25	 ToDo: 28.5  
+	2015-03-18	Detail Est: 125.25	Actuals val: 135.75	 ToDo: 23    
+	2015-03-19	Detail Est: 139.25	Actuals val: 139.25	 ToDo: 33.5  
+	2015-03-20	Detail Est: 145.75	Actuals val: 152.5	 ToDo: 26.75 
+
+	2015-03-23	Detail Est: 146.75	Actuals val: 158.75	 ToDo: 21.5  
+	2015-03-24	Detail Est: 148.75	Actuals val: 164.75	 ToDo: 21.5  
+ * 
+ * ToDo doesn't appear to reflect the task ToDo. Task derives from WorkItem, but nothing else stands out as the todo.
+ */
 
 function __getBurndownForTeam(teamName, effectiveDate, callback, asofDate) {
   if(asofDate !== undefined) {
@@ -215,13 +295,31 @@ function __getBurndownForTeam(teamName, effectiveDate, callback, asofDate) {
         'IsInactive',
     //    'Now',
 
-    //  "Workitems[Team.Name='" + teamName + "'].BlockingIssues.@Count",
-    //  "Workitems[Team.Name='" + teamName + "'].IncompleteEstimate",
-    //  "Workitems[Team.Name='" + teamName + "'].OpenEstimate",
-        "Workitems[Team.Name='" + teamName + "'].Children.DetailEstimate.@Sum",
-        "Workitems[Team.Name='" + teamName + "'].Children.Actuals.Value.@Sum",
-        "Workitems[Team.Name='" + teamName + "'].Children.ToDo.@Sum",
-        "Workitems[Team.Name='" + teamName + "'].ToDo[AssetState!='Dead'].@Sum",
+// slow things down and do we need them?
+        
+//        "Workitems[Team.Name='" + teamName + "'].ToDo[AssetState!='Dead'].@Sum",
+//        "Workitems[Team.Name='" + teamName + "'].DetailEstimate",
+//        "Workitems[Team.Name='" + teamName + "'].AllocatedDetailEstimate",
+//        "Workitems[Team.Name='" + teamName + "'].AllocatedToDo",
+//        "Workitems[Team.Name='" + teamName + "'].EstimatedAllocatedDone",
+//        "Workitems[Team.Name='" + teamName + "'].EstimatedDone",
+
+        "Workitems[Team.Name='" + teamName + "'].Days.@Sum",
+        
+        
+//        "Workitems[Team.Name='" + teamName + "'].Children.ToDo.@Sum",
+        "Workitems[Team.Name='" + teamName + "'].ToDo.@Sum",
+//        "Workitems[Team.Name='" + teamName + "'].ToDo[AssetState!='Dead'].@Sum",
+//        "Workitems[Team.Name='" + teamName + "'].Children.DetailEstimate.@Sum",
+        "Workitems[Team.Name='" + teamName + "'].DetailEstimate.@Sum",
+//        "Workitems[Team.Name='" + teamName + "'].Children.Actuals.Value.@Sum",
+        "Workitems[Team.Name='" + teamName + "'].Actuals.Value.@Sum",
+
+// the following slow things down and have no values
+//        "Workitems[Team.Name='" + teamName + "'].Children.AllocatedDetailEstimate",
+//        "Workitems[Team.Name='" + teamName + "'].Children.AllocatedToDo",
+//        "Workitems[Team.Name='" + teamName + "'].Children.EstimatedAllocatedDone",
+//        "Workitems[Team.Name='" + teamName + "'].Children.EstimatedDone",
       ],
       asof: asofDate,
       where: {
@@ -254,10 +352,10 @@ function __getBurndownForTeam(teamName, effectiveDate, callback, asofDate) {
     //  "Workitems[Team.Name='" + teamName + "'].BlockingIssues.@Count",
     //  "Workitems[Team.Name='" + teamName + "'].IncompleteEstimate",
     //  "Workitems[Team.Name='" + teamName + "'].OpenEstimate",
-        "Workitems[Team.Name='" + teamName + "'].Children.DetailEstimate.@Sum",
-        "Workitems[Team.Name='" + teamName + "'].Children.Actuals.Value.@Sum",
-        "Workitems[Team.Name='" + teamName + "'].Children.ToDo.@Sum",
-        "Workitems[Team.Name='" + teamName + "'].ToDo[AssetState!='Dead'].@Sum",
+        "Workitems[Team.Name='" + teamName + "'].DetailEstimate.@Sum",
+        "Workitems[Team.Name='" + teamName + "'].Actuals.Value.@Sum",
+        "Workitems[Team.Name='" + teamName + "'].ToDo.@Sum",
+//        "Workitems[Team.Name='" + teamName + "'].ToDo[AssetState!='Dead'].@Sum",
       ],
       where: {
         "Workitems.Team.Name": teamName,
