@@ -80,9 +80,10 @@ Spring is refered to as an Interation and the system name is Timebox
  * 
  */
 
-var  V1Meta = require('./v1/v1meta').V1Meta;
-var  V1Server = require('./v1/client').V1Server;
+var V1Meta = require('./v1/v1meta').V1Meta;
+var V1Server = require('./v1/client').V1Server;
 var moment = require('moment-timezone');
+var async = require('async');
   
   
 var fs = require('fs');
@@ -158,7 +159,18 @@ var v1 = new V1Meta(server);
 // list all stories in a sprint for a timebox
 // https://www11.v1host.com/VentyxProd/meta.v1?xsl=api.xsl#Workitem
 
-var team = 'Ellipse Development 8.6 - Field Length and ERP integration';
+//var team = 'Ellipse - Automation';
+//var team = 'Ellipse - Finance Development';
+//var team = 'Ellipse - Integration';
+//var team = 'Finance Product Owner';
+//var team = 'Ellipse - MITWIP';
+var team = 'Ellipse - Code Maintenance and Support';
+//var team = 'Ellipse Development 8.6 - Field Length and ERP integration';
+//var team = 'Ellipse Development 8.6 - Maintenance';
+//var team = 'Ellipse Development 8.6 - Materials';
+//var team = 'Ellipse Tests Automation';
+//var team = 'JI Core';
+
 var effectiveDate = '2015-3-23';
 
 function getDaysFromSprintDuration(duration) {
@@ -192,7 +204,7 @@ __getBurndownForTeam(team, effectiveDate, function(result) {
     diff = 14;
   }
   
-  __displayInitialResults(effectiveDate, result, 'Ellipse Development 8.6 - Field Length and ERP integration', now.format('YYYY-M-D'));
+  __displayInitialResults(effectiveDate, result, team, now.format('YYYY-M-D'));
   
   console.log(" raw: " + result.BeginDate + " -> " + result.EndDate);
   console.log("  now: " + now.format('YYYY-M-D'));
@@ -201,14 +213,27 @@ __getBurndownForTeam(team, effectiveDate, function(result) {
   console.log("  dur: " + getDaysFromSprintDuration(result.Duration));
   console.log(" days: " + diff);
   var dayOfWeek;
-  
-  for (var current = start; current.isBefore(end); current.add(1, 'days')) {
+  var current;
+
+  var processData = [];
+  for (current = moment(result.BeginDate); current.isBefore(end); current.add(1, 'days')) {
+    dayOfWeek = current.day();
+    
+    if(dayOfWeek !== 0 && dayOfWeek !== 6) {
+      processData.push({team: team, date: current.format('YYYY-MM-DD')});
+    }
+  }
+      
+  // async.map(processData, this._getJobResult.bind(this), this._buildDetailsReceived.bind(this));
+
+  for (current = moment(result.BeginDate); current.isBefore(end); current.add(1, 'days')) {
     dayOfWeek = current.day();
     
     if(dayOfWeek !== 0 && dayOfWeek !== 6) {
       (function(date) {
+        
         __getBurndownForTeam(team, effectiveDate, function(result) {
-          __displayDetailResults(date, result, 'Ellipse Development 8.6 - Field Length and ERP integration');
+          __displayDetailResults(date, result, team);
         }, date);
       })(current.format('YYYY-MM-DD'));
     }
