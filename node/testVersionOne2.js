@@ -164,12 +164,13 @@ var v1 = new V1Meta(server);
 //var team = 'Ellipse - Integration';
 //var team = 'Finance Product Owner';
 //var team = 'Ellipse - MITWIP';
-var team = 'Ellipse - Code Maintenance and Support';
-//var team = 'Ellipse Development 8.6 - Field Length and ERP integration';
-//var team = 'Ellipse Development 8.6 - Maintenance';
-//var team = 'Ellipse Development 8.6 - Materials';
 //var team = 'Ellipse Tests Automation';
 //var team = 'JI Core';
+
+//var team = 'Ellipse Development 8.6 - Maintenance';
+//var team = 'Ellipse Development 8.6 - Materials';
+//var team = 'Ellipse Development 8.6 - Field Length and ERP integration';
+var team = 'Ellipse - Code Maintenance and Support';
 
 var effectiveDate = '2015-3-23';
 
@@ -220,25 +221,43 @@ __getBurndownForTeam(team, effectiveDate, function(result) {
     dayOfWeek = current.day();
     
     if(dayOfWeek !== 0 && dayOfWeek !== 6) {
-      processData.push({team: team, date: current.format('YYYY-MM-DD')});
+      processData.push({team: team, effectiveDate: effectiveDate, date: current.format('YYYY-MM-DD')});
     }
   }
       
-  // async.map(processData, this._getJobResult.bind(this), this._buildDetailsReceived.bind(this));
-
-  for (current = moment(result.BeginDate); current.isBefore(end); current.add(1, 'days')) {
-    dayOfWeek = current.day();
-    
-    if(dayOfWeek !== 0 && dayOfWeek !== 6) {
-      (function(date) {
-        
-        __getBurndownForTeam(team, effectiveDate, function(result) {
-          __displayDetailResults(date, result, team);
-        }, date);
-      })(current.format('YYYY-MM-DD'));
-    }
-  }  
+  async.map(processData, _getSprintDetails.bind(this), _processSprintDetails.bind(this));
 });
+
+
+function _getSprintDetails(params, done) {
+//  console.log(params.team + " " + params.date + " " + params.effectiveDate);
+  
+  __getBurndownForTeam(params.team, params.effectiveDate, function(result) {
+    return done(null, {team: params.team, date: params.date, result: result});
+  }, params.date);
+}
+
+function _processSprintDetails(err, result) {
+  result.sort(_compareSprintDetailsByDay);
+  for(var i = 0; i < result.length; i++) {
+    __displayDetailResults(result[i].date, result[i].result, result[i].team);
+  }
+}
+
+function _compareSprintDetailsByDay(a, b) {
+  var dateA = moment(a);
+  var dateB = moment(b);
+  
+  if (dateA.isBefore(dateB)) {
+     return 1;
+  }
+  
+  if (dateA.isAfter(dateB)) {
+    return -1;
+  }
+  
+  return 0;
+}
 
 function __displayInitialResults(effectiveDate, result, team, now) {
   console.log(team + "\n\t\t" + result.Name + "\t " + 
