@@ -125,40 +125,6 @@ var server = new V1Server(settings.hostname, settings.instance, settings.usernam
 
 var v1 = new V1Meta(server);
 
-
-
-//v1.query({
-//  from: "Story",
-//
-//  select: [
-//    'Name',
-//    'Owners.Name',
-//    'Estimate',
-//    '',
-//    '',
-//    '',
-//  ],
-//  where: {
-//    'Owners.Name': 'James Jenner',
-//  },
-//  success: function(result) {
-//    console.log(JSON.stringify(result, null, ' '));
-//  },
-//    
-//  error: function(err) {
-//    console.log("ERROR: " + err);
-//  },
-//});
-//
-//return;
-
-// burn down - project/release
-
-// burn down - sprint
-
-// list all stories in a sprint for a timebox
-// https://www11.v1host.com/VentyxProd/meta.v1?xsl=api.xsl#Workitem
-
 //var team = 'Ellipse - Automation';
 //var team = 'Ellipse - Finance Development';
 //var team = 'Ellipse - Integration';
@@ -168,11 +134,68 @@ var v1 = new V1Meta(server);
 //var team = 'JI Core';
 
 //var team = 'Ellipse Development 8.6 - Maintenance';
-//var team = 'Ellipse Development 8.6 - Materials';
 //var team = 'Ellipse Development 8.6 - Field Length and ERP integration';
-var team = 'Ellipse - Code Maintenance and Support';
+// var team = 'Ellipse - Code Maintenance and Support';
 
-var effectiveDate = '2015-3-23';
+//var team = 'Ellipse Development 8.6 - Materials';
+var team = 'zzzz - ACME Alpha';
+
+var effectiveDate = '2015-4-9';
+
+
+// list all stories against a team
+//v1.query({
+//  from: "Story",
+//  select: [
+//      'ID',
+//      'Name',
+//      'Status.Name',
+//      'Team.Name',
+//      'BlockingIssues.@Count',
+//      'IncompleteEstimate',
+//      'OpenEstimate',
+//      'Children.DetailEstimate.@Sum',
+//      'Children.Actuals.Value.@Sum',
+//      'Children.ToDo.@Sum',
+//      'Timebox.BeginDate',
+//      'Timebox.EndDate',
+//      'Timebox.Name',
+//  ],
+//  where: {
+//    "Team.Name": team
+//  },
+//  wherestr: "Timebox.EndDate>='" + effectiveDate + "'&Timebox.BeginDate<='" + effectiveDate + "'",
+//  success: function(result) {
+//    console.log(
+//      result._v1_current_data["ID.Number"] + 
+//      "\t" + result._v1_current_data["Name"] + 
+//      "\n\t" + result._v1_current_data["Status.Name"] + 
+//      "\tTeam: " + result._v1_current_data["Team.Name"] + 
+//      "\n\tBlocking Issues " + result._v1_current_data["BlockingIssues.@Count"] + 
+//      "\tIncomp Est " + result._v1_current_data["IncompleteEstimate"] + 
+//      "\tOpen Est " + result._v1_current_data["OpenEstimate"] + 
+//      "\tDetail Est " + result._v1_current_data["Children.DetailEstimate.@Sum"] + 
+//      "\tActuals Val " + result._v1_current_data["Children.Actuals.Value.@Sum"] + 
+//      "\tSprint: " + result._v1_current_data["Timebox.Name"] + " (" + 
+//      result._v1_current_data["Timebox.BeginDate"] + " -> " + result._v1_current_data["Timebox.EndDate"] + ")" +
+//      "\tToDo " + result._v1_current_data["Children.ToDo.@Sum"]
+//    );
+//  },
+//
+//  error: function(err) { 
+//    console.log("ERROR: " + err);
+//  }
+//});
+
+// list all stories in a project
+
+// burn down - project/release
+
+// burn down - sprint
+
+// list all stories in a sprint for a timebox
+// https://www11.v1host.com/VentyxProd/meta.v1?xsl=api.xsl#Workitem
+
 
 function getDaysFromSprintDuration(duration) {
   var tokens = duration.split(' ');
@@ -414,50 +437,7 @@ function __getBurndownForTeam(teamName, effectiveDate, callback, asofDate) {
   }
 }
 
-
 return;
-
-
-// list all stories in a sprint
-v1.query({
-  from: "Story",
-  select: [
-      'ID',
-      'Name',
-      'Status.Name',
-      'BlockingIssues.@Count',
-      'IncompleteEstimate',
-      'OpenEstimate',
-      'Children.DetailEstimate.@Sum',
-      'Children.Actuals.Value.@Sum',
-      'Children.ToDo.@Sum',
-  ],
-//  asof: '2015-03-18',
-  where: {
-    "Team.Name": 'Ellipse Development 8.6 - Field Length and ERP integration',
-    "State.Code": 'ACTV', 
-  },
-  wherestr: "Timebox.EndDate>='" + '2015-3-18' + "'&Timebox.BeginDate<='" + '2015-3-18' + "'",
-  // wherestr: "EndDate>='2014-08-28'&BeginDate<='2014-08-28'",
-
-  success: function(result) {
-    console.log(
-      result._v1_current_data["ID.Number"] + 
-      "\t" + result._v1_current_data["Name"] + 
-      "\n\t" + result._v1_current_data["Status.Name"] + 
-      "\tBlocking Issues " + result._v1_current_data["BlockingIssues.@Count"] + 
-      "\tIncomp Est " + result._v1_current_data["IncompleteEstimate"] + 
-      "\tOpen Est " + result._v1_current_data["OpenEstimate"] + 
-      "\tDetail Est " + result._v1_current_data["Children.DetailEstimate.@Sum"] + 
-      "\tActuals Val " + result._v1_current_data["Children.Actuals.Value.@Sum"] + 
-      "\tToDo " + result._v1_current_data["Children.ToDo.@Sum"]
-    );
-  },
-
-  error: function(err) { 
-    console.log("ERROR: " + err);
-  }
-});
 
 
 // list single story as of a specific date
