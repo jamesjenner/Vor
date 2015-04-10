@@ -137,7 +137,7 @@ var v1 = new V1Meta(server);
 //var team = 'Ellipse Development 8.6 - Field Length and ERP integration';
 // var team = 'Ellipse - Code Maintenance and Support';
 
-//var team = 'Ellipse Development 8.6 - Materials';
+// var team = 'Ellipse Development 8.6 - Materials';
 var team = 'zzzz - ACME Alpha';
 
 var effectiveDate = '2015-4-9';
@@ -197,27 +197,6 @@ var effectiveDate = '2015-4-9';
 // https://www11.v1host.com/VentyxProd/meta.v1?xsl=api.xsl#Workitem
 
 
-function getDaysFromSprintDuration(duration) {
-  var tokens = duration.split(' ');
-  
-  var baseValue = tokens[0];
-  
-  switch(tokens[1]) {
-    case "days": 
-      break;
-      
-    case "weeks":
-      baseValue *= 7;
-      break;
-      
-    case "hours": 
-      baseValue /= 6;
-      break;
-  }
-  
-  return baseValue;
-}
-
 __getBurndownForTeam(team, effectiveDate, function(result) {
   var start = moment(result.BeginDate);
   var end = moment(result.EndDate);
@@ -251,16 +230,40 @@ __getBurndownForTeam(team, effectiveDate, function(result) {
   async.map(processData, _getSprintDetails.bind(this), _processSprintDetails.bind(this));
 });
 
+function getDaysFromSprintDuration(duration) {
+  var tokens = duration.split(' ');
+  
+  var baseValue = tokens[0];
+  
+  switch(tokens[1]) {
+    case "days": 
+      break;
+      
+    case "weeks":
+      baseValue *= 7;
+      break;
+      
+    case "hours": 
+      baseValue /= 6;
+      break;
+  }
+  
+  return baseValue;
+}
+
 
 function _getSprintDetails(params, done) {
-//  console.log(params.team + " " + params.date + " " + params.effectiveDate);
+  console.log("_getSprintDetails: " + params.team + " " + params.date + " " + params.effectiveDate);
   
   __getBurndownForTeam(params.team, params.effectiveDate, function(result) {
+     console.log("Results for " + params.team + " " + params.date);
+     // console.log(result);
     return done(null, {team: params.team, date: params.date, result: result});
   }, params.date);
 }
 
 function _processSprintDetails(err, result) {
+  console.log("_processSprintDetails");
   result.sort(_compareSprintDetailsByDay);
   for(var i = 0; i < result.length; i++) {
     __displayDetailResults(result[i].date, result[i].result, result[i].team);
@@ -345,6 +348,7 @@ function __displayDetailResults(date, result, team) {
  */
 
 function __getBurndownForTeam(teamName, effectiveDate, callback, asofDate) {
+  console.log("__getBurndownForTeam " + teamName + " " + effectiveDate + " " + asofDate);
   if(asofDate !== undefined) {
     v1.query({
       from: "Timebox",
@@ -395,6 +399,7 @@ function __getBurndownForTeam(teamName, effectiveDate, callback, asofDate) {
       },
       wherestr: "EndDate>='" + effectiveDate + "'&BeginDate<='" + effectiveDate + "'",
       success: callback,
+      noResults: callback,
       error: function(err) { 
         console.log("ERROR: " + err);
       }
