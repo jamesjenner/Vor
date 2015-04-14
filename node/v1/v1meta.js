@@ -292,7 +292,7 @@
         return this.server.get_query_xml(options, (function(_this) {
           return function(err, xmlresults) {
             var assetxml, found_id, found_type, oidtoken, _i, _len, _ref, _ref1, _results;
-            console.log("query result " + JSON.stringify(xmlresults));
+            
             if (err != null) {
               return options.error(err);
             }
@@ -316,14 +316,19 @@
 
                   asset = _this.build_asset(Cls, thisAsset);
 
-                   console.log("asset: " + asset);
                   return options.success(asset);
                 }));
               })(assetxml);
             }
             
-            console.log("return _results:" + JSON.stringify(_results));
-            return options.noResults(_results);
+            if(_results.length === 0) {
+              options.success({
+                _v1_id: '',
+                _v1_current_data: {}
+              });
+            }
+            
+            return _results;
           };
         })(this));
       };
