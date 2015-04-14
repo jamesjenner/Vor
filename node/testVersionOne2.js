@@ -138,9 +138,9 @@ var v1 = new V1Meta(server);
 // var team = 'Ellipse - Code Maintenance and Support';
 
 // var team = 'Ellipse Development 8.6 - Materials';
-var team = 'zzzz - ACME Alpha';
+ var team = 'zzzz - ACME Alpha';
 
-var effectiveDate = '2015-4-9';
+var effectiveDate = '2015-4-14';
 
 
 // list all stories against a team
@@ -253,20 +253,35 @@ function getDaysFromSprintDuration(duration) {
 
 
 function _getSprintDetails(params, done) {
-  console.log("_getSprintDetails: " + params.team + " " + params.date + " " + params.effectiveDate);
+//  console.log("_getSprintDetails: " + params.team + " " + params.date + " " + params.effectiveDate);
   
   __getBurndownForTeam(params.team, params.effectiveDate, function(result) {
-     console.log("Results for " + params.team + " " + params.date);
+//     console.log("Results for " + params.team + " " + params.date);
      // console.log(result);
     return done(null, {team: params.team, date: params.date, result: result});
   }, params.date);
 }
 
+/* 
+ * Burn Down
+ * 
+ * The start point for the ideal line is the maximum detail estimate across all days (which may not be the first
+ * The end point for the ideal line is 0
+ * The x coord for the burn down is the todo for the given day (y axis)
+ * 
+ * Burn Up
+ * 
+ */
+
 function _processSprintDetails(err, result) {
-  console.log("_processSprintDetails");
+  console.log("_processSprintDetails ");
   result.sort(_compareSprintDetailsByDay);
   for(var i = 0; i < result.length; i++) {
-    __displayDetailResults(result[i].date, result[i].result, result[i].team);
+    // console.log("\tresult: " + JSON.stringify(result[i].result, null, ' '));
+    // console.log("\tresult._v1_id: " + result[i].result._v1_id);
+    if(result[i].result !== null) {
+      __displayDetailResults(result[i].date, result[i].result, result[i].team);
+    }
   }
 }
 
@@ -286,10 +301,10 @@ function _compareSprintDetailsByDay(a, b) {
 }
 
 function __displayInitialResults(effectiveDate, result, team, now) {
-  console.log(team + "\n\t\t" + result.Name + "\t " + 
-    result.BeginDate + " -> " + 
-    result.EndDate + " " + 
-    result.Duration);
+//  console.log(team + "\n\t\t" + result.Name + "\t " + 
+//    result.BeginDate + " -> " + 
+//    result.EndDate + " " + 
+//    result.Duration);
   
 //        "Workitems[Team.Name='" + teamName + "'].ToDo[AssetState!='Dead'].@Sum",
 //        "Workitems[Team.Name='" + teamName + "'].DetailEstimate",
@@ -298,7 +313,6 @@ function __displayInitialResults(effectiveDate, result, team, now) {
 //        "Workitems[Team.Name='" + teamName + "'].AllocatedToDo",
 //        "Workitems[Team.Name='" + teamName + "'].EstimatedAllocatedDone",
 //        "Workitems[Team.Name='" + teamName + "'].EstimatedDone",
-  console.log(JSON.stringify(result, null, ' '));
   __displayDetailResults(now, result, team);
 }
 
@@ -314,11 +328,16 @@ function __displayDetailResults(date, result, team) {
 //  "g " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Children.EstimatedDone"] +
 //  " ");
 
-  console.log(
-    "\t" + date + "\tDetail Est: " + result._v1_current_data["Workitems[Team.Name='" + team + "'].DetailEstimate.@Sum"] +
-    "\tActuals val: " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Actuals.Value.@Sum"] +
-    "\t ToDo: " + result._v1_current_data["Workitems[Team.Name='" + team + "'].ToDo.@Sum"]);
-  
+
+  if(result._v1_id === '') {
+    console.log(
+      "\t" + date + " No Data");
+  } else {
+    console.log(
+      "\t" + date + "\tDetail Est: " + result._v1_current_data["Workitems[Team.Name='" + team + "'].DetailEstimate.@Sum"] +
+      "\tActuals val: " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Actuals.Value.@Sum"] +
+      "\t ToDo: " + result._v1_current_data["Workitems[Team.Name='" + team + "'].ToDo.@Sum"]);
+  }
 //  console.log(
 //    "\t" + date + "\tDetail Est: " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Children.DetailEstimate.@Sum"] +
 //    " : " + result._v1_current_data["Workitems[Team.Name='" + team + "'].DetailEstimate.@Sum"] +
@@ -348,9 +367,9 @@ function __displayDetailResults(date, result, team) {
  */
 
 function __getBurndownForTeam(teamName, effectiveDate, callback, asofDate) {
-  console.log("__getBurndownForTeam " + teamName + " " + effectiveDate + " " + asofDate);
+//  console.log("__getBurndownForTeam " + teamName + " " + effectiveDate + " " + asofDate);
   if(asofDate !== undefined) {
-    v1.query({
+    var test = v1.query({
       from: "Timebox",
 
       select: [
@@ -399,7 +418,6 @@ function __getBurndownForTeam(teamName, effectiveDate, callback, asofDate) {
       },
       wherestr: "EndDate>='" + effectiveDate + "'&BeginDate<='" + effectiveDate + "'",
       success: callback,
-      noResults: callback,
       error: function(err) { 
         console.log("ERROR: " + err);
       }
