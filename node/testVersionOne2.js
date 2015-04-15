@@ -140,7 +140,7 @@ var v1 = new V1Meta(server);
 // var team = 'Ellipse Development 8.6 - Materials';
  var team = 'zzzz - ACME Alpha';
 
-var effectiveDate = '2015-4-14';
+var effectiveDate = '2015-4-15';
 
 
 // list all stories against a team
@@ -197,29 +197,37 @@ var effectiveDate = '2015-4-14';
 // https://www11.v1host.com/VentyxProd/meta.v1?xsl=api.xsl#Workitem
 
 
-__getBurndownForTeam(team, effectiveDate, function(result) {
+_getSprintForTeam(team, effectiveDate, function(result) {
   var start = moment(result.BeginDate);
   var end = moment(result.EndDate);
   var now = moment();
   var diff = Math.abs(start.diff(now, 'days'));
   
+  console.log(JSON.stringify(result, null, ' '));
+  
   if(diff > 14) {
     diff = 14;
   }
   
-  __displayInitialResults(effectiveDate, result, team, now.format('YYYY-M-D'));
+  // get current values
+  // __displayDetailResults(now.format('YYYY-M-D'), result, team);
   
   console.log(" raw: " + result.BeginDate + " -> " + result.EndDate);
   console.log("  now: " + now.format('YYYY-M-D'));
   console.log("start: " + start.format('YYYY-M-D'));
   console.log("  end: " + end.format('YYYY-M-D'));
-  console.log("  dur: " + getDaysFromSprintDuration(result.Duration));
+  console.log("state: " + result._v1_current_data["State.Code"]);
+  console.log("state: " + result["State.Code"]);
+  console.log("    ?: " + result._v1_current_data["BeginDate"]);
+  console.log("    ?: " + result.BeginDate);
+  console.log("    ?: " + result["BeginDate"]);
+  console.log("  dur: " + _getDaysFromSprintDuration(result.Duration));
   console.log(" days: " + diff);
   var dayOfWeek;
   var current;
 
   var processData = [];
-  for (current = moment(result.BeginDate); current.isBefore(end); current.add(1, 'days')) {
+  for (current = moment(result.BeginDate); current.isBefore(end) || current.isSame(end); current.add(1, 'days')) {
     dayOfWeek = current.day();
     
     if(dayOfWeek !== 0 && dayOfWeek !== 6) {
@@ -230,32 +238,10 @@ __getBurndownForTeam(team, effectiveDate, function(result) {
   async.map(processData, _getSprintDetails.bind(this), _processSprintDetails.bind(this));
 });
 
-function getDaysFromSprintDuration(duration) {
-  var tokens = duration.split(' ');
-  
-  var baseValue = tokens[0];
-  
-  switch(tokens[1]) {
-    case "days": 
-      break;
-      
-    case "weeks":
-      baseValue *= 7;
-      break;
-      
-    case "hours": 
-      baseValue /= 6;
-      break;
-  }
-  
-  return baseValue;
-}
-
-
 function _getSprintDetails(params, done) {
 //  console.log("_getSprintDetails: " + params.team + " " + params.date + " " + params.effectiveDate);
   
-  __getBurndownForTeam(params.team, params.effectiveDate, function(result) {
+  _getSprintBreakdownForTeam(params.team, params.effectiveDate, function(result) {
 //     console.log("Results for " + params.team + " " + params.date);
      // console.log(result);
     return done(null, {team: params.team, date: params.date, result: result});
@@ -270,6 +256,11 @@ function _getSprintDetails(params, done) {
  * The x coord for the burn down is the todo for the given day (y axis)
  * 
  * Burn Up
+ * 
+ * total work - todo
+ * completed work - effort performed (actuals val)
+ * ideal line (optional, non standard) - projected completed work required to complete todo for the day
+ * 
  * 
  */
 
@@ -298,22 +289,6 @@ function _compareSprintDetailsByDay(a, b) {
   }
   
   return 0;
-}
-
-function __displayInitialResults(effectiveDate, result, team, now) {
-//  console.log(team + "\n\t\t" + result.Name + "\t " + 
-//    result.BeginDate + " -> " + 
-//    result.EndDate + " " + 
-//    result.Duration);
-  
-//        "Workitems[Team.Name='" + teamName + "'].ToDo[AssetState!='Dead'].@Sum",
-//        "Workitems[Team.Name='" + teamName + "'].DetailEstimate",
-////        "Workitems[Team.Name='" + teamName + "'].Actuals.Value.@Sum",
-//        "Workitems[Team.Name='" + teamName + "'].AllocatedDetailEstimate",
-//        "Workitems[Team.Name='" + teamName + "'].AllocatedToDo",
-//        "Workitems[Team.Name='" + teamName + "'].EstimatedAllocatedDone",
-//        "Workitems[Team.Name='" + teamName + "'].EstimatedDone",
-  __displayDetailResults(now, result, team);
 }
 
 function __displayDetailResults(date, result, team) {
@@ -366,8 +341,8 @@ function __displayDetailResults(date, result, team) {
  * ToDo doesn't appear to reflect the task ToDo. Task derives from WorkItem, but nothing else stands out as the todo.
  */
 
-function __getBurndownForTeam(teamName, effectiveDate, callback, asofDate) {
-//  console.log("__getBurndownForTeam " + teamName + " " + effectiveDate + " " + asofDate);
+function _getSprintBreakdownForTeam(teamName, effectiveDate, callback, asofDate) {
+//  console.log("_getSprintBreakdownForTeam " + teamName + " " + effectiveDate + " " + asofDate);
   if(asofDate !== undefined) {
     var test = v1.query({
       from: "Timebox",
@@ -459,6 +434,57 @@ function __getBurndownForTeam(teamName, effectiveDate, callback, asofDate) {
     });
   }
 }
+
+function _getSprintForTeam(teamName, effectiveDate, callback) {
+  var test = v1.query({
+    from: "Timebox",
+
+    select: [
+      'Name',
+      'State.Code',
+      'BeginDate',
+      'EndDate',
+      'Duration',
+      'Owner.Username',
+      'IsClosed',
+      'IsDead',
+      'IsInactive',
+    ],
+    where: {
+      "Workitems.Team.Name": teamName,
+//        "State.Code": 'ACTV', 
+    },
+    wherestr: "EndDate>='" + effectiveDate + "'&BeginDate<='" + effectiveDate + "'",
+    success: callback,
+    error: function(err) { 
+      console.log("ERROR: " + err);
+    }
+  });
+}
+
+function _getDaysFromSprintDuration(duration) {
+  var tokens = duration.split(' ');
+  
+  var baseValue = tokens[0];
+  
+  switch(tokens[1]) {
+    case "days": 
+      break;
+      
+    case "weeks":
+      baseValue *= 7;
+      break;
+      
+    case "hours": 
+      baseValue /= 6;
+      break;
+  }
+  
+  return baseValue;
+}
+
+
+
 
 return;
 
