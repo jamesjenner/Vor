@@ -436,6 +436,17 @@
 
     <!-- C3 logic -->
     <script type="text/javascript">
+
+    var actualData = [20, 18, 17, 15, 17, 16, 15, 1];
+    var xActualAxis = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    console.log('calcTrendLine([' + xActualAxis + '], [' + actualData + '])');
+    var trendY = calcTrendLine(xActualAxis, actualData);
+    console.log('trend result: ' + trendY);
+
+    actualData.unshift('actual');
+    xActualAxis.unshift('actualx');
+      console.log(actualData);
+      
     var burndownChart5 = c3.generate({
       bindto: '#burndown5',
 //      padding: {
@@ -445,10 +456,18 @@
 //        left: 30,
 //      },
       data: {
+        xs: {
+          'goal': 'goalx',
+          'trend': 'trendx',
+          'actual': 'actualx',
+        },
         columns: [
-          ['goal',   20, 18, 16, 14, 12, 10, 8, 6, 4, 2, 0],
-          ['trend',  20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10],
-          ['actual', 20, 18, 17, 15, 17, 16, 15, 15],
+          ['goal',    20, 0],
+          ['goalx',   1, 10],
+          ['trend',   20, trendY],
+          ['trendx',  1, 10],
+          actualData,
+          xActualAxis,
         ],
         types: {
           // actual: 'area',
@@ -468,14 +487,14 @@
       },
       axis: {
         y: {
-          show: true,
+          show: false,
           padding: { top: 0, bottom: 0},
           max: 20,
           min: 0,
           ticks: 5
         },
         x: {
-          show: true,
+          show: false,
           padding: { left: 0, right: 0},
           max: 10,
           min: 0,
@@ -505,23 +524,81 @@
           type: 'tick',
           lines: [
             {value: 0, text: ''},
+            {value: 1, text: ''},
+            {value: 2, text: ''},
+            {value: 3, text: ''},
+            {value: 4, text: ''},
             {value: 5, text: ''},
+            {value: 6, text: ''},
+            {value: 7, text: ''},
+            {value: 8, text: ''},
+            {value: 9, text: ''},
             {value: 10, text: ''},
           ],
           // show: true,
         },
-        y: {
-          type: 'tick',
-          lines: [
-            {value: 5, text: ''},
-            {value: 10, text: ''},
-            {value: 15, text: ''},
-            {value: 20, text: ''},
-          ],
-          // show: true,
-        }
+//        y: {
+//          type: 'tick',
+//          lines: [
+//            {value: 5, text: ''},
+//            {value: 10, text: ''},
+//            {value: 15, text: ''},
+//            {value: 20, text: ''},
+//          ],
+//          // show: true,
+//        }
       }
     });
+      
+    console.log("calc trend for 0, 5, 10 = " + calcTrendLine([1, 2, 3], [0, 5, 10]));
+    
+    function calcTrendLine(xSeries, ySeries) {
+      if(xSeries.length < ySeries.length) {
+        return 0;
+      }
+      
+      var n = ySeries.length;
+      var idx;
+      var sumPlus = 0;
+      var sumSquaredX = 0;
+      var sumX = 0;
+      var sumY = 0;
+      
+      for(idx = 0; idx < ySeries.length; idx++) {
+        sumPlus += xSeries[idx] * ySeries[idx];
+        sumX += xSeries[idx];
+        sumY += ySeries[idx];
+        sumSquaredX += Math.pow(xSeries[idx], 2);
+      }
+      
+      var a = n * sumPlus;
+      var b = sumX * sumY;
+      var c = n * sumSquaredX;
+      var d = Math.pow(sumX, 2);
+      var m = (a - b) / (c - d);
+      
+      console.log("a: " + a);
+      console.log("b: " + b);
+      console.log("c: " + c);
+      console.log("d: " + d);
+      console.log("m: " + m);
+      
+      var e = sumY;
+      var f = m * sumX;
+      
+      var bSlope = (e - f) / n;
+      var y = m * ySeries.length + bSlope;
+      
+      console.log("e: " + e);
+      console.log("f: " + f);
+      console.log("b: " + bSlope);
+      console.log("y: " + y);
+      
+      return y;
+    }
+    
+      
+      
     var progressChart5 = c3.generate({
       bindto: '#progress5',
       data: {
