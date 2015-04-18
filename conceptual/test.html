@@ -445,15 +445,15 @@
      * work performed cumulative  12,  20,  30,  31,  45
      * outstanding (actualData)  108, 100,  90,  79,  65  
      */
-    var estimatedWork = [120, 120, 120, 120, 120];
+    var estimatedWork = [80, 120, 120, 120, 120];
     var workPerformed = [ 12,  20,  30,  31,  45];
-    var actualData =    [120, 108, 100,  90,  79,  65];
+    var actualData =    [80, 108, 100,  90,  79,  65];
     var xAxis = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     var xActualAxis = [0, 1, 2, 3, 4, 5];
     var maxEstimatedWork = 120;
     console.log('calcTrendLine([' + xAxis + '], [' + actualData + '])');
-    var trendY = calcTrendLine(xAxis, actualData);
-    console.log('trend result: ' + trendY);
+    var yPoints = calcTrendLine(xAxis, actualData);
+    console.log('trend result: ' + yPoints);
 
     actualData.unshift('actual');
     xActualAxis.unshift('actualx');
@@ -476,7 +476,7 @@
         columns: [
           ['goal',    maxEstimatedWork, 0],
           ['goalx',   0, 10],
-          ['trend',   maxEstimatedWork, trendY],
+          ['trend',   yPoints[0], yPoints[1]],
           ['trendx',  0, 10],
           actualData,
           xActualAxis,
@@ -562,8 +562,8 @@
       }
     });
       
-    console.log("calc trend for 0, 2.5, 5 = " + calcTrendLine([1, 2, 3, 4], [0, 2.5, 5]));
-    console.log("calc trend for 10, 7.5, 5 = " + calcTrendLine([1, 2, 3, 4], [10, 7.5, 5]));
+//    console.log("calc trend for 0, 2.5, 5 = " + calcTrendLine([1, 2, 3, 4], [0, 2.5, 5]));
+//    console.log("calc trend for 10, 7.5, 5 = " + calcTrendLine([1, 2, 3, 4], [10, 7.5, 5]));
     
     function calcTrendLine(xSeries, ySeries) {
       if(xSeries.length < ySeries.length) {
@@ -601,14 +601,16 @@
       
       var bSlope = (e - f) / n;
       console.log("y = (" + m + " * " + ySeries.length + ") + " + bSlope);
-      var y = (m * xSeries.length) + bSlope;
+      var results = [];
+      results[0] = (m * 1) + bSlope;
+      results[1] = (m * xSeries.length) + bSlope;
       
       console.log("e: " + e);
       console.log("f: " + f);
       console.log("b: " + bSlope);
-      console.log("y: " + y);
+      console.log("y: " + results);
       
-      return y;
+      return results;
     }
     
       
