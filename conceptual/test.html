@@ -437,10 +437,22 @@
     <!-- C3 logic -->
     <script type="text/javascript">
 
-    var actualData = [20, 18, 17, 15, 17, 16, 15, 1];
-    var xActualAxis = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    console.log('calcTrendLine([' + xActualAxis + '], [' + actualData + '])');
-    var trendY = calcTrendLine(xActualAxis, actualData);
+      
+    /*
+     * 2 people, 2 * 6 * 10. presume full capacity, 10 to 14 per day work done for 5 days
+     * estimated work            120, 120, 120, 120, 120
+     * work performed             12,   8,  10,  11,  14
+     * work performed cumulative  12,  20,  30,  31,  45
+     * outstanding (actualData)  108, 100,  90,  79,  65  
+     */
+    var estimatedWork = [120, 120, 120, 120, 120];
+    var workPerformed = [ 12,  20,  30,  31,  45];
+    var actualData =    [120, 108, 100,  90,  79,  65];
+    var xAxis = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    var xActualAxis = [0, 1, 2, 3, 4, 5];
+    var maxEstimatedWork = 120;
+    console.log('calcTrendLine([' + xAxis + '], [' + actualData + '])');
+    var trendY = calcTrendLine(xAxis, actualData);
     console.log('trend result: ' + trendY);
 
     actualData.unshift('actual');
@@ -462,10 +474,10 @@
           'actual': 'actualx',
         },
         columns: [
-          ['goal',    20, 0],
-          ['goalx',   1, 10],
-          ['trend',   20, trendY],
-          ['trendx',  1, 10],
+          ['goal',    maxEstimatedWork, 0],
+          ['goalx',   0, 10],
+          ['trend',   maxEstimatedWork, trendY],
+          ['trendx',  0, 10],
           actualData,
           xActualAxis,
         ],
@@ -489,12 +501,12 @@
         y: {
           show: false,
           padding: { top: 0, bottom: 0},
-          max: 20,
+          max: maxEstimatedWork,
           min: 0,
           ticks: 5
         },
         x: {
-          show: false,
+          show: true,
           padding: { left: 0, right: 0},
           max: 10,
           min: 0,
@@ -524,16 +536,16 @@
           type: 'tick',
           lines: [
             {value: 0, text: ''},
-            {value: 1, text: ''},
-            {value: 2, text: ''},
-            {value: 3, text: ''},
-            {value: 4, text: ''},
-            {value: 5, text: ''},
-            {value: 6, text: ''},
-            {value: 7, text: ''},
-            {value: 8, text: ''},
-            {value: 9, text: ''},
-            {value: 10, text: ''},
+            {value: 1, text: '1'},
+            {value: 2, text: '2'},
+            {value: 3, text: '3'},
+            {value: 4, text: '4'},
+            {value: 5, text: '5'},
+            {value: 6, text: '6'},
+            {value: 7, text: '7'},
+            {value: 8, text: '8'},
+            {value: 9, text: '9'},
+            {value: 10, text: '10'},
           ],
           // show: true,
         },
@@ -550,7 +562,8 @@
       }
     });
       
-    console.log("calc trend for 0, 5, 10 = " + calcTrendLine([1, 2, 3], [0, 5, 10]));
+    console.log("calc trend for 0, 2.5, 5 = " + calcTrendLine([1, 2, 3, 4], [0, 2.5, 5]));
+    console.log("calc trend for 10, 7.5, 5 = " + calcTrendLine([1, 2, 3, 4], [10, 7.5, 5]));
     
     function calcTrendLine(xSeries, ySeries) {
       if(xSeries.length < ySeries.length) {
@@ -587,7 +600,8 @@
       var f = m * sumX;
       
       var bSlope = (e - f) / n;
-      var y = m * ySeries.length + bSlope;
+      console.log("y = (" + m + " * " + ySeries.length + ") + " + bSlope);
+      var y = (m * xSeries.length) + bSlope;
       
       console.log("e: " + e);
       console.log("f: " + f);
