@@ -249,8 +249,8 @@ if (config.debug) {
   console.log((new Date()) + " application.js: starting client server");
 }
 
-clientComms.startClientServer();
 dataSourceManager.start();
+clientComms.startClientServer();
 
     
 /* 
