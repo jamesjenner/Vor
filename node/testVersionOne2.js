@@ -140,7 +140,37 @@ var v1 = new V1Meta(server);
 // var team = 'Ellipse Development 8.6 - Materials';
  var team = 'zzzz - ACME Alpha';
 
-var effectiveDate = '2015-4-15';
+var effectiveDate = '2015-4-22';
+
+
+  v1.query({
+    from: "Timebox",
+
+    select: [
+      'Name',
+      'State.Code',
+      'BeginDate',
+      'EndDate',
+      'Duration',
+      'Owner.Username',
+      'IsClosed',
+      'IsDead',
+      'IsInactive',
+    ],
+    where: {
+      "Workitems.Team.Name": 'Ellipse Development 8.6 - Maintenance',
+        "State.Code": 'ACTV', 
+    },
+    wherestr: "EndDate>='" + effectiveDate + "'&BeginDate<='" + effectiveDate + "'",
+    success: function(result) {
+      console.log(JSON.stringify(result, null, ''));
+    },
+    error: function(err) { 
+      console.log({error: err, errorMsg: "ERROR: " + err});
+    }
+  });
+
+return;
 
 
 // list all stories against a team
