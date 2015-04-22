@@ -143,7 +143,7 @@ var v1 = new V1Meta(server);
 var effectiveDate = '2015-4-22';
 
 
-  v1.query({
+  v1.trans_query({
     from: "Timebox",
 
     select: [
@@ -163,7 +163,16 @@ var effectiveDate = '2015-4-22';
     },
     wherestr: "EndDate>='" + effectiveDate + "'&BeginDate<='" + effectiveDate + "'",
     success: function(result) {
-      console.log(JSON.stringify(result, null, ''));
+      for(var v = 0; v < result.query_results.length; v++) {
+        console.log(result.query_results[v]._v1_current_data['Name']);
+        console.log(result.query_results[v]._v1_current_data['State.Code']);
+        console.log(result.query_results[v]._v1_current_data['BeginDate']);
+        console.log(result.query_results[v]._v1_current_data['EndDate']);
+        console.log(result.query_results[v]._v1_current_data['Duration']);
+        console.log(result.query_results[v]._v1_current_data['Owner.Username']);
+        console.log(result.query_results[v]._v1_current_data['IsClosed']);
+        console.log(result.query_results[v]._v1_current_data['IsDead']);
+    'IsInactive'  }
     },
     error: function(err) { 
       console.log({error: err, errorMsg: "ERROR: " + err});
