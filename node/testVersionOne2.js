@@ -137,103 +137,10 @@ var v1 = new V1Meta(server);
 //var team = 'Ellipse Development 8.6 - Field Length and ERP integration';
 // var team = 'Ellipse - Code Maintenance and Support';
 
-// var team = 'Ellipse Development 8.6 - Materials';
- var team = 'zzzz - ACME Alpha';
+var team = 'Ellipse Development 8.6 - Materials';
+// var team = 'zzzz - ACME Alpha';
 
 var effectiveDate = '2015-4-22';
-
-
-  v1.trans_query({
-    from: "Timebox",
-
-    select: [
-      'Name',
-      'State.Code',
-      'BeginDate',
-      'EndDate',
-      'Duration',
-      'Owner.Username',
-      'IsClosed',
-      'IsDead',
-      'IsInactive',
-    ],
-    where: {
-      "Workitems.Team.Name": 'Ellipse Development 8.6 - Maintenance',
-        "State.Code": 'ACTV', 
-    },
-    wherestr: "EndDate>='" + effectiveDate + "'&BeginDate<='" + effectiveDate + "'",
-    success: function(result) {
-      for(var v = 0; v < result.query_results.length; v++) {
-//        console.log(result.query_results[v].Name);
-//        console.log(result.query_results[v].BeginDate);
-//        console.log(result.query_results[v].EndDate);
-//        console.log(result.query_results[v].Duration);
-//        console.log(result.query_results[v].IsClosed);
-//        console.log(result.query_results[v].IsDead);
-//        console.log(result.query_results[v].IsInactive);
-        
-        console.log(result.query_results[v]._v1_current_data['Name']);
-        console.log(result.query_results[v]._v1_current_data['State.Code']);
-        console.log(result.query_results[v]._v1_current_data['BeginDate']);
-        console.log(result.query_results[v]._v1_current_data['EndDate']);
-        console.log(result.query_results[v]._v1_current_data['Duration']);
-        console.log(result.query_results[v]._v1_current_data['Owner.Username']);
-        console.log(result.query_results[v]._v1_current_data['IsClosed']);
-        console.log(result.query_results[v]._v1_current_data['IsDead']);
-        console.log(result.query_results[v]._v1_current_data['IsInactive']);                                                             
-      }
-    },
-    error: function(err) { 
-      console.log({error: err, errorMsg: "ERROR: " + err});
-    }
-  });
-
-return;
-
-
-// list all stories against a team
-//v1.query({
-//  from: "Story",
-//  select: [
-//      'ID',
-//      'Name',
-//      'Status.Name',
-//      'Team.Name',
-//      'BlockingIssues.@Count',
-//      'IncompleteEstimate',
-//      'OpenEstimate',
-//      'Children.DetailEstimate.@Sum',
-//      'Children.Actuals.Value.@Sum',
-//      'Children.ToDo.@Sum',
-//      'Timebox.BeginDate',
-//      'Timebox.EndDate',
-//      'Timebox.Name',
-//  ],
-//  where: {
-//    "Team.Name": team
-//  },
-//  wherestr: "Timebox.EndDate>='" + effectiveDate + "'&Timebox.BeginDate<='" + effectiveDate + "'",
-//  success: function(result) {
-//    console.log(
-//      result._v1_current_data["ID.Number"] + 
-//      "\t" + result._v1_current_data["Name"] + 
-//      "\n\t" + result._v1_current_data["Status.Name"] + 
-//      "\tTeam: " + result._v1_current_data["Team.Name"] + 
-//      "\n\tBlocking Issues " + result._v1_current_data["BlockingIssues.@Count"] + 
-//      "\tIncomp Est " + result._v1_current_data["IncompleteEstimate"] + 
-//      "\tOpen Est " + result._v1_current_data["OpenEstimate"] + 
-//      "\tDetail Est " + result._v1_current_data["Children.DetailEstimate.@Sum"] + 
-//      "\tActuals Val " + result._v1_current_data["Children.Actuals.Value.@Sum"] + 
-//      "\tSprint: " + result._v1_current_data["Timebox.Name"] + " (" + 
-//      result._v1_current_data["Timebox.BeginDate"] + " -> " + result._v1_current_data["Timebox.EndDate"] + ")" +
-//      "\tToDo " + result._v1_current_data["Children.ToDo.@Sum"]
-//    );
-//  },
-//
-//  error: function(err) { 
-//    console.log("ERROR: " + err);
-//  }
-//});
 
 // list all stories in a project
 
@@ -245,13 +152,39 @@ return;
 // https://www11.v1host.com/VentyxProd/meta.v1?xsl=api.xsl#Workitem
 
 
-_getSprintForTeam(team, effectiveDate, function(result) {
-  var start = moment(result.BeginDate);
-  var end = moment(result.EndDate);
+_getSprintForTeam(team, effectiveDate, function(results) {
+  if(results.query_results.length === 0) {
+    console.log("ERROR: No sprint data for team " + team);
+    return;
+  }
+  var start;
+  var end;
+  var duration;
+  var stateCode; 
+  var lastSprintStart = null;
+  var tmpStart;
+  var sprintName;
+  var sprintId;
+
+  console.log("processing sprints for team results");
+  for(var v = 0; v < results.query_results.length; v++) {
+    console.log("found sprint " + results.query_results[v].Name + " start " + results.query_results[v].BeginDate);
+    tmpStart = moment(results.query_results[v].BeginDate);
+    if(lastSprintStart === null || tmpStart.isAfter(lastSprintStart)) {
+      start = tmpStart;
+      lastSprintStart = start;
+      sprintId = results.query_results[v].ID[0];
+      sprintName = results.query_results[v].Name;
+      end = moment(results.query_results[v].EndDate);
+      duration = results.query_results[v].Duration;
+      stateCode = results.query_results[v]._v1_current_data['State.Code']; 
+    }
+  }
+  
+  console.log("using sprint " + sprintId + " " + sprintName + " start " + start.format("YYYY-MM-DD"));
+  
   var now = moment();
   var diff = Math.abs(start.diff(now, 'days'));
-  
-  console.log(JSON.stringify(result, null, ' '));
   
   if(diff > 14) {
     diff = 14;
@@ -260,36 +193,32 @@ _getSprintForTeam(team, effectiveDate, function(result) {
   // get current values
   // __displayDetailResults(now.format('YYYY-M-D'), result, team);
   
-  console.log(" raw: " + result.BeginDate + " -> " + result.EndDate);
-  console.log("  now: " + now.format('YYYY-M-D'));
-  console.log("start: " + start.format('YYYY-M-D'));
-  console.log("  end: " + end.format('YYYY-M-D'));
-  console.log("state: " + result._v1_current_data["State.Code"]);
-  console.log("state: " + result["State.Code"]);
-  console.log("    ?: " + result._v1_current_data["BeginDate"]);
-  console.log("    ?: " + result.BeginDate);
-  console.log("    ?: " + result["BeginDate"]);
-  console.log("  dur: " + _getDaysFromSprintDuration(result.Duration));
-  console.log(" days: " + diff);
+//  console.log("  now: " + now.format('YYYY-M-D'));
+//  console.log("start: " + start.format('YYYY-M-D'));
+//  console.log("  end: " + end.format('YYYY-M-D'));
+//  console.log("state: " + stateCode);
+//  console.log("  dur: " + _getDaysFromSprintDuration(duration));
+//  console.log(" days: " + diff);
   var dayOfWeek;
   var current;
 
   var processData = [];
-  for (current = moment(result.BeginDate); current.isBefore(end) || current.isSame(end); current.add(1, 'days')) {
+  for (current = start; current.isBefore(end) || current.isSame(end); current.add(1, 'days')) {
     dayOfWeek = current.day();
     
     if(dayOfWeek !== 0 && dayOfWeek !== 6) {
-      processData.push({team: team, effectiveDate: effectiveDate, date: current.format('YYYY-MM-DD')});
+      processData.push({team: team, sprintId: sprintId, date: current.format('YYYY-MM-DD')});
     }
   }
       
+  // console.log("getting sprint details for following days: " + JSON.stringify(processData, null, ' '));
   async.map(processData, _getSprintDetails.bind(this), _processSprintDetails.bind(this));
 });
 
 function _getSprintDetails(params, done) {
 //  console.log("_getSprintDetails: " + params.team + " " + params.date + " " + params.effectiveDate);
   
-  _getSprintBreakdownForTeam(params.team, params.effectiveDate, function(result) {
+  _getSprintBreakdownForTeam(params.team, params.sprintId, function(result) {
 //     console.log("Results for " + params.team + " " + params.date);
      // console.log(result);
     return done(null, {team: params.team, date: params.date, result: result});
@@ -389,7 +318,7 @@ function __displayDetailResults(date, result, team) {
  * ToDo doesn't appear to reflect the task ToDo. Task derives from WorkItem, but nothing else stands out as the todo.
  */
 
-function _getSprintBreakdownForTeam(teamName, effectiveDate, callback, asofDate) {
+function _getSprintBreakdownForTeam(teamName, sprintId, callback, asofDate) {
 //  console.log("_getSprintBreakdownForTeam " + teamName + " " + effectiveDate + " " + asofDate);
   if(asofDate !== undefined) {
     var test = v1.query({
@@ -438,8 +367,9 @@ function _getSprintBreakdownForTeam(teamName, effectiveDate, callback, asofDate)
       where: {
         "Workitems.Team.Name": teamName,
         "State.Code": 'ACTV', 
+        "ID": sprintId,
       },
-      wherestr: "EndDate>='" + effectiveDate + "'&BeginDate<='" + effectiveDate + "'",
+      // wherestr: "ID='" + effectiveDate + "'&BeginDate<='" + effectiveDate + "'",
       success: callback,
       error: function(err) { 
         console.log("ERROR: " + err);
@@ -473,8 +403,9 @@ function _getSprintBreakdownForTeam(teamName, effectiveDate, callback, asofDate)
       where: {
         "Workitems.Team.Name": teamName,
         "State.Code": 'ACTV', 
+        "ID": sprintId,
       },
-      wherestr: "EndDate>='" + effectiveDate + "'&BeginDate<='" + effectiveDate + "'",
+//      wherestr: "EndDate>='" + effectiveDate + "'&BeginDate<='" + effectiveDate + "'",
       success: callback,
       error: function(err) { 
         console.log("ERROR: " + err);
@@ -483,11 +414,13 @@ function _getSprintBreakdownForTeam(teamName, effectiveDate, callback, asofDate)
   }
 }
 
-function _getSprintForTeam(teamName, effectiveDate, callback) {
-  var test = v1.query({
+function _getSprintForTeam(teamName, effectiveDate, callbackFunction) {
+  console.log("determine the sprints for team: " + teamName + " where includes the " + effectiveDate );
+  var test = v1.trans_query({
     from: "Timebox",
 
     select: [
+      'ID',
       'Name',
       'State.Code',
       'BeginDate',
@@ -503,7 +436,7 @@ function _getSprintForTeam(teamName, effectiveDate, callback) {
 //        "State.Code": 'ACTV', 
     },
     wherestr: "EndDate>='" + effectiveDate + "'&BeginDate<='" + effectiveDate + "'",
-    success: callback,
+    success: callbackFunction,
     error: function(err) { 
       console.log("ERROR: " + err);
     }
