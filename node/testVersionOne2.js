@@ -164,6 +164,14 @@ var effectiveDate = '2015-4-22';
     wherestr: "EndDate>='" + effectiveDate + "'&BeginDate<='" + effectiveDate + "'",
     success: function(result) {
       for(var v = 0; v < result.query_results.length; v++) {
+//        console.log(result.query_results[v].Name);
+//        console.log(result.query_results[v].BeginDate);
+//        console.log(result.query_results[v].EndDate);
+//        console.log(result.query_results[v].Duration);
+//        console.log(result.query_results[v].IsClosed);
+//        console.log(result.query_results[v].IsDead);
+//        console.log(result.query_results[v].IsInactive);
+        
         console.log(result.query_results[v]._v1_current_data['Name']);
         console.log(result.query_results[v]._v1_current_data['State.Code']);
         console.log(result.query_results[v]._v1_current_data['BeginDate']);
@@ -172,7 +180,8 @@ var effectiveDate = '2015-4-22';
         console.log(result.query_results[v]._v1_current_data['Owner.Username']);
         console.log(result.query_results[v]._v1_current_data['IsClosed']);
         console.log(result.query_results[v]._v1_current_data['IsDead']);
-    'IsInactive'  }
+        console.log(result.query_results[v]._v1_current_data['IsInactive']);                                                             
+      }
     },
     error: function(err) { 
       console.log({error: err, errorMsg: "ERROR: " + err});
