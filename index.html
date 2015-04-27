@@ -35,6 +35,9 @@
 
     <link rel="stylesheet" href="./bower_components/jasny-bootstrap/dist/css/jasny-bootstrap.min.css">
     
+    <!-- bootstrap toggle -->
+    <link rel="stylesheet" href="./bower_components/bootstrap-toggle/css/bootstrap-toggle.min.css">
+    
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <!-- jgj from template <script src="./js/ie10-viewport-bug-workaround.js"></script> -->
 
@@ -194,44 +197,51 @@
             <div class="col-md-12">
               <form class="form-horizontal">
                 <div class="form-group">
-                  <label class="col-md-4 control-label" for="settingsLogo">Logo</label>
-                  <div class="col-md-6">
-                    <input name="settingsLogo" maxlength="200" type="text" required="required" class="form-control" placeholder="Select the logo" />
+                  <label class="col-md-4 control-label" for="preferenceLocalConfig">Local Configuration</label>
+                  <div class="col-md-1">
+                    <input id="preferenceLocalConfig" name="preferenceLocalConfig" type="checkbox" required="required" class="form-control" data-toggle="toggle" placeholder="" />
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label class="col-md-4 control-label" for="settingsTitle">Title</label>
+                  <label class="col-md-4 control-label" for="preferenceLogo">Logo</label>
                   <div class="col-md-6">
-                    <input name="settingsTitle" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the title for the display" />
+                    <input id="preferenceLogo" name="preferenceLogo" maxlength="200" type="text" required="required" class="form-control" placeholder="Select the logo" />
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label class="col-md-4 control-label" for="settingsSubTitle">Subtitle</label>
+                  <label class="col-md-4 control-label" for="preferenceTitle">Title</label>
                   <div class="col-md-6">
-                    <input name="settingsSubTitle" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the subtitle for the display" />
+                    <input id="preferenceTitle" name="preferenceTitle" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the title for the display" />
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label class="col-md-4 control-label" for="settingsDisplayColumns">Columns</label>
+                  <label class="col-md-4 control-label" for="preferenceSubTitle">Subtitle</label>
+                  <div class="col-md-6">
+                    <input id="preferenceSubTitle" name="preferenceSubTitle" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the subtitle for the display" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="preferenceDisplayColumns">Columns</label>
                   <div class="col-md-2">
-                    <input name="settingsDisplayColumns" maxlength="200" type="text" required="required" class="form-control" placeholder="Number of columns" />
+                    <input id="preferenceDisplayColumns" name="preferenceDisplayColumns" maxlength="200" type="text" required="required" class="form-control" placeholder="Number of columns" />
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label class="col-md-4 control-label" for="settingsHeaderEnabled">Display Header</label>
+                  <label class="col-md-4 control-label" for="preferenceHeaderEnabled">Display Header</label>
                   <div class="col-md-1">
-                    <input name="settingsHeaderEnabled" maxlength="200" type="text" required="required" class="form-control" placeholder="" />
+                    <input id="preferenceHeaderEnabled" name="preferenceHeaderEnabled" type="checkbox" required="required" class="form-control" data-toggle="toggle" placeholder="" />
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label class="col-md-4 control-label" for="settingsBannerEnabled">Display Banner</label>
+                  <label class="col-md-4 control-label" for="preferenceBannerEnabled">Display Banner</label>
                   <div class="col-md-1">
-                    <input name="settingsBannerEnabled" maxlength="200" type="text" required="required" class="form-control" placeholder="" />
+                    <input id="preferenceBannerEnabled"  name="preferenceBannerEnabled" type="checkbox" required="required" class="form-control" data-toggle="toggle" placeholder="" />
                   </div>
                 </div>
               </form>
@@ -239,7 +249,7 @@
           </div>
         </div>
         <div class="pane-footer">
-          <button type="button" class="btn btn-primary">Apply</button>
+          <button id="generalSettingsApply" type="button" class="btn btn-primary">Apply</button>
         </div>
       </div>
       <div id="themesPane" class="pane-content hidePane panel no-width"  style="display: none">
@@ -337,6 +347,7 @@
     <script src="./bower_components/bootstrap-iconpicker/bootstrap-iconpicker/js/iconset/iconset-fontawesome-4.2.0.min.js"></script>
     <script src="./bower_components/bootstrap-iconpicker/bootstrap-iconpicker/js/bootstrap-iconpicker.min.js"></script>
     <script src="./bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <script src="./bower_components/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
     <script src="./bower_components/d3/d3.min.js"></script>
     <script src="./bower_components/c3js-chart/c3.min.js"></script>
 
