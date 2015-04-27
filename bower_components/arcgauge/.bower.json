@@ -32,6 +32,6 @@
     "commit": "4caacbec7a3037c20d07db6342546c9c75fd28be"
   },
   "_source": "git://github.com/jamesjenner/arcGauge.git",
-  "_target": "~0.0.2",
+  "_target": "~0.0.3",
   "_originalSource": "arcgauge"
 }
