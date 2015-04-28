@@ -35,6 +35,7 @@ var DataSourceHandler = require('./lib/server/dataSourceHandler.js');
 var WidgetHandler = require('./lib/server/widgetHandler.js');
 var DataSourceManager = require('./lib/server/dataSourceManager.js');
 var LocalPreferenceHandler = require('./lib/server/localPreferenceHandler.js');
+var PreferenceHandler = require('./lib/server/preferenceHandler.js');
 
 //var VEHICLES_FILE = 'vehicles.json';
 
@@ -223,6 +224,7 @@ var clientComms = new MeltingPot.Comms({
   debugLevel: config.debugLevel,
   messageHandlers: [
     PanelHandler.messageHandler,
+    PreferenceHandler.messageHandler,
     LocalPreferenceHandler.messageHandler,
     DataSourceHandler.messageHandler,
     WidgetHandler.messageHandler,
@@ -239,6 +241,9 @@ panelHandler.setupCommsListeners(clientComms);
 
 var localPreferenceHandler = new LocalPreferenceHandler({dataDirectory: config.dataDirectory});
 localPreferenceHandler.setupCommsListeners(clientComms);
+
+var preferenceHandler = new PreferenceHandler({dataDirectory: config.dataDirectory});
+preferenceHandler.setupCommsListeners(clientComms);
 
 var widgetHandler = new WidgetHandler({dataDirectory: config.dataDirectory});
 widgetHandler.setupCommsListeners(clientComms);
