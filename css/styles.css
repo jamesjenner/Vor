@@ -680,3 +680,9 @@ table {
 .hidePane {
 /*  display: none;*/
 }
+
+#toast-container > div {
+  -moz-box-shadow: 0 0 12px #111111;
+  -webkit-box-shadow: 0 0 12px #111111;
+  box-shadow: 0 0 12px #111111;
+}
