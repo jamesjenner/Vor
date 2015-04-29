@@ -30,7 +30,8 @@
     "jquery-ui": "~1.11.2",
     "arcgauge": "~0.0.3",
     "bootboxwiz": "~0.0.3",
-    "bootstrap-toggle": "~2.2.0"
+    "bootstrap-toggle": "~2.2.0",
+    "toastr": "~2.1.1"
   },
   "resolutions": {
     "d3": "~3.4.13",
