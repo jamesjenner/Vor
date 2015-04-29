@@ -22,11 +22,17 @@ Quick Start
 5. Start the server: `node vor`
 6. Run the client by opening `index.html` in a web browser.
 
+Current State
+______
+
+The current state of development is avaialble at [trello](https://trello.com/b/tyFglxpx).
+
 Development
 ------
 
 ###Installing
 
+TBD
 
 ###Testing
 
