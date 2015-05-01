@@ -236,14 +236,14 @@ if(!validateDataDirectory(config.dataDirectory)) {
  return -1;
 }
     
-var panelHandler = new PanelHandler({dataDirectory: config.dataDirectory});
-panelHandler.setupCommsListeners(clientComms);
-
 var localPreferenceHandler = new LocalPreferenceHandler({dataDirectory: config.dataDirectory});
 localPreferenceHandler.setupCommsListeners(clientComms);
 
-var preferenceHandler = new PreferenceHandler({dataDirectory: config.dataDirectory});
+var preferenceHandler = new PreferenceHandler({dataDirectory: config.dataDirectory, localPreferenceHandler: localPreferenceHandler});
 preferenceHandler.setupCommsListeners(clientComms);
+
+var panelHandler = new PanelHandler({dataDirectory: config.dataDirectory, preferenceHandler: preferenceHandler});
+panelHandler.setupCommsListeners(clientComms);
 
 var widgetHandler = new WidgetHandler({dataDirectory: config.dataDirectory});
 widgetHandler.setupCommsListeners(clientComms);
