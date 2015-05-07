@@ -104,248 +104,263 @@
   </head>
   
   <body role="document" cz-shortcut-listen="true" class="background">
-
-    <!-- Fixed navbar -->
-    <div class="navbar navbar-default navbar-inverse navbar-fixed-top">
-      <div class="navbar-header">
-        <div class="navbar-brand">
-<!--          <img src="private_images/Ventyx%20Logo%20Primary-v2_large-white.png" alt="Ventyx An ABB Company" />-->
-<!--          <img src="private_images/abb%20black.png" alt="Ventyx An ABB Company" />-->
-          <img src="private_images/abb%20white.png" alt="Ventyx An ABB Company" />
-<!--          <img src="private_images/abb%20color.png" alt="Ventyx An ABB Company" />-->
-        </div>
-      </div>
-      <div class="container">
-        <div class="navbar-collapse collapse navbar-responsive-collapse">
-          <div class="navbar-brand navbar-left ventyxVerticalLine">
-            <span>Ellipse 8</span><br/>
-            <span>Enterprise Asset Management</span>
+    <div class="document-content">
+      <!-- Fixed navbar -->
+      <div class="navbar navbar-default navbar-inverse navbar-fixed-top">
+        <div class="navbar-header">
+          <div class="navbar-brand">
+  <!--          <img src="private_images/Ventyx%20Logo%20Primary-v2_large-white.png" alt="Ventyx An ABB Company" />-->
+  <!--          <img src="private_images/abb%20black.png" alt="Ventyx An ABB Company" />-->
+            <img src="private_images/abb%20white.png" alt="Ventyx An ABB Company" />
+  <!--          <img src="private_images/abb%20color.png" alt="Ventyx An ABB Company" />-->
           </div>
-          <div class="navbar-brand navbar-right">
-            <div>
-              <button id="addPanel" type="button" class="btn btn-default config-buttons config-button-inactive">
-                <i class="fa fa-plus fa-lg"></i>
-<!--
-                <br/>
-                <span class="btn-text">Add Panel</span>
--->
-              </button>
-              <button id="viewDataSources" type="button" class="btn btn-default config-buttons config-button-inactive">
-                <i class="fa fa-database fa-lg"></i>
-<!--
-                <br/>
-                <span class="btn-text">Data Source</span>
--->
-              </button>
-              <button id="viewContent" type="button" class="btn btn-default config-buttons config-button-inactive">
-                <i class="fa fa-newspaper-o fa-lg"></i>
-<!--
-                <br/>
-                <span class="btn-text">Content</span>
--->
-              </button>
-              <button id="viewThemes" type="button" class="btn btn-default config-buttons config-button-inactive">
-                <i class="fa fa-paint-brush fa-lg"></i>
-<!--
-                <br/>
-                <span class="btn-text">Theme</span>
--->
-              </button>
-              <button id="viewNetwork" type="button" class="btn btn-default config-buttons config-button-inactive">
-                <i class="fa fa-sitemap fa-lg"></i>
-<!--
-                <br/>
-                <span class="btn-text">Network</span>
--->
-              </button>
-              <button id="viewSettings" type="button" class="btn btn-default config-buttons config-button-inactive">
-                <i class="fa fa-sliders fa-lg"></i>
-<!--
-                <br/>
-                <span class="btn-text">Settings</span>
--->
-              </button>
-              <button id="viewHome" type="button" class="btn btn-default config-buttons config-button-active">
-                <i class="fa fa-home fa-lg"></i>
-<!--
-                <br/>
-                <span class="btn-text">Home</span>
--->
-              </button>
-              <div class="btn-group" data-toggle="buttons">
-                  <label class="btn btn-default config-toggle-button">
-                    <input id="toggleConfigMode" type="checkbox">
-                    <i class="fa fa-cogs fa-lg"></i>
-                  </label>
-                <!-- </button> -->
+        </div>
+        <div class="container">
+          <div class="navbar-collapse collapse navbar-responsive-collapse">
+            <div class="navbar-brand navbar-left ventyxVerticalLine">
+              <span>Ellipse 8</span><br/>
+              <span>Enterprise Asset Management</span>
+            </div>
+            <div class="navbar-brand navbar-right">
+              <div>
+                <button id="addPanel" type="button" class="btn btn-default config-buttons config-button-inactive">
+                  <i class="fa fa-plus fa-lg"></i>
+  <!--
+                  <br/>
+                  <span class="btn-text">Add Panel</span>
+  -->
+                </button>
+                <button id="viewDataSources" type="button" class="btn btn-default config-buttons config-button-inactive">
+                  <i class="fa fa-database fa-lg"></i>
+  <!--
+                  <br/>
+                  <span class="btn-text">Data Source</span>
+  -->
+                </button>
+                <button id="viewContent" type="button" class="btn btn-default config-buttons config-button-inactive">
+                  <i class="fa fa-newspaper-o fa-lg"></i>
+  <!--
+                  <br/>
+                  <span class="btn-text">Content</span>
+  -->
+                </button>
+                <button id="viewThemes" type="button" class="btn btn-default config-buttons config-button-inactive">
+                  <i class="fa fa-paint-brush fa-lg"></i>
+  <!--
+                  <br/>
+                  <span class="btn-text">Theme</span>
+  -->
+                </button>
+                <button id="viewNetwork" type="button" class="btn btn-default config-buttons config-button-inactive">
+                  <i class="fa fa-sitemap fa-lg"></i>
+  <!--
+                  <br/>
+                  <span class="btn-text">Network</span>
+  -->
+                </button>
+                <button id="viewSettings" type="button" class="btn btn-default config-buttons config-button-inactive">
+                  <i class="fa fa-sliders fa-lg"></i>
+  <!--
+                  <br/>
+                  <span class="btn-text">Settings</span>
+  -->
+                </button>
+                <button id="viewHome" type="button" class="btn btn-default config-buttons config-button-active">
+                  <i class="fa fa-home fa-lg"></i>
+  <!--
+                  <br/>
+                  <span class="btn-text">Home</span>
+  -->
+                </button>
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-default config-toggle-button">
+                      <input id="toggleConfigMode" type="checkbox">
+                      <i class="fa fa-cogs fa-lg"></i>
+                    </label>
+                  <!-- </button> -->
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div id="mainBody" class="container no-width">
-      <div id="homePane" class="activePane row no-pad">
-        <div id="column1" class="column col-sm-6">
-        </div>
-        <div id="column2" class="column col-sm-6">
-        </div>
-      </div>
-      <div id="settingsPane" class="pane-content hidePane panel no-width"  style="display: none">
-        <div class="pane-header">
-          <h4 class="pane-title">General Settings</h4>
-        </div>
-        <div class="pane-body">
-          <div class="row">
-            <div class="col-md-12">
-              <form class="form-horizontal">
-                <div class="form-group">
-                  <label class="col-md-4 control-label" for="preferenceLocalConfig">Local Configuration</label>
-                  <div class="col-md-1">
-                    <input id="preferenceLocalConfig" name="preferenceLocalConfig" type="checkbox" required="required" class="form-control" data-toggle="toggle" placeholder="" />
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="col-md-4 control-label" for="preferenceLogo">Logo</label>
-                  <div class="col-md-6">
-                    <input id="preferenceLogo" name="preferenceLogo" maxlength="200" type="text" required="required" class="form-control" placeholder="Select the logo" />
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="col-md-4 control-label" for="preferenceTitle">Title</label>
-                  <div class="col-md-6">
-                    <input id="preferenceTitle" name="preferenceTitle" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the title for the display" />
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="col-md-4 control-label" for="preferenceSubTitle">Subtitle</label>
-                  <div class="col-md-6">
-                    <input id="preferenceSubTitle" name="preferenceSubTitle" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the subtitle for the display" />
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="col-md-4 control-label" for="preferenceLocation">Location</label>
-                  <div class="col-md-6">
-                    <input id="preferenceLocation" name="preferenceLocation" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the location of the display" />
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="col-md-4 control-label" for="preferenceDisplayRows">Rows</label>
-                  <div class="col-md-2">
-                    <input id="preferenceDisplayRows" name="preferenceDisplayRows" maxlength="200" type="text" required="required" class="form-control" placeholder="Number of rows" />
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="col-md-4 control-label" for="preferenceDisplayColumns">Columns</label>
-                  <div class="col-md-2">
-                    <input id="preferenceDisplayColumns" name="preferenceDisplayColumns" maxlength="200" type="text" required="required" class="form-control" placeholder="Number of columns" />
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="col-md-4 control-label" for="preferenceHeaderEnabled">Display Header</label>
-                  <div class="col-md-1">
-                    <input id="preferenceHeaderEnabled" name="preferenceHeaderEnabled" type="checkbox" required="required" class="form-control" data-toggle="toggle" placeholder="" />
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="col-md-4 control-label" for="preferenceBannerEnabled">Display Banner</label>
-                  <div class="col-md-1">
-                    <input id="preferenceBannerEnabled"  name="preferenceBannerEnabled" type="checkbox" required="required" class="form-control" data-toggle="toggle" placeholder="" />
-                  </div>
-                </div>
-              </form>
+      <div id="mainBody" class="main-body container no-width">
+        <div id="homePane" class="main-pane activePane">
+          <div id="header" class="col-sm-12">
+          </div>
+          <div id="panelsPane" class="main-panels col-sm-12 row no-pad">
+            <div id="column1" class="main-column col-sm-6">
+            </div>
+            <div id="column2" class="column col-sm-6">
+            </div>
+          </div>
+          <div id="main-footer" class="main-footer col-sm-12 row no-pad">
+            <div class="panel footer-panel col-sm-12" style="display: block">
+              <div class="widget-container" style="padding-left: 10px; ">
+                <span style="font-size: 5em; color: #2222fa">
+                  Don't look the other way<br>
+                  <span style="color: #ffffff">Ask Questions. Report Concerns.</span>
+                </span>
+              </div>
             </div>
           </div>
         </div>
-        <div class="pane-footer">
-          <button id="generalSettingsApply" type="button" class="btn btn-primary">Apply</button>
-        </div>
-      </div>
-      <div id="themesPane" class="pane-content hidePane panel no-width"  style="display: none">
-        <div class="pane-header">
-          <h4 class="pane-title">Themes</h4>
-        </div>
-        <div class="pane-body">
-          <div class="row">
-            <div class="col-md-12">
-              <form class="form-horizontal">
-              </form>
-            </div>
+        <div id="settingsPane" class="pane-content hidePane panel no-width"  style="display: none">
+          <div class="pane-header">
+            <h4 class="pane-title">General Settings</h4>
           </div>
-        </div>
-        <div class="pane-footer">
-          <button type="button" class="btn btn-primary">Apply</button>
-        </div>      
-      </div>
-      <div id="bannerContentPane" class="pane-content hidePane panel no-width"  style="display: none">
-        <div class="pane-header">
-          <h4 class="pane-title">Content</h4>
-        </div>
-        <div class="pane-body">
-          <div class="row">
-            <div class="col-md-12">
-              <form class="form-horizontal">
-
-                
-                <div class="form-group">
-                  <label class="col-md-4 control-label" for="contentPosition">Position</label>
-                  <div class="col-md-4">
-                    <select name="contentPosition" class="selectpicker">
-                      <option>Top</option>
-                      <option selected="selected">Bottom</option>
-                    </select>
+          <div class="pane-body">
+            <div class="row">
+              <div class="col-md-12">
+                <form class="form-horizontal">
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" for="preferenceLocalConfig">Local Configuration</label>
+                    <div class="col-md-1">
+                      <input id="preferenceLocalConfig" name="preferenceLocalConfig" type="checkbox" required="required" class="form-control" data-toggle="toggle" placeholder="" />
+                    </div>
                   </div>
-                </div>
 
-                <div class="form-group">
-                  <label class="col-md-4 control-label" for="contentRotationPeriod">Rotation Period (ms)</label>
-                  <div class="col-md-2">
-                    <input name="contentRotationPeriod" maxlength="200" type="text" required="required" class="form-control" placeholder="" />
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" for="preferenceLogo">Logo</label>
+                    <div class="col-md-6">
+                      <input id="preferenceLogo" name="preferenceLogo" maxlength="200" type="text" required="required" class="form-control" placeholder="Select the logo" />
+                    </div>
                   </div>
-                </div>
 
-              </form>
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" for="preferenceTitle">Title</label>
+                    <div class="col-md-6">
+                      <input id="preferenceTitle" name="preferenceTitle" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the title for the display" />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" for="preferenceSubTitle">Subtitle</label>
+                    <div class="col-md-6">
+                      <input id="preferenceSubTitle" name="preferenceSubTitle" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the subtitle for the display" />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" for="preferenceLocation">Location</label>
+                    <div class="col-md-6">
+                      <input id="preferenceLocation" name="preferenceLocation" maxlength="200" type="text" required="required" class="form-control" placeholder="Enter the location of the display" />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" for="preferenceDisplayRows">Rows</label>
+                    <div class="col-md-2">
+                      <input id="preferenceDisplayRows" name="preferenceDisplayRows" maxlength="200" type="text" required="required" class="form-control" placeholder="Number of rows" />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" for="preferenceDisplayColumns">Columns</label>
+                    <div class="col-md-2">
+                      <input id="preferenceDisplayColumns" name="preferenceDisplayColumns" maxlength="200" type="text" required="required" class="form-control" placeholder="Number of columns" />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" for="preferenceHeaderEnabled">Display Header</label>
+                    <div class="col-md-1">
+                      <input id="preferenceHeaderEnabled" name="preferenceHeaderEnabled" type="checkbox" required="required" class="form-control" data-toggle="toggle" placeholder="" />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" for="preferenceBannerEnabled">Display Banner</label>
+                    <div class="col-md-1">
+                      <input id="preferenceBannerEnabled"  name="preferenceBannerEnabled" type="checkbox" required="required" class="form-control" data-toggle="toggle" placeholder="" />
+                    </div>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="pane-footer">
-          <button type="button" class="btn btn-primary">Apply</button>
-        </div>      
-      </div>
-      <div id="dataSourcesPane" class="pane-content hidePane panel no-width"  style="display: none">
-        <div class="pane-header">
-          <h4 class="pane-title">Data Sources</h4>
-        </div>
-        <div class="pane-body">
-          <div class="row">
-            <div class="col-md-12">
-              <table class="table table-striped table-bordered table-hover">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Description</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody id="dataSourcesGrid" data-link="row" class="rowlink">
-                </tbody>
-              </table>
-            </div>
+          <div class="pane-footer">
+            <button id="generalSettingsApply" type="button" class="btn btn-primary">Apply</button>
           </div>
         </div>
-        <div class="pane-footer">
-          <button id="addDataSource" type="button" class="btn btn-default">
-            <i class="fa fa-plus fa-lg"></i>
-          </button>
-        </div>      
+        <div id="themesPane" class="pane-content hidePane panel no-width"  style="display: none">
+          <div class="pane-header">
+            <h4 class="pane-title">Themes</h4>
+          </div>
+          <div class="pane-body">
+            <div class="row">
+              <div class="col-md-12">
+                <form class="form-horizontal">
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="pane-footer">
+            <button type="button" class="btn btn-primary">Apply</button>
+          </div>      
+        </div>
+        <div id="bannerContentPane" class="pane-content hidePane panel no-width"  style="display: none">
+          <div class="pane-header">
+            <h4 class="pane-title">Content</h4>
+          </div>
+          <div class="pane-body">
+            <div class="row">
+              <div class="col-md-12">
+                <form class="form-horizontal">
+
+
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" for="contentPosition">Position</label>
+                    <div class="col-md-4">
+                      <select name="contentPosition" class="selectpicker">
+                        <option>Top</option>
+                        <option selected="selected">Bottom</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" for="contentRotationPeriod">Rotation Period (ms)</label>
+                    <div class="col-md-2">
+                      <input name="contentRotationPeriod" maxlength="200" type="text" required="required" class="form-control" placeholder="" />
+                    </div>
+                  </div>
+
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="pane-footer">
+            <button type="button" class="btn btn-primary">Apply</button>
+          </div>      
+        </div>
+        <div id="dataSourcesPane" class="pane-content hidePane panel no-width"  style="display: none">
+          <div class="pane-header">
+            <h4 class="pane-title">Data Sources</h4>
+          </div>
+          <div class="pane-body">
+            <div class="row">
+              <div class="col-md-12">
+                <table class="table table-striped table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <th>Type</th>
+                      <th>Description</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dataSourcesGrid" data-link="row" class="rowlink">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="pane-footer">
+            <button id="addDataSource" type="button" class="btn btn-default">
+              <i class="fa fa-plus fa-lg"></i>
+            </button>
+          </div>      
+        </div>
       </div>
     </div>
 
