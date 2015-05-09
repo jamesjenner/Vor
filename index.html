@@ -137,7 +137,7 @@
                   <span class="btn-text">Data Source</span>
   -->
                 </button>
-                <button id="viewContent" type="button" class="btn btn-default config-buttons config-button-inactive">
+                <button id="viewBannerContent" type="button" class="btn btn-default config-buttons config-button-inactive">
                   <i class="fa fa-newspaper-o fa-lg"></i>
   <!--
                   <br/>
@@ -440,6 +440,24 @@
                       <input id="preferenceBannerEnabled"  name="preferenceBannerEnabled" type="checkbox" required="required" class="form-control" data-toggle="toggle" placeholder="" />
                     </div>
                   </div>
+                  
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" for="preferenceBannerPosition">Banner Position</label>
+                    <div class="col-md-4">
+                      <select id="preferenceBannerPosition" name="preferenceBannerPosition" class="selectpicker">
+                        <option>Top</option>
+                        <option>Bottom</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" for="preferenceBannerRotationPeriod">Banner Rotation Period (ms)</label>
+                    <div class="col-md-2">
+                      <input id="preferenceBannerRotationPeriod" name="preferenceBannerRotationPeriod" maxlength="200" type="text" required="required" class="form-control" placeholder="" />
+                    </div>
+                  </div>
+                  
                 </form>
               </div>
             </div>
@@ -466,7 +484,7 @@
         </div>
         <div id="bannerContentPane" class="pane-content hidePane panel no-width"  style="display: none">
           <div class="pane-header">
-            <h4 class="pane-title">Content</h4>
+            <h4 class="pane-title">Banner Content</h4>
           </div>
           <div class="pane-body">
             <div class="row">
@@ -474,22 +492,6 @@
                 <form class="form-horizontal">
 
 
-                  <div class="form-group">
-                    <label class="col-md-4 control-label" for="contentPosition">Position</label>
-                    <div class="col-md-4">
-                      <select name="contentPosition" class="selectpicker">
-                        <option>Top</option>
-                        <option selected="selected">Bottom</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label class="col-md-4 control-label" for="contentRotationPeriod">Rotation Period (ms)</label>
-                    <div class="col-md-2">
-                      <input name="contentRotationPeriod" maxlength="200" type="text" required="required" class="form-control" placeholder="" />
-                    </div>
-                  </div>
 
                 </form>
               </div>
