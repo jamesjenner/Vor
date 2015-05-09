@@ -228,6 +228,7 @@ var clientComms = new MeltingPot.Comms({
     LocalPreferenceHandler.messageHandler,
     DataSourceHandler.messageHandler,
     WidgetHandler.messageHandler,
+    BannerHandler.messageHandler,
   ]
 });
 
@@ -247,6 +248,9 @@ panelHandler.setupCommsListeners(clientComms);
 
 var widgetHandler = new WidgetHandler({dataDirectory: config.dataDirectory});
 widgetHandler.setupCommsListeners(clientComms);
+
+var bannerHandler = new BannerHandler({dataDirectory: config.dataDirectory});
+bannerHandler.setupCommsListeners(clientComms);
 
 var dataSourceHandler = new DataSourceHandler({dataDirectory: config.dataDirectory});
 dataSourceHandler.setupCommsListeners(clientComms);
