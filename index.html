@@ -484,21 +484,29 @@
         </div>
         <div id="bannerContentPane" class="pane-content hidePane panel no-width"  style="display: none">
           <div class="pane-header">
-            <h4 class="pane-title">Banner Content</h4>
+            <h4 class="pane-title">Banners</h4>
           </div>
           <div class="pane-body">
             <div class="row">
               <div class="col-md-12">
-                <form class="form-horizontal">
-
-
-
-                </form>
+                <table class="table table-striped table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <th>Headline</th>
+                      <th>Sub-Headline</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="bannerGrid" data-link="row" class="rowlink">
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
           <div class="pane-footer">
-            <button type="button" class="btn btn-primary">Apply</button>
+            <button id="addBanner" type="button" class="btn btn-default">
+              <i class="fa fa-plus fa-lg"></i>
+            </button>
           </div>      
         </div>
         <div id="dataSourcesPane" class="pane-content hidePane panel no-width"  style="display: none">
@@ -577,6 +585,7 @@
     <script src="./lib/client/preferenceManager.js"></script>
     <script src="./lib/shared/banner.js"></script>
     <script src="./lib/client/bannerManager.js"></script>
+    <script src="./lib/client/bannerDialog.js"></script>
     <script src="./lib/shared/localPreference.js"></script>
     <script src="./lib/client/localPreferenceManager.js"></script>
     <script src="./lib/shared/agileSprint.js"></script>
