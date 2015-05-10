@@ -36,6 +36,7 @@ var WidgetHandler = require('./lib/server/widgetHandler.js');
 var DataSourceManager = require('./lib/server/dataSourceManager.js');
 var LocalPreferenceHandler = require('./lib/server/localPreferenceHandler.js');
 var PreferenceHandler = require('./lib/server/preferenceHandler.js');
+var BannerHandler = require('./lib/server/bannerHandler.js');
 
 //var VEHICLES_FILE = 'vehicles.json';
 
