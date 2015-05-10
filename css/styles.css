@@ -60,6 +60,14 @@ body {
   vertical-align: middle;
 }
 
+div.component {
+  display: table;
+}
+
+.form-component {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
 
 .navbar {
   background: none;
