@@ -32,7 +32,8 @@
     "bootboxwiz": "~0.0.3",
     "bootstrap-toggle": "~2.2.0",
     "toastr": "~2.1.1",
-    "mjolnic-bootstrap-colorpicker": "~2.1.1"
+    "mjolnic-bootstrap-colorpicker": "~2.1.1",
+    "eonasdan-bootstrap-datetimepicker": "~4.7.14"
   },
   "resolutions": {
     "d3": "~3.4.13",
