@@ -5,12 +5,13 @@ var jenkinsapi = require('./lib/jenkins');
 
 var jenkins = jenkinsapi.init("http://awsjenkins.ventyx.abb.com:8080");
 
-// var target = "kitchen_ellipse";
-var target = "ellipse-unit-tests";
+jenkins.job_info('/kitchen_ellipse', processResults.bind(null, '/kitchen_ellipse'));
+jenkins.job_info('/ellipse-unit-tests', processResults.bind(null, '/ellipse-unit-tests'));
+jenkins.job_info('/ellipse-service-tests', processResults.bind(null, '/ellipse-service-tests'));
 
-jenkins.job_info('/' + target, function(err, data) {
+function processResults(target, err, data) {
   if(err) {
-    console.log("ERROR (job info kitchen_ellipse): " + err);
+    console.log("ERROR (job info): " + err);
     return;
   }
 //  console.log("data: " + JSON.stringify(data, null, ' '));
@@ -27,33 +28,24 @@ jenkins.job_info('/' + target, function(err, data) {
   console.log("\t       builds: ");
   
   
-//  for(var i = 0; i < data.builds.length && i < 6; i++) {
-    (function(buildNbr) {
-      getJobResult(buildNbr, function(result, building, progress) {
-        if(building) {
-          console.log("\t               " + buildNbr + " -> " + progress + "%");
-        } else {
-          console.log("\t               " + buildNbr + " : " + result);
-        }
-      });
-      })(data.builds[0].number);
-//    })(data.builds[i].number);
-//  }
-  
-});
+  getJobResult(data.displayName, target, data.builds[0].number);
+}
 
-function getJobResult(jobNbr, callback) {
-  jenkins.build_info('/' + target, jobNbr, function(err, data) {
-    console.log("\tFailed: " + data["actions"][6].failCount);
-    console.log("\tSkipped: " + data["actions"][6].skipCount);
-    console.log("\tPassed: " + 
+function getJobResult(displayName, target, jobNbr, callback) {
+  jenkins.build_info(target, jobNbr, function(err, data) {
+    console.log(JSON.stringify(data, null, ' '));
+    if(data.building) {
+      console.log(displayName + "\t" + jobNbr + " -> " + Math.round((new Date().getTime() - data.timestamp) / data.estimatedDuration * 100) + "%");
+    } else {
+      if(data["actions"][6].failCount !== undefined) {
+        console.log(displayName + "\t" + jobNbr + " : " + data.result + "\tFailed: " + data["actions"][6].failCount + "\tSkipped: " + data["actions"][6].skipCount + "\tPassed: " + 
       (parseInt(data["actions"][6].totalCount) - 
       (
         parseInt(data["actions"][6].failCount) + parseInt(data["actions"][6].skipCount) 
-      ))
-    );
-    if(!err && callback !== undefined) {
-      callback(data.result, data.building, Math.round((new Date().getTime() - data.timestamp) / data.estimatedDuration * 100));
+      )));
+      } else {
+        console.log(displayName + "\t" + jobNbr + " : " + data.result);
+      }
     }
   });
 }
