@@ -140,7 +140,7 @@ var v1 = new V1Meta(server);
 var team = 'Ellipse Development 8.6 - Materials';
 // var team = 'zzzz - ACME Alpha';
 
-var effectiveDate = '2015-4-22';
+var effectiveDate = '2015-5-13';
 
 // list all stories in a project
 
@@ -182,6 +182,11 @@ _getSprintForTeam(team, effectiveDate, function(results) {
   }
   
   console.log("using sprint " + sprintId + " " + sprintName + " start " + start.format("YYYY-MM-DD"));
+
+  _getStorysForTeamSprint(team, sprintName, function(err, result) {
+    console.log(JSON.stringify(result));
+  });
+
   
   var now = moment();
   var diff = Math.abs(start.diff(now, 'days'));
@@ -213,6 +218,7 @@ _getSprintForTeam(team, effectiveDate, function(results) {
       
   // console.log("getting sprint details for following days: " + JSON.stringify(processData, null, ' '));
   async.map(processData, _getSprintDetails.bind(this), _processSprintDetails.bind(this));
+  
 });
 
 function _getSprintDetails(params, done) {
@@ -270,17 +276,6 @@ function _compareSprintDetailsByDay(a, b) {
 
 function __displayDetailResults(date, result, team) {
 
-//  console.log("\t\t" + 
-//  "a " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Children.ToDo.@Sum"] +
-//  "b " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Children.DetailEstimate.@Sum"] +
-//  "c " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Children.Actuals.Value.@Sum"] +
-//  "d " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Children.AllocatedDetailEstimate"] +
-//  "e " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Children.AllocatedToDo"] +
-//  "f " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Children.EstimatedAllocatedDone"] +
-//  "g " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Children.EstimatedDone"] +
-//  " ");
-
-
   if(result._v1_id === '') {
     console.log(
       "\t" + date + " No Data");
@@ -288,15 +283,11 @@ function __displayDetailResults(date, result, team) {
     console.log(
       "\t" + date + "\tDetail Est: " + result._v1_current_data["Workitems[Team.Name='" + team + "'].DetailEstimate.@Sum"] +
       "\tActuals val: " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Actuals.Value.@Sum"] +
-      "\t ToDo: " + result._v1_current_data["Workitems[Team.Name='" + team + "'].ToDo.@Sum"]);
+      "\t ToDo: " + result._v1_current_data["Workitems[Team.Name='" + team + "'].ToDo.@Sum"] +
+      "\t ToDo (not dead): " + result._v1_current_data["Workitems[Team.Name='" + team + "'].ToDo[AssetState!='Dead'].@Sum"] 
+      // "\t ToDo (not dead): " + result._v1_current_data["Workitems[Team.Name='" + team + "'].ToDo[State.Code='ACTV'].@Sum"] 
+    );
   }
-//  console.log(
-//    "\t" + date + "\tDetail Est: " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Children.DetailEstimate.@Sum"] +
-//    " : " + result._v1_current_data["Workitems[Team.Name='" + team + "'].DetailEstimate.@Sum"] +
-//    "\tActuals val: " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Children.Actuals.Value.@Sum"] +
-//    " : " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Actuals.Value.@Sum"] +
-//    "\t ToDo: " + result._v1_current_data["Workitems[Team.Name='" + team + "'].Children.ToDo.@Sum"] +
-//    " : " + result._v1_current_data["Workitems[Team.Name='" + team + "'].ToDo[AssetState!='Dead'].@Sum"]);
 }
 
 /*
@@ -351,7 +342,8 @@ function _getSprintBreakdownForTeam(teamName, sprintId, callback, asofDate) {
         
 //        "Workitems[Team.Name='" + teamName + "'].Children.ToDo.@Sum",
         "Workitems[Team.Name='" + teamName + "'].ToDo.@Sum",
-//        "Workitems[Team.Name='" + teamName + "'].ToDo[AssetState!='Dead'].@Sum",
+        "Workitems[Team.Name='" + teamName + "'].ToDo[AssetState!='Dead'].@Sum",
+
 //        "Workitems[Team.Name='" + teamName + "'].Children.DetailEstimate.@Sum",
         "Workitems[Team.Name='" + teamName + "'].DetailEstimate.@Sum",
 //        "Workitems[Team.Name='" + teamName + "'].Children.Actuals.Value.@Sum",
@@ -413,6 +405,118 @@ function _getSprintBreakdownForTeam(teamName, sprintId, callback, asofDate) {
     });
   }
 }
+
+function _getStorysForTeamSprint(teamName, sprintName, callback) {
+  console.log("get workitems for sprint: " + sprintName + " and for team: " + teamName);
+  v1.query({
+//      from: "Story",
+      from: "PrimaryWorkitem",
+
+    select: [
+  //    'Name',
+  //    'Description',
+  //    'Schedule',
+  //    'TargetEstimate',
+  //    'State.Code',
+  //     'Workitems.ToDo',
+  //    'Workitems.Scope.Name',
+  //    
+  //    "Actuals.Value.@Sum",
+  //    "Workitems.ToDo[Team.Name='Ellipse Development 8.6 - Materials';AssetState!='Dead'].@Sum",
+  //    "Workitems.ToDo[AssetState!='Dead'].@Sum",
+  //    "Workitems.ToDo.@Sum",
+  //    "Workitems.DetailEstimate[AssetState!='Dead'].@Sum",
+  //    "Workitems.AllocatedDetailEstimate.@Sum",
+  //    "Workitems.AllocatedToDo.@Sum"
+
+  //      'Team.Name',
+        'ID',
+        'Name',
+        "Timebox",
+//        'IsClosed',
+//        'IsCompleted',
+        'IsDead',
+        'IsDeleted',
+        'IsInactive',
+        'AssetState',
+
+        'Status.Name',
+        'DetailEstimate',
+        'ToDo',
+        'BlockingIssues.@Count',
+
+  // PrimaryWorkitem    
+  //      'ClosedEstimate',
+  //      'CompleteEstimate',
+  //      'EstimatedAllocatedDone',
+  //      'EstimatedDone',
+  //      'Children.Done',
+
+        'IncompleteEstimate',
+        'OpenEstimate',
+        "Children.DetailEstimate[IsDeleted!='true'].@Sum",
+        'Children.Actuals.Value.@Sum',
+        "Children.ToDo[IsDeleted!='true'].@Sum",
+
+  // Story:    
+  //      'ClosedEstimate',
+  //      'CompleteEstimate',
+  //      'DetailEstimate',
+  //      'Estimate',
+  //      'EstimatedDone',
+  //      'IncompleteEstimate',
+  //      'OpenEstimate',
+  //      'OriginalEstimate',
+  //      'Value',
+          'Team.Name',
+        'Timebox.Name',
+        'Timebox.State.Code',
+        'Timebox.BeginDate',
+        'Timebox.EndDate',
+        'Timebox.Duration',
+        'Timebox.Owner.Username',
+    ],
+    where: {
+      "Team.Name": teamName,
+      "Timebox.Name": sprintName,
+  //    "State.Code": 'ACTV', 
+  //    'Name': 'SprintMar1115',
+  //    'Schedule.Name': 'Ellipse - 2 weeks iteration',
+  //    "BeginDate": 
+    },
+    success: function(result) {
+//      console.log(JSON.stringify(result, null, ' '));
+      console.log(result["_v1_current_data"]["Timebox.Name"] + " : " + 
+//        result["_v1_current_data"]["IsClosed"] + " " +
+//        result["_v1_current_data"]["IsCompleted"] + " " +
+//        result["_v1_current_data"]["IsDead"] + " " +
+//        result["_v1_current_data"]["IsDeleted"] + " " +
+//        result["_v1_current_data"]["IsInactive"] + " " +
+          result["_v1_current_data"]["Children.DetailEstimate[IsDeleted!='true'].@Sum"] + " : " + 
+          result["_v1_current_data"]["Children.ToDo[IsDeleted!='true'].@Sum"] + " : " + 
+          result["Name"] + " " + 
+                  ''
+        );
+      // console.log("Result: " + JSON.stringify(result, null, ' '));
+  //    console.log(result.Name + "\t " + 
+  //      result._v1_current_data.TargetEstimate + " -> " + 
+  //      " Actuals " + result._v1_current_data["Actuals.Value.@Sum"] + " " + 
+  //      " ToDo " + result._v1_current_data["Workitems.ToDo[Team.Name='Ellipse Development 8.6 - Materials';AssetState!='Dead'].@Sum"] + " " + 
+  //      " " + result._v1_current_data["Workitems.ToDo[AssetState!='Dead'].@Sum"] + " " + 
+  //      " " + result._v1_current_data["Workitems.ToDo.@Sum"] + " " + 
+  //      " Detail Estimate " + result._v1_current_data["Workitems.DetailEstimate[AssetState!='Dead'].@Sum"] +
+  //    
+  //      " " + result._v1_current_data["Workitems.AllocatedDetailEstimate.@Sum"] + " " + 
+  //      " " + result._v1_current_data["Workitems.AllocatedToDo.@Sum"]
+  //    );
+    },
+
+    error: function(err) { 
+      console.log("ERROR: " + err);
+    }
+  });  
+}
+
 
 function _getSprintForTeam(teamName, effectiveDate, callbackFunction) {
   console.log("determine the sprints for team: " + teamName + " where includes the " + effectiveDate );
@@ -496,11 +600,11 @@ v1.query({
 //      'Team.Name',
       'ID',
       'Name',
-//      'IsClosed',
-//      'IsCompleted',
-//      'IsDead',
-//      'IsDeleted',
-//      'IsInactive',
+      'IsClosed',
+      'IsCompleted',
+      'IsDead',
+      'IsDeleted',
+      'IsInactive',
 
       'Status.Name',
 //      'ToDo',
