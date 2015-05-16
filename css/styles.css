@@ -585,6 +585,10 @@ ul.dropdown-menu-form {
   display: none;
 }
 
+.hiddenBanner {
+  display: none;
+}
+
 
 
 /* Bootbox dialog styling */
