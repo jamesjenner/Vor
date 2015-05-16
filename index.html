@@ -72,7 +72,7 @@
        */
       body {
         padding-top: 70px;
-        padding-bottom: 30px;
+        padding-bottom: 15px;
       }
 
       .theme-dropdown .dropdown-menu {
@@ -114,7 +114,7 @@
       <!-- Fixed navbar -->
       <div class="navbar navbar-default navbar-inverse navbar-fixed-top">
         <div class="navbar-header">
-          <div class="navbar-brand">
+          <div id="headerLogo" class="navbar-brand">
   <!--          <img src="private_images/Ventyx%20Logo%20Primary-v2_large-white.png" alt="Ventyx An ABB Company" />-->
   <!--          <img src="private_images/abb%20black.png" alt="Ventyx An ABB Company" />-->
             <img src="private_images/abb%20white.png" alt="Ventyx An ABB Company" />
@@ -123,11 +123,11 @@
         </div>
         <div class="container">
           <div class="navbar-collapse collapse navbar-responsive-collapse">
-            <div class="navbar-brand navbar-left ventyxVerticalLine">
-              <span>Ellipse 8</span><br/>
-              <span>Enterprise Asset Management</span>
+            <div id="headerTitleContainer" class="navbar-brand navbar-left ventyxVerticalLine">
+              <span id="headerTitle">Ellipse 8</span><br/>
+              <span id="headerSubTitle">Enterprise Asset Management</span>
             </div>
-            <div class="navbar-brand navbar-right">
+            <div id="headerControls" class="navbar-brand navbar-right">
               <div>
                 <button id="addPanel" type="button" class="btn btn-default config-buttons config-button-inactive">
                   <i class="fa fa-plus fa-lg"></i>
@@ -437,6 +437,7 @@
     <script src="./lib/client/agileSprintManager.js"></script>
     <script src="./lib/client/jenkinsBuildManager.js"></script>
     <script src="./lib/shared/jenkinsState.js"></script>
+    <script src="./lib/client/headerManager.js"></script>
     <script src="./lib/client/main.js"></script>
     
     <script src="./bower_components/arcgauge/arcGauge.js"></script>
