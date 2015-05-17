@@ -1175,8 +1175,8 @@ VersionOne.prototype.getSprintStats = function(teamName, effectiveDate, callback
       backlogStoryPoints: 0,
       wipStoryPoints: 0,
       doneStoryPoints: 0,
-      percentageDone: 0,
-      percentageTarget: 0,
+      percentageDoneStoryPoints: 0,
+      percentageTargetStoryPoints: 0,
       sprintStartDate: '',
       sprintEndDate: '',
       sprintDuration: 0,
@@ -1230,10 +1230,10 @@ VersionOne.prototype.getSprintStats = function(teamName, effectiveDate, callback
     }
     
     // calculate the % complete
-    data.percentageDone = Math.round(data.doneStoryPoints / totalStoryPoints * 100);
+    data.percentageDoneStoryPoints = Math.round(data.doneStoryPoints / totalStoryPoints * 100);
     
-    if(isNaN(data.percentageDone)) {
-       data.percentageDone = 0;
+    if(isNaN(data.percentageDoneStoryPoints)) {
+       data.percentageDoneStoryPoints = 0;
     }
     
     // calculate the percentage that should be done by now
@@ -1424,7 +1424,7 @@ for(idx = 0; idx < teams.length; idx++) {
             "\tBlocked: " + data.blockedItems + 
             "\tBacklog: " + data.backlogStoryPoints + 
             "\tWip: " + data.wipStoryPoints + 
-            "\t D: " + data.doneStoryPoints + "\t" + data.percentageDone + "%\tT: " + targetPercentage + "%" +
+            "\t D: " + data.doneStoryPoints + "\t" + data.percentageDoneStoryPoints + "%\tT: " + targetPercentage + "%" +
             "\tDur: " + data.sprintDuration +
             "\t" + team.name
 //            "\nStart: " + data.sprintStartDate +
