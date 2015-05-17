@@ -75,7 +75,6 @@ function ListGauge(options) {
 
   this.text = [];
   for(i = 0; i < this.depth; i++) {
-    console.log("value: " + this.values[i].value + " y pos: " + (height * i));
     this.text[i] = this.svg.append("text")
         .attr("id", this.appendTo + "numValue" + i)
         .attr("x", xPos)
