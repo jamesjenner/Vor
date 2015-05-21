@@ -89,7 +89,7 @@ var config = {
 
 var search_paths = [
   "meltingpot.conf",
-  path.join(process.env.HOME, ".meltingpot-rc"),
+  path.join(getUserHome(), ".meltingpot-rc"),
   "/usr/local/etc/meltingpot.conf",
   "/usr/etc/meltingpot.conf",
   "/etc/meltingpot.conf"
@@ -296,4 +296,8 @@ function validateDataDirectory(dataDirectory) {
   }
   
   return true;
+}
+
+function getUserHome() {
+  return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
 }
