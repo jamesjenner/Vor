@@ -33,18 +33,22 @@ function processResults(target, err, data) {
 
 function getJobResult(displayName, target, jobNbr, callback) {
   jenkins.build_info(target, jobNbr, function(err, data) {
-    console.log(JSON.stringify(data, null, ' '));
+    // console.log(JSON.stringify(data, null, ' '));
     if(data.building) {
       console.log(displayName + "\t" + jobNbr + " -> " + Math.round((new Date().getTime() - data.timestamp) / data.estimatedDuration * 100) + "%");
     } else {
       if(data["actions"][6].failCount !== undefined) {
-        console.log(displayName + "\t" + jobNbr + " : " + data.result + "\tFailed: " + data["actions"][6].failCount + "\tSkipped: " + data["actions"][6].skipCount + "\tPassed: " + 
+        console.log(displayName + "\t" + 
+                    jobNbr + " : " + data.result + 
+                    "\tFailed: " + data["actions"][6].failCount + 
+                    "\tSkipped: " + data["actions"][6].skipCount + 
+                    "\tPassed: " + 
       (parseInt(data["actions"][6].totalCount) - 
       (
         parseInt(data["actions"][6].failCount) + parseInt(data["actions"][6].skipCount) 
       )));
       } else {
-        console.log(displayName + "\t" + jobNbr + " : " + data.result);
+        console.log(displayName + "\t" + jobNbr + " : " + data.result + " passed: " + passed + " failed: " + failed + " skipped: " + skipped);
       }
     }
   });
