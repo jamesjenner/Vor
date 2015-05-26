@@ -791,3 +791,6 @@ table {
 }
 
 
+.c3-xgrid-line > line {
+  stroke: rgba(170,170,170,.33);
+}
