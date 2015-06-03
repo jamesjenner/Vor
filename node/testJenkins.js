@@ -9,6 +9,7 @@ var jenkins = jenkinsapi.init("http://awsjenkins.ventyx.abb.com:8080");
 //jenkins.job_info('/ellipse-unit-tests', processResults.bind(null, '/ellipse-unit-tests'));
 //jenkins.job_info('/ellipse-service-tests', processResults.bind(null, '/ellipse-service-tests'));
 jenkins.job_info('/8.4_auto_test_report', processResults.bind(null, '/8.4_auto_test_report'));
+jenkins.job_info('/8.5_auto_test_report', processResults.bind(null, '/8.5_auto_test_report'));
 
 function processResults(target, err, data) {
   if(err) {
@@ -34,20 +35,26 @@ function processResults(target, err, data) {
 
 function getJobResult(displayName, target, jobNbr, callback) {
   jenkins.build_info(target, jobNbr, function(err, data) {
-    console.log(JSON.stringify(data, null, ' '));
+    // console.log(JSON.stringify(data, null, ' '));
     if(data.building) {
       console.log(displayName + "\t" + jobNbr + " -> " + Math.round((new Date().getTime() - data.timestamp) / data.estimatedDuration * 100) + "%");
     } else {
-      if(data["actions"][6].failCount !== undefined) {
-        console.log(displayName + "\t" + 
-                    jobNbr + " : " + data.result + 
-                    "\tFailed: " + data["actions"][6].failCount + 
-                    "\tSkipped: " + data["actions"][6].skipCount + 
-                    "\tPassed: " + 
-      (parseInt(data["actions"][6].totalCount) - 
-      (
-        parseInt(data["actions"][6].failCount) + parseInt(data["actions"][6].skipCount) 
-      )));
+      if(data.actions !== undefined) {
+        for(var i = 0; i < data.actions.length; i++) {
+          if(data.actions[i].totalCount !== undefined) {
+            console.log(displayName + "\t" + 
+              jobNbr + " : " + data.result + 
+              "\tTotal: " + data.actions[i].totalCount + 
+              "\tFailed: " + data.actions[i].failCount + 
+              "\tSkipped: " + data.actions[i].skipCount + 
+              "\tPassed: " + 
+            (parseInt(data.actions[i].totalCount) - 
+            (
+              parseInt(data.actions[i].failCount) + parseInt(data.actions[i].skipCount) 
+            )));
+            break;
+          }
+        }
       } else {
         // console.log(displayName + "\t" + jobNbr + " : " + data.result + " passed: " + passed + " failed: " + failed + " skipped: " + skipped);
         console.log(displayName + "\t" + jobNbr + " : " + data.result);
