@@ -218,6 +218,7 @@ html {
   background: url(../private_images/mySrc/abstract3.jpg);
   -mox-background-size: cover;
   background-size: cover;
+  background-repeat: no-repeat;
   
 }
 
