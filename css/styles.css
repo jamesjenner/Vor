@@ -206,6 +206,15 @@ div.component {
   padding-left:0;
 }
 
+.auto-scroll-y {
+/*  height: 100%;*/
+  overflow-y: auto;
+}
+
+.fill-y {
+  height: 100%;
+}
+
 html {
   background: url(../private_images/mySrc/tree3.jpg);
   background: url(../private_images/mySrc/tree1.jpg);
@@ -219,7 +228,7 @@ html {
   -mox-background-size: cover;
   background-size: cover;
   background-repeat: no-repeat;
-  
+  overflow: hidden;
 }
 
 .background {
