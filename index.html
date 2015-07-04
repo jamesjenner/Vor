@@ -30,6 +30,7 @@
 
     <!-- boostrap select minified customisation -->
     <link rel="stylesheet" href="./bower_components/bootstrap-select/dist/css/bootstrap-select.min.css">
+    
     <!-- c3js chart css -->
     <link rel="stylesheet" href="./bower_components/c3js-chart/c3.css">
 
@@ -256,14 +257,14 @@
 
                   <div class="form-group">
                     <label class="col-md-4 control-label" for="preferenceDisplayRows">Rows</label>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                       <input id="preferenceDisplayRows" name="preferenceDisplayRows" maxlength="200" type="text" required="required" class="form-control" placeholder="Number of rows" />
                     </div>
                   </div>
 
                   <div class="form-group">
                     <label class="col-md-4 control-label" for="preferenceDisplayColumns">Columns</label>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                       <input id="preferenceDisplayColumns" name="preferenceDisplayColumns" maxlength="200" type="text" required="required" class="form-control" placeholder="Number of columns" />
                     </div>
                   </div>
@@ -284,7 +285,7 @@
                   
                   <div class="form-group">
                     <label class="col-md-4 control-label" for="preferenceBannerPosition">Banner Position</label>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                       <select id="preferenceBannerPosition" name="preferenceBannerPosition" class="selectpicker">
                         <option>Top</option>
                         <option>Bottom</option>
@@ -308,28 +309,28 @@
                   
                   <div class="form-group">
                     <label class="col-md-4 control-label" for="preferenceScreenPaddingTop">Screen Padding Top</label>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                       <input id="preferenceScreenPaddingTop" name="preferenceScreenPaddingTop" maxlength="3" type="number" required="required" class="form-control" placeholder="" />
                     </div>
                   </div>
                   
                   <div class="form-group">
                     <label class="col-md-4 control-label" for="preferenceScreenPaddingBottom">Screen Padding Bottom</label>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                       <input id="preferenceScreenPaddingBottom" name="preferenceScreenPaddingBottom" maxlength="3" type="number" required="required" class="form-control" placeholder="" />
                     </div>
                   </div>
                   
                   <div class="form-group">
                     <label class="col-md-4 control-label" for="preferenceScreenPaddingLeft">Screen Padding Left</label>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                       <input id="preferenceScreenPaddingLeft" name="preferenceScreenPaddingLeft" maxlength="3" type="number" required="required" class="form-control" placeholder="" />
                     </div>
                   </div>
                   
                   <div class="form-group">
                     <label class="col-md-4 control-label" for="preferenceScreenPaddingRight">Screen Padding Right</label>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                       <input id="preferenceScreenPaddingRight" name="preferenceScreenPaddingRight" maxlength="3" type="number" required="required" class="form-control" placeholder="" />
                     </div>
                   </div>
@@ -343,7 +344,7 @@
                   
                   <div class="form-group">
                     <label class="col-md-4 control-label" for="preferenceScreenSaver">Screen Saver</label>
-                    <div class="col-md-4">
+                    <div class="col-md-2 form-dropdown">
                       <select id="preferenceScreenSaver" name="preferenceScreenSaver" class="selectpicker">
                         <option>None</option>
                         <option>The Matrix</option>
@@ -356,28 +357,30 @@
 
                   <div class="form-group">
                     <label class="col-md-4 control-label" for="preferenceScreenSaverStart">Screen Saver Starts</label>
-                    <div class="col-md-2 input-group date" id="preferenceScreenSaverStart">
+                    <div class="col-md-2">
+                      <div class="input-group date" id="preferenceScreenSaverStart">
                         <input name="preferenceScreenSaverStart" type="text" class="form-control" />
-                        <span class="input-group-addon">
-                            <span class="fa fa-clock-o">
-                            </span>
+                        <span class="input-group-addon datepickerbutton">
+                          <span class="fa fa-clock-o form-input-addon-icon">
+                          </span>
                         </span>
+                      </div>
                     </div>
                   </div>
-                  
                   
                   <div class="form-group">
                     <label class="col-md-4 control-label" for="preferenceScreenSaverEnd">Screen Saver Ends</label>
-                    <div class="col-md-2 input-group date" id="preferenceScreenSaverEnd">
+                    <div class="col-md-2">
+                      <div class="input-group date" id="preferenceScreenSaverEnd">
                         <input name="preferenceScreenSaverEnd" type="text" class="form-control" />
-                        <span class="input-group-addon">
-                            <span class="fa fa-clock-o">
-                            </span>
+                        <span class="input-group-addon datepickerbutton">
+                          <span class="fa fa-clock-o form-input-addon-icon">
+                          </span>
                         </span>
+                      </div>
                     </div>
                   </div>
-                  
-`               </form>
+                </form>
               </div>
             </div>
           </div>
