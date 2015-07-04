@@ -457,9 +457,8 @@ ul.dropdown-menu-form {
 }
 
 .iconpicker {
-  background-color: transparent;
-  border-color: #ccc;
   color: #333;
+  border: 1px solid rgba(100, 100, 100, .90);
 }
 
 .iconpicker:hover {
