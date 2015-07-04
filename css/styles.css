@@ -127,8 +127,14 @@ div.component {
   height: 100%;
 }
 
-.main-column {
+.column-main {
   height: 100%;
+  padding-left:0px;
+  padding-right:10px;
+}
+
+.column-left {
+  padding-left:10px;
 }
 
 .main-panels {
@@ -147,8 +153,8 @@ div.component {
   border-color: rgba(0, 0, 0, .6);
   border-width: 2px;
   margin-bottom: 10px;
-  margin-right: 5px;
-  margin-left: 5px;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .panel-left {
@@ -160,9 +166,10 @@ div.component {
 }
 
 .footer-panel {
+  display:none;
   margin-bottom: 0px;
-  margin-right: 0px;
-  margin-left: 0px;
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
 .numGauge {
@@ -185,8 +192,8 @@ div.component {
   border-style: dashed;
   border-width: 2px;
   margin-bottom: 10px;
-  margin-right: 5px;
-  margin-left: 5px;
+  margin-left: 0;
+  margin-right: 0;
   height: 237px;
 }
 
@@ -197,13 +204,10 @@ div.component {
 }
 
 .row.no-pad {
-  margin-right:0;
-  margin-left:0;
-}
-
-.row.no-pad > [class*='col-'] {
   padding-right:0;
   padding-left:0;
+  margin-right:0;
+  margin-left:0;
 }
 
 .auto-scroll-y {
