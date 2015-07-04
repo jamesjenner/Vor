@@ -434,7 +434,6 @@ ul.dropdown-menu-form {
   color: #aa0000;
 }
 
-
 .selected-label {
   color: #555;
 }
@@ -782,6 +781,24 @@ ul.dropdown-menu-form {
 
 .form-control {
   border-color: rgba(100, 100, 100, .90);
+}
+
+.selectpicker {
+  border-color: rgba(100, 100, 100, .90);
+}
+
+.datepickerbutton {
+  border-color: rgba(100, 100, 100, .90);
+}
+
+.bootstrap-select {
+  width: 100%;
+}
+
+.bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+  width: 100%;
+}
+
 }
 
 .iconpicker {
