@@ -401,6 +401,27 @@ ul.dropdown-menu-form {
   display: none;
 }
 
+.widget-placeholder {
+  display: block;
+  box-sizing: border-box;
+  border-radius: 4px;
+  background-color: rgba(100, 100, 100, .2);
+  border-color: rgba(200, 200, 200, 1);
+  border-style: dashed;
+  border-width: 2px;
+  margin-bottom: 10px;
+  margin-left: 0;
+  margin-right: 0;
+  
+  display: inline-block; 
+  height: 100%;
+  width: 24%;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
 .btn-left {
   display: block;
   position: absolute;
