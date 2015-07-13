@@ -84,7 +84,7 @@ var V1Meta = require('./v1/v1meta').V1Meta;
 var V1Server = require('./v1/client').V1Server;
 var moment = require('moment-timezone');
 var async = require('async');
-  
+var htmlToText = require('html-to-text');  
   
 var fs = require('fs');
 var file = __dirname + '/settings.json';
@@ -128,10 +128,13 @@ var v1 = new V1Meta(server);
 
 // list all stories in a project
 
+// example of defect output with release notes
+//_getDefectsforProjectProgram({id: "D-59380"});
 
-_getSubProjects({projectName: "JI-CORE"});
+//_getSubProjects({projectName: "JI-CORE"});
+_getSubProjects({projectName: "Ellipse EAM"});
 
-// _getProgramNameId("Ellipse code Maintenance Reduction Program");
+//_getProgramNameId("Ellipse Code Maintenance Reduction Program");
 
 function _getDefectsforProjectProgram(options) {
   options = options !== undefined ? options : {};
@@ -140,6 +143,7 @@ function _getDefectsforProjectProgram(options) {
   var projectName = (options.projectName !== undefined && options.projectName !== null) ? options.projectName : "";
   var source = (options.source !== undefined && options.source !== null) ? options.source : "";
   var programName = (options.programName !== undefined && options.programName !== null) ? options.programName : "";
+  var id = (options.id !== undefined && options.id !== null) ? options.id : "";
   
   var whereStatement = {};
   var selectStatement = ["ID", "Name", "Inactive", "IsClosed", "IsDeleted", "AssetState"];
@@ -159,6 +163,10 @@ function _getDefectsforProjectProgram(options) {
   }
   if(source !== "") {
     whereStatement["Source.Name"] = source;
+  }
+  
+  if(id !== "") {
+    whereStatement["ID.Number"] = id;
   }
   
 //      "Team.Name": teamName,
@@ -198,7 +206,7 @@ function _getDefectsforProjectProgram(options) {
 //      'Custom_ProductCategory4',
 //      'Custom_ProductCategory5',
 //      'Custom_QCReference',
-//      'Custom_ReleaseNotes3',
+      'Custom_ReleaseNotes3',
       'Custom_ScreenID',
 //      'Custom_ServiceSuiteKanbanStatus',
       'Custom_Severity2.Name',
@@ -252,6 +260,7 @@ function _getDefectsforProjectProgram(options) {
           result['_v1_current_data']['Custom_VersionAffected2.Name'] + "\t" +
           result['_v1_current_data']['Custom_InternalSource4.Name'] + "\t" +
           _getScreenId(result['_v1_current_data']['Custom_ScreenID'], result['_v1_current_data']['Custom_SubComponent4'], result["_v1_current_data"]["ID.Name"]) + "\t" +
+          htmlToText.fromString(result['_v1_current_data']['Custom_ReleaseNotes3']).replace(/(\r\n|\n|\r)/gm," ") + "\t" +
           result['_v1_current_data']['Custom_Component3'] + "\t" +
           result['_v1_current_data']['Custom_SubComponent4'] + "\t" +
           result['_v1_current_data']['Custom_Severity2.Name'] + "\t" +
@@ -363,6 +372,7 @@ function _getStoriesforProjectProgram(options) {
           result['_v1_current_data']['Custom_VersionAffected4.Name'] + "\t" +
           result['_v1_current_data']['Custom_InternalSource4.Name'] + "\t" +
           _getScreenId(result['_v1_current_data']['Custom_ScreenID'], result['_v1_current_data']['Custom_SubComponent6'], result["_v1_current_data"]["ID.Name"]) + "\t" +
+          "\t" +
           result['_v1_current_data']['Custom_Component5'] + "\t" +
           result['_v1_current_data']['Custom_SubComponent6'] + "\t" +
           "\t" +
@@ -719,7 +729,8 @@ function _getSubProjects(options) {
         }
       } else if(includeAllChildren) {
         for(var i = 0; i < result._v1_current_data[childrenSearchString].length; i++) {
-          // _getDefectsforProjectProgram({projectId: result._v1_current_data[childrenSearchString][i]});
+//          console.log("get defects for project program: project id: " + JSON.stringify(result._v1_current_data[childrenSearchString][i]));
+          _getDefectsforProjectProgram({projectId: result._v1_current_data[childrenSearchString][i]});
           _getStoriesforProjectProgram({projectId: result._v1_current_data[childrenSearchString][i]});
         }
       }
@@ -741,14 +752,16 @@ function _getProgramNameId(programName) {
     from: 'ScopeLabel',
     select: [
       'ID',
-      'Priority',
       'Name',
+      'Description',
     ],
     where: whereStatement,
     success: function(result) {
-      // console.log(JSON.stringify(result, null, ' '));
+       console.log(JSON.stringify(result, null, ' '));
       console.log(
-        result["_v1_current_data"]["ID.Number"] + "," + 
+        result.Name + "," + 
+        result.Description + "," + 
+        result["_v1_current_data"]["ID"] + "," + 
         ''
       );
     },
