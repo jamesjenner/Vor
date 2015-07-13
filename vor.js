@@ -244,10 +244,10 @@ localPreferenceHandler.setupCommsListeners(clientComms);
 var preferenceHandler = new PreferenceHandler({dataDirectory: config.dataDirectory, localPreferenceHandler: localPreferenceHandler});
 preferenceHandler.setupCommsListeners(clientComms);
 
-var panelHandler = new PanelHandler({dataDirectory: config.dataDirectory, preferenceHandler: preferenceHandler});
-panelHandler.setupCommsListeners(clientComms);
-
 var widgetHandler = new WidgetHandler({dataDirectory: config.dataDirectory});
+
+var panelHandler = new PanelHandler({dataDirectory: config.dataDirectory, preferenceHandler: preferenceHandler, widgetHandler: widgetHandler});
+panelHandler.setupCommsListeners(clientComms);
 widgetHandler.setupCommsListeners(clientComms);
 
 var bannerHandler = new BannerHandler({dataDirectory: config.dataDirectory});
