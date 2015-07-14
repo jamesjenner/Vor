@@ -258,6 +258,7 @@ dataSourceHandler.setupCommsListeners(clientComms);
     
 var dataSourceManager = new DataSourceManager({clientComms: clientComms, dataSourceHandler: dataSourceHandler, widgetHandler: widgetHandler});
 dataSourceManager.setupCommsListeners(clientComms);
+widgetHandler.dataSourceManager = dataSourceManager;
 
 // start up the server for clients
 if (config.debug) {
