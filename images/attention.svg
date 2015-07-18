@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="548.50995"
+   height="481.85968"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="attention.svg">
+  <title
+     id="title3801">Attention</title>
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4465282"
+     inkscape:cx="118.76228"
+     inkscape:cy="238.50267"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1949"
+     inkscape:window-height="1876"
+     inkscape:window-x="1431"
+     inkscape:window-y="59"
+     inkscape:window-maximized="0"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>Attention</dc:title>
+        <dc:date>18 July 2015</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>James Jenner</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>Attention</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:rights>
+          <cc:Agent>
+            <dc:title>Creative Commons Attribution 4.0 International License</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <dc:description>Attention or Alert icon.</dc:description>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-117.02801,-255.51531)">
+    <path
+       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;stroke:none;stroke-width:50;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
+       d="M 390.75,255.53125 C 382.22709,255.76039 373.92991,260.60209 369.65625,268 L 120.3125,699.875 c -4.3596,7.55406 -4.38853,17.44446 -0.0312,25 4.35703,7.55554 12.93445,12.48955 21.65625,12.5 l 498.6875,0 c 8.72701,4.5e-4 17.26065,-4.94268 21.625,-12.5 4.36436,-7.55732 4.39302,-17.44143 0.0312,-25 L 412.9375,268 c -4.16743,-7.21468 -12.14625,-12.07506 -20.46875,-12.46875 -0.56896,-0.0265 -1.15056,-0.0153 -1.71875,0 z m 0.53125,93.34375 c 17.99998,0 27.5,12.50002 27.5,36 0,5.49999 -0.5,15.00001 -1.5,29 l -14,191 -24,0 -14,-191 c -1,-10.99999 -1.5,-20.50001 -1.5,-29 0,-23.99998 9.50002,-36 27.5,-36 z m 0,289 c 15.99998,0 28.5,12.50002 28.5,28.5 0,15.49998 -12.50002,28.5 -28.5,28.5 -15.49998,0 -28.5,-12.50002 -28.5,-28.5 0,-15.99998 13.00002,-28.5 28.5,-28.5 z"
+       id="path2985"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>
