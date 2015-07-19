@@ -1,6 +1,6 @@
 {
   "name": "meltingpot",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "homepage": "https://github.com/jamesjenner/meltingpot",
   "authors": [
     "james-jenner <james.g.jenner@gmail.com>"
@@ -25,14 +25,14 @@
     "test",
     "tests"
   ],
-  "_release": "0.0.1",
+  "_release": "1.0.0",
   "_resolution": {
     "type": "version",
-    "tag": "0.0.1",
-    "commit": "44d86bbf2a5346a57c70d0e92c94df4ede1619e4"
+    "tag": "1.0.0",
+    "commit": "c67b8fcbf494510401cf4b5f15ad4347aa9f50cf"
   },
   "_source": "git://github.com/jamesjenner/meltingpot.git",
-  "_target": "~0.0.1",
+  "_target": "~1.0.0",
   "_originalSource": "meltingpot",
   "_direct": true
 }
