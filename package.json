@@ -2,22 +2,23 @@
   "name": "Vor",
   "version": "0.0.1",
   "devDependencies": {
-    "chai": "^1.10.0",
+    "chai": "^3.2.0",
     "grunt": "latest",
-    "grunt-mocha": "^0.4.11",
-    "grunt-mocha-test": "^0.12.4",
-    "mocha": "^2.0.1"
+    "grunt-mocha": "^0.4.13",
+    "grunt-mocha-test": "^0.12.7",
+    "mocha": "^2.2.5"
   },
   "dependencies": {
-    "async": "^0.9.0",
+    "async": "^1.0.0",
+    "bcryptjs": "^2.2.0",
     "elementtree": "^0.1.6",
     "meltingpot": "0.0.3",
-    "moment": "^2.8.4",
-    "moment-timezone": "^0.2.5",
-    "node-uuid": "^1.4.1",
+    "moment": "^2.10.3",
+    "moment-timezone": "^0.4.0",
+    "node-uuid": "^1.4.3",
     "opt": "^0.1.14",
-    "request": "^2.53.0",
-    "websocket": "^1.0.10"
+    "request": "^2.58.0",
+    "websocket": "^1.0.19"
   },
   "description": "Vor\r ===",
   "main": "",
