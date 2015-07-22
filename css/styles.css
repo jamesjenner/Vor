@@ -886,3 +886,38 @@ table {
 .c3-xgrid-line > line {
   stroke: rgba(170,170,170,.33);
 }
+
+.add-panel-container {
+  height: 100%;
+}
+
+.add_icon_button {
+  width: inherit;
+  height: inherit;
+  padding: 2%;
+}
+
+.plus_icon_plus_path {
+  stroke: rgb(1, 200, 1);
+  fill: rgb(255, 255, 255);
+}
+
+.plus_icon_plus {
+  stroke: rgb(1, 200, 1);
+  fill: rgb(255, 255, 255);
+}
+
+.plus_icon_circle {
+  stroke: rgb(1, 200, 1);
+  fill: rgb(255, 255, 255);
+}
+
+.plus_icon {
+  stroke: rgb(1, 200, 1);
+  fill: rgb(255, 255, 255);
+}
+
+
+.c3-line {
+  stroke: rgb(1, 200, 1);
+}
