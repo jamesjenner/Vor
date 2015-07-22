@@ -1,34 +1,16 @@
 /*-- Chart --*/
 
-.add_icon_button {
-  stroke: rgb(1, 200, 1);
-  fill: rgb(255, 255, 255);
+.plus-icon  {
+  fill: rgb(255, 1, 1);
+  fill-opacity: .75;
 }
 
-
-.plus_icon {
-  stroke: rgb(1, 200, 1);
-  fill: rgb(255, 255, 255);
+.add-circle-circle {
+  fill: rgb(1, 255, 1);
+  fill-opacity: .75;
 }
 
-
-
-.plus_icon_plus {
-  stroke: rgb(1, 200, 1);
-  fill: rgb(255, 255, 255);
-}
-
-
-.plus_icon_plus_path {
-  stroke: rgb(1, 200, 1);
-  fill: rgb(255, 255, 255);
-}
-
-svg {
-  stroke: rgb(1, 200, 1);
-  fill: rgb(255, 255, 255);
-}
-path {
-  stroke: rgb(1, 200, 1);
-  fill: rgb(255, 255, 255);
+.add-circle-plus {
+  fill: rgb(1, 1, 255);
+  fill-opacity: .75;
 }

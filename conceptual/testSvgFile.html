@@ -14,12 +14,17 @@ http://stackoverflow.com/questions/2753732/how-to-access-svg-elements-with-javas
 
 var svgDoc =  $("object").contentDocument; var styleElement = svgDoc.createElementNS("http://www.w3.org/2000/svg", "style"); styleElement.textContent = "svg { fill: #fff }"; svgDoc.getElementById("svg2").appendChild(styleElement);
 
+http://www.petercollingridge.co.uk/data-visualisation/using-javascript-control-svg
+
       -->
 </head>
 <body style="width: 100%; height: 100%;">
     <div id="panelAddHolder" class="' + panelClass + '">
         <div id="panelBodyAdd" class="add-panel-container widget-container">
-            <object type="image/svg+xml" data="../images/add_circle_plain.svg" class="add_icon_button">
+            <svg xmlns="http://www.w3.org/2000/svg" class="plus-icon">
+              <use xlink:href="../images/add_circle_plain.svg#layer1"></use>
+            </svg>
+            <object type="image/svg+xml" data="../images/add_circle_plain.svg">
               <link rel="stylesheet" href="./testSvgFile.css">
             </object>
         </div>
