@@ -892,32 +892,12 @@ table {
 }
 
 .add_icon_button {
-  width: inherit;
-  height: inherit;
+}
+
+.plus-icon  {
+  width: 100%;
+  height: 100%;
   padding: 2%;
-}
-
-.plus_icon_plus_path {
-  stroke: rgb(1, 200, 1);
   fill: rgb(255, 255, 255);
-}
-
-.plus_icon_plus {
-  stroke: rgb(1, 200, 1);
-  fill: rgb(255, 255, 255);
-}
-
-.plus_icon_circle {
-  stroke: rgb(1, 200, 1);
-  fill: rgb(255, 255, 255);
-}
-
-.plus_icon {
-  stroke: rgb(1, 200, 1);
-  fill: rgb(255, 255, 255);
-}
-
-
-.c3-line {
-  stroke: rgb(1, 200, 1);
+  fill-opacity: .75;
 }
