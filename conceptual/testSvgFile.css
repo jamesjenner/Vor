@@ -1,0 +1,34 @@
+/*-- Chart --*/
+
+.add_icon_button {
+  stroke: rgb(1, 200, 1);
+  fill: rgb(255, 255, 255);
+}
+
+
+.plus_icon {
+  stroke: rgb(1, 200, 1);
+  fill: rgb(255, 255, 255);
+}
+
+
+
+.plus_icon_plus {
+  stroke: rgb(1, 200, 1);
+  fill: rgb(255, 255, 255);
+}
+
+
+.plus_icon_plus_path {
+  stroke: rgb(1, 200, 1);
+  fill: rgb(255, 255, 255);
+}
+
+svg {
+  stroke: rgb(1, 200, 1);
+  fill: rgb(255, 255, 255);
+}
+path {
+  stroke: rgb(1, 200, 1);
+  fill: rgb(255, 255, 255);
+}

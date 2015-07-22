@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>SVG Test File</title>
+    <link rel="stylesheet" href="./testSvgFile.css">
+    <!-- 
+
+http://www.smashingmagazine.com/2014/11/styling-and-animating-svgs-with-css/
+
+http://stackoverflow.com/questions/4906148/how-to-apply-a-style-to-an-embedded-svg 
+
+http://stackoverflow.com/questions/2753732/how-to-access-svg-elements-with-javascript
+
+var svgDoc =  $("object").contentDocument; var styleElement = svgDoc.createElementNS("http://www.w3.org/2000/svg", "style"); styleElement.textContent = "svg { fill: #fff }"; svgDoc.getElementById("svg2").appendChild(styleElement);
+
+      -->
+</head>
+<body style="width: 100%; height: 100%;">
+    <div id="panelAddHolder" class="' + panelClass + '">
+        <div id="panelBodyAdd" class="add-panel-container widget-container">
+            <object type="image/svg+xml" data="../images/add_circle_plain.svg" class="add_icon_button">
+              <link rel="stylesheet" href="./testSvgFile.css">
+            </object>
+        </div>
+    </div>
+</body>
+</html>
