@@ -22,12 +22,36 @@ http://www.petercollingridge.co.uk/data-visualisation/using-javascript-control-s
     <div id="panelAddHolder" class="' + panelClass + '">
         <div id="panelBodyAdd" class="add-panel-container widget-container">
             <svg xmlns="http://www.w3.org/2000/svg" class="plus-icon">
-              <use xlink:href="../images/add_circle_plain.svg#layer1"></use>
+              <use xlink:href="../images/add_circle_plain.svg#svg_add_circle_plain"></use>
             </svg>
-            <object type="image/svg+xml" data="../images/add_circle_plain.svg">
+            <object id="add_circle" type="image/svg+xml" data="../images/add_circle_plain.svg">
               <link rel="stylesheet" href="./testSvgFile.css">
             </object>
         </div>
     </div>
 </body>
+  <script>
+    var a = document.getElementById("add_circle");
+    a.addEventListener("load",function() {
+      var svgDoc = a.contentDocument;
+      var styleElement = svgDoc.createElementNS("http://www.w3.org/2000/svg", "style");
+      styleElement.textContent = "svg { fill: #aaa }"; // add whatever you need here
+      svgDoc.getElementById("svg_add_circle_plain_plus").appendChild(styleElement);
+      
+      var plus = svgDoc.getElementById("svg_add_circle_plain_plus");
+      var circle = svgDoc.getElementById("svg_add_circle_plain_circle");
+        circle.setAttribute("visibility", "hidden");
+      
+      plus.onmouseover = function(evt) {
+        circle.setAttribute("visibility", "visible");
+        // styleElement.textContent = "svg { fill: #000 }";
+      };
+      circle.onmouseleave = function(evt) {
+        circle.setAttribute("visibility", "hidden");
+        // evt.target.setAttribute("fill", "green");
+      };
+    }, false);
+    
+    
+  </script>
 </html>
