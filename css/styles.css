@@ -183,9 +183,6 @@ div.component {
 
 .footer-panel {
   display:none;
-  margin-bottom: 0px;
-  margin-right: 10px;
-  margin-left: 10px;
 }
 
 .numGauge {
@@ -316,6 +313,10 @@ html {
 .panel-widget {
   display: block;
   padding: 0px
+}
+
+.header-logo {
+  content:url(../private_images/abb%20white.png);
 }
 
 .headerHamburger {
