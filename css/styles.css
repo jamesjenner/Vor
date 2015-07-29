@@ -800,6 +800,9 @@ ul.dropdown-menu-form {
   border-color: rgba(255, 255, 255, .95);
   border-radius: 6px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+  background-color: transparent;
+  border-color: rgba(255, 255, 255, .95);
+  border-width: 2px;
 }
 
 .pane-title {
@@ -817,12 +820,6 @@ ul.dropdown-menu-form {
   color: #333;
   padding: 15px;
   position: relative;
-}
-
-.pane-content {
-  background-color: transparent;
-  border-color: rgba(255, 255, 255, .95);
-  border-width: 2px;
 }
 
 .pane-footer {
