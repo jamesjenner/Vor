@@ -59,7 +59,7 @@
 <!--    <link rel="stylesheet" type="text/css" href="css/c3.css">-->
   
     <!-- local customisation -->
-    <link href="css/styles.css" rel="stylesheet">
+    <link id="systemStylesheet" href="css/styles.css" rel="stylesheet">
 
 <!--    <style id="holderjs-style" type="text/css"></style>-->
     <style>
@@ -115,18 +115,14 @@
       <!-- Fixed navbar -->
       <div class="navbar navbar-default navbar-inverse navbar-fixed-top">
         <div class="navbar-header">
-          <div id="headerLogo" class="navbar-brand">
-  <!--          <img src="private_images/Ventyx%20Logo%20Primary-v2_large-white.png" alt="Ventyx An ABB Company" />-->
-  <!--          <img src="private_images/abb%20black.png" alt="Ventyx An ABB Company" />-->
-            <img src="private_images/abb%20white.png" alt="Ventyx An ABB Company" />
-  <!--          <img src="private_images/abb%20color.png" alt="Ventyx An ABB Company" />-->
+          <div id="header-logo" class="navbar-brand header-logo">
           </div>
         </div>
         <div class="container">
           <div class="navbar-collapse collapse navbar-responsive-collapse">
             <div id="headerTitleContainer" class="navbar-brand navbar-left ventyxVerticalLine">
-              <span id="headerTitle">Ellipse 8</span><br/>
-              <span id="headerSubTitle">Enterprise Asset Management</span>
+              <span id="headerTitle" class="header-title">Ellipse 8</span><br/>
+              <span id="headerSubTitle" class="header-subtitle">Enterprise Asset Management</span>
             </div>
             <div id="headerControls" class="navbar-brand navbar-right">
               <div>
@@ -194,7 +190,7 @@
             <div id="column2" class="column-main col-sm-6">
             </div>
           </div>
-          <div id="bannersPane" class="main-footer col-sm-12 row no-pad hiddenBanner">
+          <div id="bannersPane" class="main-footer col-sm-12 row hiddenBanner">
             <div class="panel footer-panel col-sm-12" style="display: block">
               <div class="">
                 <div id="bannerCarousel" class="carousel slide">
@@ -248,6 +244,17 @@
                     </div>
                   </div>
 
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" for="preferenceTheme">Theme</label>
+                    <div class="col-md-2 form-dropdown">
+                      <select id="preferenceTheme" name="preferenceTheme" class="selectpicker">
+                        <option>Dark</option>
+                        <option>Light</option>
+                        <option>ABB</option>
+                      </select>
+                    </div>
+                  </div>
+                  
                   <div class="form-group">
                     <label class="col-md-4 control-label" for="preferenceDisplayRows">Rows</label>
                     <div class="col-md-1">
