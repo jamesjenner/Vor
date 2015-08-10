@@ -140,7 +140,7 @@ var v1 = new V1Meta(server);
 var team = 'Ellipse Development 8.6 - Materials';
 // var team = 'zzzz - ACME Alpha';
 
-var effectiveDate = '2015-5-13';
+var effectiveDate = '2015-8-3';
 
 // list all stories in a project
 
@@ -151,6 +151,11 @@ var effectiveDate = '2015-5-13';
 // list all stories in a sprint for a timebox
 // https://www11.v1host.com/VentyxProd/meta.v1?xsl=api.xsl#Workitem
 
+
+var teamName = team;
+var sprintId = 'Timebox:3468179';
+var callback = null;
+var asofDate = '2015-07-30';
 
 _getSprintForTeam(team, effectiveDate, function(results) {
   if(results.query_results.length === 0) {
@@ -225,7 +230,7 @@ function _getSprintDetails(params, done) {
   console.log("_getSprintDetails: " + params.team + " " + params.date);
   
   _getSprintBreakdownForTeam(params.team, params.sprintId, function(result) {
-     console.log("Results for " + params.team + " " + params.date);
+//     console.log("Results for " + params.team + " " + params.date);
      // console.log(result);
     return done(null, {team: params.team, date: params.date, result: result});
   }, params.date);
@@ -251,7 +256,7 @@ function _processSprintDetails(err, result) {
   console.log("_processSprintDetails ");
   result.sort(_compareSprintDetailsByDay);
   for(var i = 0; i < result.length; i++) {
-     console.log("\tresult: " + JSON.stringify(result[i].result, null, ' '));
+//     console.log("\tresult: " + JSON.stringify(result[i].result, null, ' '));
     // console.log("\tresult._v1_id: " + result[i].result._v1_id);
     if(result[i].result !== null) {
       __displayDetailResults(result[i].date, result[i].result, result[i].team);
@@ -260,15 +265,15 @@ function _processSprintDetails(err, result) {
 }
 
 function _compareSprintDetailsByDay(a, b) {
-  var dateA = moment(a);
-  var dateB = moment(b);
+  var dateA = moment(a.date);
+  var dateB = moment(b.date);
   
   if (dateA.isBefore(dateB)) {
-     return 1;
+     return -1;
   }
   
   if (dateA.isAfter(dateB)) {
-    return -1;
+    return 1;
   }
   
   return 0;
@@ -310,8 +315,9 @@ function __displayDetailResults(date, result, team) {
  */
 
 function _getSprintBreakdownForTeam(teamName, sprintId, callback, asofDate) {
-//  console.log("_getSprintBreakdownForTeam " + teamName + " " + effectiveDate + " " + asofDate);
+  console.log("_getSprintBreakdownForTeam " + teamName + " " + effectiveDate + " " + asofDate);
   if(asofDate !== undefined) {
+    console.log("query for asofDate [" + asofDate + "] teamName [" + teamName + "] sprintId [" + sprintId + "]");
     var test = v1.query({
       from: "Timebox",
 
@@ -646,12 +652,12 @@ function _sumTasksForStoriesInSprint(teamName, sprintName) {
         }
       }
       
-      console.log("Total estiamted: " + totalEstimated);
-      console.log("Total toDo: " + totalToDo);
-      
-      for(s in stories) {
-        console.log(s + "\t" + stories[s].estimate + "\t" + stories[s].toDo);
-      }
+//      console.log("Total estiamted: " + totalEstimated);
+//      console.log("Total toDo: " + totalToDo);
+//      
+//      for(s in stories) {
+//        console.log(s + "\t" + stories[s].estimate + "\t" + stories[s].toDo);
+//      }
       
     },
 
